@@ -9,18 +9,22 @@ const teamMembers = [
   {
     name: "Ryan",
     img: "/team/01.jpg",
+    calendar: "https://calendar.google.com/embed?src=a0936085717%40gmail.com"
   },
   {
     name: "Leo",
     img: "/team/02.jpg",
+    calendar: "https://calendar.google.com/ryan"
   },
   {
     name: "Max",
     img: "/team/03.jpg",
+    calendar: "https://calendar.google.com/ryan"
   },
   {
     name: "Evan",
     img: "/team/04.jpg",
+    calendar: "https://calendar.google.com/ryan"
   },
 ];
 
@@ -122,11 +126,17 @@ const teamMembers = [
   const t = content[lang];
 
   return (
-    <div className="min-h-screen bg-stone-100 text-stone-900">
+    <div className="min-h-screen bg-stone-300 text-stone-600">
       {/* Header */}
 <header className="relative p-6 flex flex-col md:flex-row justify-between items-center bg-white shadow-md gap-4">
+<div className="flex items-center gap-3">
+  <img
+    src="/logo.png"
+    alt="Taipei Wild Spa"
+    className="w-45 h-35 object-contain"
+  />
   <h1 className="text-xl font-bold">Taipei Wild Spa</h1>
-
+</div>
   <div className="md:absolute md:left-1/2 md:-translate-x-1/2 flex flex-wrap items-center gap-3">
     <a href="#team" className="px-3 py-1 border rounded">{t.navTeam}</a>
     <a href="#services" className="px-3 py-1 border rounded">{t.navServices}</a>
@@ -248,11 +258,19 @@ const teamMembers = [
       alt={member.name}
       className="w-full h-[320px] object-cover"
     />
-    <div className="p-4">
-      <h3 className="font-bold">{member.name}</h3>
-      <p className="text-sm text-stone-600">{t.memberDesc}</p>
-    </div>
-  </div>
+<div className="p-4">
+  <h3 className="font-bold">{member.name}</h3>
+  <p className="text-sm text-stone-600">{t.memberDesc}</p>
+
+  <a
+    href={member.calendar}
+    target="_blank"
+    rel="noreferrer"
+    className="inline-block mt-3 px-4 py-2 bg-black text-white rounded-lg text-sm"
+  >
+    查看班表
+  </a>
+</div>  </div>
 ))}
 </div>
 </section>
