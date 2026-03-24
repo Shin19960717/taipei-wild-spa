@@ -135,11 +135,51 @@ const teamMembers = [
         </div>
 
         <div className="flex gap-2">
-          <button onClick={() => setLang("zh")} className="px-3 py-1 border rounded">中文</button>
-          <button onClick={() => setLang("en")} className="px-3 py-1 border rounded">EN</button>
-          <button onClick={() => setLang("ja")} className="px-3 py-1 border rounded">日本語</button>
-          <button onClick={() => setLang("ko")} className="px-3 py-1 border rounded">한국어</button>
-        </div>
+<div className="flex gap-3">
+  <button
+    onClick={() => setLang("zh")}
+    className={`px-5 py-3 rounded-xl border transition ${
+      lang === "zh"
+        ? "bg-black text-white shadow-md"
+        : "bg-white text-black hover:bg-stone-100"
+    }`}
+  >
+    中文
+  </button>
+
+  <button
+    onClick={() => setLang("en")}
+    className={`px-5 py-3 rounded-xl border transition ${
+      lang === "en"
+        ? "bg-black text-white shadow-md"
+        : "bg-white text-black hover:bg-stone-100"
+    }`}
+  >
+    EN
+  </button>
+
+  <button
+    onClick={() => setLang("ja")}
+    className={`px-5 py-3 rounded-xl border transition ${
+      lang === "ja"
+        ? "bg-black text-white shadow-md"
+        : "bg-white text-black hover:bg-stone-100"
+    }`}
+  >
+    日本語
+  </button>
+
+  <button
+    onClick={() => setLang("ko")}
+    className={`px-5 py-3 rounded-xl border transition ${
+      lang === "ko"
+        ? "bg-black text-white shadow-md"
+        : "bg-white text-black hover:bg-stone-100"
+    }`}
+  >
+    한국어
+  </button>
+</div>        </div>
       </header>
 
       {/* Hero */}
