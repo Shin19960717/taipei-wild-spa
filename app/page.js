@@ -26,10 +26,10 @@ const teamMembers = [
 
   const content = {
     zh: {
-      navTeam: "團隊",
-      navServices: "服務",
-      navAbout: "環境",
-      navContact: "預約",
+      navTeam: "團隊介紹與招募",
+      navServices: "服務內容",
+      navAbout: "環境概覽",
+      navContact: "即刻預約",
       heroTitle: "Taipei Wild Spa",
       heroSubtitle: "專業放鬆體驗｜隱私安全｜高品質服務",
       heroButton: "立即加 LINE 預約",
@@ -124,70 +124,69 @@ const teamMembers = [
   return (
     <div className="min-h-screen bg-stone-100 text-stone-900">
       {/* Header */}
-      <header className="p-6 flex flex-col md:flex-row justify-between items-center bg-white shadow gap-4">
-        <h1 className="text-xl font-bold">Taipei Wild Spa</h1>
+<header className="relative p-6 flex flex-col md:flex-row justify-between items-center bg-white shadow-md gap-4">
+  <h1 className="text-xl font-bold">Taipei Wild Spa</h1>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <a href="#team" className="px-3 py-1 border rounded">{t.navTeam}</a>
-          <a href="#services" className="px-3 py-1 border rounded">{t.navServices}</a>
-          <a href="#about" className="px-3 py-1 border rounded">{t.navAbout}</a>
-          <a href="#contact" className="px-3 py-1 bg-black text-white rounded">{t.navContact}</a>
-        </div>
+  <div className="md:absolute md:left-1/2 md:-translate-x-1/2 flex flex-wrap items-center gap-3">
+    <a href="#team" className="px-3 py-1 border rounded">{t.navTeam}</a>
+    <a href="#services" className="px-3 py-1 border rounded">{t.navServices}</a>
+    <a href="#about" className="px-3 py-1 border rounded">{t.navAbout}</a>
+    <a href="#contact" className="px-3 py-1 bg-black text-white rounded">{t.navContact}</a>
+  </div>
 
-        <div className="flex gap-2">
-<div className="flex gap-3">
-  <button
-    onClick={() => setLang("zh")}
-    className={`px-5 py-3 rounded-xl border transition ${
-      lang === "zh"
-        ? "bg-black text-white shadow-md"
-        : "bg-white text-black hover:bg-stone-100"
-    }`}
-  >
-    中文
-  </button>
+  <div className="flex flex-wrap gap-2">
+    <button
+      onClick={() => setLang("zh")}
+      className={`px-5 py-3 rounded-xl border transition ${
+        lang === "zh"
+          ? "bg-black text-white shadow-md"
+          : "bg-white text-black hover:bg-stone-100"
+      }`}
+    >
+      中文
+    </button>
 
-  <button
-    onClick={() => setLang("en")}
-    className={`px-5 py-3 rounded-xl border transition ${
-      lang === "en"
-        ? "bg-black text-white shadow-md"
-        : "bg-white text-black hover:bg-stone-100"
-    }`}
-  >
-    EN
-  </button>
+    <button
+      onClick={() => setLang("en")}
+      className={`px-5 py-3 rounded-xl border transition ${
+        lang === "en"
+          ? "bg-black text-white shadow-md"
+          : "bg-white text-black hover:bg-stone-100"
+      }`}
+    >
+      EN
+    </button>
 
-  <button
-    onClick={() => setLang("ja")}
-    className={`px-5 py-3 rounded-xl border transition ${
-      lang === "ja"
-        ? "bg-black text-white shadow-md"
-        : "bg-white text-black hover:bg-stone-100"
-    }`}
-  >
-    日本語
-  </button>
+    <button
+      onClick={() => setLang("ja")}
+      className={`px-5 py-3 rounded-xl border transition ${
+        lang === "ja"
+          ? "bg-black text-white shadow-md"
+          : "bg-white text-black hover:bg-stone-100"
+      }`}
+    >
+      日本語
+    </button>
 
-  <button
-    onClick={() => setLang("ko")}
-    className={`px-5 py-3 rounded-xl border transition ${
-      lang === "ko"
-        ? "bg-black text-white shadow-md"
-        : "bg-white text-black hover:bg-stone-100"
-    }`}
-  >
-    한국어
-  </button>
-</div>        </div>
-      </header>
+    <button
+      onClick={() => setLang("ko")}
+      className={`px-5 py-3 rounded-xl border transition ${
+        lang === "ko"
+          ? "bg-black text-white shadow-md"
+          : "bg-white text-black hover:bg-stone-100"
+      }`}
+    >
+      한국어
+    </button>
+  </div>
+</header>
 
       {/* Hero */}
 <section className="relative h-[70vh] md:h-[85vh]">
 
   {/* 背景圖 */}
   <img
-    src="/team/banner.jpg"
+    src="/team/profilebanner.jpg"
     alt=""
     className="absolute inset-0 w-full h-full object-cover"
   />
@@ -221,25 +220,44 @@ const teamMembers = [
         <h2 className="text-2xl font-bold mb-6">{t.teamTitle}</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {teamMembers.map((photo, index) => (
-            <div key={index} className="bg-white rounded-xl shadow overflow-hidden">
-              <img
-                src={photo}
-                alt=""
-                className="w-full h-[320px] object-cover"
-              />
-              <div className="p-4">
-                <h3 className="font-bold">{t.member} {index + 1}</h3>
-                <p className="text-sm text-stone-600">{t.memberDesc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+{/* 人才招募卡 */}
+<a
+  href="https://line.me/R/ti/p/@834xdutc"
+  target="_blank"
+  rel="noreferrer"
+  className="bg-black text-white rounded-xl shadow overflow-hidden block hover:opacity-90 transition"
+>
+  <div className="w-full h-[320px] flex items-center justify-center text-center px-6">
+    <div>
+      <p className="text-sm tracking-[0.2em] mb-3">JOIN US</p>
+      <h3 className="text-2xl font-bold mb-2">人才招募</h3>
+      <p className="text-sm text-stone-300">
+        歡迎加入 Taipei Wild Spa
+      </p>
+    </div>
+  </div>
 
-      {/* Services */}
-<section id="services" className="p-10 bg-white">
-  <h2 className="text-2xl font-bold mb-8">方案介紹</h2>
+  <div className="p-4 border-t border-white/10">
+    <p className="text-sm text-stone-300">點擊聯絡我們</p>
+  </div>
+</a>
+{teamMembers.map((member, index) => (
+  <div key={index} className="bg-white rounded-xl shadow overflow-hidden">
+    <img
+      src={member.img}
+      alt={member.name}
+      className="w-full h-[320px] object-cover"
+    />
+    <div className="p-4">
+      <h3 className="font-bold">{member.name}</h3>
+      <p className="text-sm text-stone-600">{t.memberDesc}</p>
+    </div>
+  </div>
+))}
+</div>
+</section>
+
+<section id="services" className="p-10 bg-white">  <h2 className="text-2xl font-bold mb-8">方案介紹</h2>
   <p className="text-stone-600 mb-6">
   所有方案皆提供以下服務
 </p>
@@ -303,24 +321,29 @@ const teamMembers = [
   </div>
 </section>
       {/* About */}
-      <section id="about" className="p-10">
-        <h2 className="text-2xl font-bold mb-4">{t.aboutTitle}</h2>
-        <p>{t.aboutDesc}</p>
-      </section>
+<section id="about" className="p-10">
+  <h2 className="text-2xl font-bold mb-4">環境介紹</h2>
+  <p className="mb-6">安靜、乾淨、隱私性高的舒適空間</p>
 
-      {/* Contact */}
-      <section id="contact" className="p-10 bg-white text-center">
-        <h2 className="text-2xl font-bold mb-4">{t.contactTitle}</h2>
+  {/* 環境照片 */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <img
+    src="/environment/01.jpg"
+    alt="環境照片1"
+    className="w-full h-[250px] object-cover rounded-xl"
+  />
 
-        <a
-          href="https://line.me/R/ti/p/@834xdutc"
-          target="_blank"
-          rel="noreferrer"
-          className="bg-black text-white px-6 py-3 rounded-full"
-        >
-          {t.contactButton}
-        </a>
-      </section>
-    </div>
+  <img
+    src="/environment/02.jpg"
+    alt="環境照片2"
+    className="w-full h-[250px] object-cover rounded-xl"
+  />
+
+  <img
+    src="/environment/03.jpg"
+    alt="環境照片3"
+    className="w-full h-[250px] object-cover rounded-xl"
+  />
+</div></section>    </div>
   );
 }
