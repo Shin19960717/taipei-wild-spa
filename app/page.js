@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-function ImageCarousel({ images, alt }) {
-  const [current, setCurrent] = useState(0);
+function ImageCarousel({ images, alt, onImageClick }) {
+    const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(0);
   const [touchStartX, setTouchStartX] = useState(null);
@@ -97,13 +97,13 @@ return (
     >
       {images.map((img, index) => (
         <div key={index} className="w-full h-full shrink-0">
-          <img
-            src={img}
-            alt={`${alt}-${index + 1}`}
-            className="w-full h-full object-cover select-none"
-            draggable="false"
-          />
-        </div>
+<img
+  src={img}
+  alt={`${alt}-${index + 1}`}
+  className="w-full h-full object-cover select-none cursor-pointer"
+  draggable="false"
+  onClick={() => onImageClick?.(index)}
+/>        </div>
       ))}
     </div>
 
@@ -145,6 +145,9 @@ return (
   </div>
 );}export default function Home() {
   const [lang, setLang] = useState("zh");
+  const [selectedMember, setSelectedMember] = useState(null);
+const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   const teamMembers = [
     {
@@ -360,6 +363,31 @@ return (
       aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
     },
   };
+const openGallery = (member, index = 0) => {
+  setSelectedMember(member);
+  setSelectedImageIndex(index);
+  setIsGalleryOpen(true);
+};
+
+const closeGallery = () => {
+  setSelectedMember(null);
+  setSelectedImageIndex(0);
+  setIsGalleryOpen(false);
+};
+
+const showPrevImage = () => {
+  if (!selectedMember) return;
+  setSelectedImageIndex((prev) =>
+    prev === 0 ? selectedMember.imgs.length - 1 : prev - 1
+  );
+};
+
+const showNextImage = () => {
+  if (!selectedMember) return;
+  setSelectedImageIndex((prev) =>
+    prev === selectedMember.imgs.length - 1 ? 0 : prev + 1
+  );
+};
 
   const t = content[lang];
 
@@ -508,7 +536,11 @@ return (
               key={index}
               className="bg-white rounded-xl shadow overflow-hidden"
             >
-<ImageCarousel images={member.imgs} alt={member.name} />
+<ImageCarousel
+  images={member.imgs}
+  alt={member.name}
+  onImageClick={(index) => openGallery(member, index)}
+/>
               <div className="p-4">
                 <h3 className="font-bold">{member.name}</h3>
                 <p className="text-sm text-stone-600">{t.memberDesc}</p>
@@ -612,6 +644,87 @@ return (
     </div>
   </div>
       </section>
+            {isGalleryOpen && selectedMember && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={closeGallery}
+        >
+          <div
+            className="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* 關閉按鈕 */}
+            <button
+              type="button"
+              onClick={closeGallery}
+              className="absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center"
+            >
+              ×
+            </button>
+
+            {/* 左右切換 */}
+            {selectedMember.imgs.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={showPrevImage}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+                >
+                  ‹
+                </button>
+
+                <button
+                  type="button"
+                  onClick={showNextImage}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+                >
+                  ›
+                </button>
+              </>
+            )}
+
+            {/* 大圖 */}
+            <div className="bg-black flex items-center justify-center">
+              <img
+                src={selectedMember.imgs[selectedImageIndex]}
+                alt={`${selectedMember.name}-${selectedImageIndex + 1}`}
+                className="w-full max-h-[70vh] object-contain"
+              />
+            </div>
+
+            {/* 人名與描述 */}
+            <div className="px-6 pt-4">
+              <h3 className="text-2xl font-bold">{selectedMember.name}</h3>
+              <p className="text-sm text-stone-600 mt-1">{t.memberDesc}</p>
+              <p className="text-sm text-stone-500 mt-2">
+                {selectedImageIndex + 1} / {selectedMember.imgs.length}
+              </p>
+            </div>
+
+            {/* 小圖預覽 */}
+            <div className="flex gap-3 overflow-x-auto px-6 py-4 bg-white">
+              {selectedMember.imgs.map((img, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`shrink-0 rounded-lg overflow-hidden border-2 ${
+                    selectedImageIndex === index
+                      ? "border-black"
+                      : "border-stone-200"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`${selectedMember.name}-thumb-${index + 1}`}
+                    className="w-20 h-20 object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
