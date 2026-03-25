@@ -623,25 +623,106 @@ const showNextImage = () => {
       {t.aboutTitle}
     </h2>
 
-    <div className="grid md:grid-cols-2 gap-10 items-start">
-      
-      {/* 右側地圖 */}
-      <div className="w-full">
-        <div className="rounded-2xl overflow-hidden shadow-lg">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
-            width="100%"
-            height="350"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Taipei Wild Spa 地圖"
-          ></iframe>
-        </div>
+<div className="grid md:grid-cols-2 gap-10 items-start">
+  
+  {/* 左側資訊 */}
+  <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
+    <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+
+    <div className="space-y-5 text-stone-800">
+      <div>
+        <h3 className="text-lg font-bold mb-1">營業時間</h3>
+        <p>每日 11:00 - 25:00</p>
       </div>
 
+      <div>
+        <h3 className="text-lg font-bold mb-1">營業地點</h3>
+        <p>台北市萬華區成都路139號</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-bold mb-1">預約方式</h3>
+        <p>請透過 LINE 官方帳號預約</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-bold mb-1">注意事項</h3>
+        <p className="text-sm text-stone-600 leading-7">
+          為避免久候，建議至少提前一小時預約，實際服務時段與師傅排班請以 LINE 確認為準。
+        </p>
+      </div>
+{/* 社群連結 */}
+<div className="pt-4 border-t border-stone-200">
+  <h3 className="text-lg font-bold mb-3">聯絡我們</h3>
+
+  <div className="flex items-center gap-4 text-stone-700">
+    {/* Instagram */}
+    <a
+      href="https://instagram.com/你的帳號"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+      aria-label="Instagram"
+    >
+      <i className="ri-instagram-line text-xl"></i>
+    </a>
+
+    {/* Facebook */}
+    <a
+      href="https://facebook.com/你的帳號"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+      aria-label="Facebook"
+    >
+      <i className="ri-facebook-circle-line text-xl"></i>
+    </a>
+
+    {/* X */}
+    <a
+      href="https://x.com/你的帳號"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+      aria-label="X"
+    >
+      <i className="ri-twitter-x-line text-xl"></i>
+    </a>
+
+    {/* LINE */}
+    <a
+      href="https://line.me/R/ti/p/@834xdutc"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+      aria-label="LINE"
+    >
+      <i className="ri-line-fill text-xl"></i>
+    </a>
+  </div>
+  
+</div>
     </div>
+  </div>
+
+  {/* 右側地圖 */}
+  <div className="w-full">
+    <div className="rounded-2xl overflow-hidden shadow-lg">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+        width="100%"
+        height="350"
+        style={{ border: 0 }}
+        allowFullScreen=""
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Taipei Wild Spa 地圖"
+      ></iframe>
+    </div>
+    
+  </div>
+
+</div>
   </div>
       </section>
             {isGalleryOpen && selectedMember && (
