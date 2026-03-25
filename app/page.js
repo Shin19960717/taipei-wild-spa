@@ -1,33 +1,173 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Home() {
+function ImageCarousel({ images, alt }) {
+  const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [lastInteraction, setLastInteraction] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(null);
+  const [touchEndX, setTouchEndX] = useState(null);
+
+  const goNext = () => {
+    setCurrent((prev) => (prev + 1) % images.length);
+  };
+
+  const goPrev = () => {
+    setCurrent((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const pauseAutoPlay = () => {
+    setIsPaused(true);
+    setLastInteraction(Date.now());
+  };
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+
+    const resumeDelay = 5000;
+    const now = Date.now();
+    const timeSinceLastInteraction = now - lastInteraction;
+
+    if (isPaused && timeSinceLastInteraction < resumeDelay) {
+      const resumeTimer = setTimeout(() => {
+        setIsPaused(false);
+      }, resumeDelay - timeSinceLastInteraction);
+
+      return () => clearTimeout(resumeTimer);
+    }
+
+    const autoTimer = setInterval(() => {
+      goNext();
+    }, 3000);
+
+    return () => clearInterval(autoTimer);
+  }, [images, isPaused, lastInteraction]);
+
+  const handleManualNext = () => {
+    pauseAutoPlay();
+    goNext();
+  };
+
+  const handleManualPrev = () => {
+    pauseAutoPlay();
+    goPrev();
+  };
+
+  const handleTouchStart = (e) => {
+    pauseAutoPlay();
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+
+    const distance = touchStartX - touchEndX;
+
+    if (distance > 50) {
+      goNext();
+    } else if (distance < -50) {
+      goPrev();
+    }
+  };
+
+  if (!images || images.length === 0) {
+    return (
+      <div className="w-full h-[320px] bg-stone-200 flex items-center justify-center text-stone-500">
+        No image
+      </div>
+    );
+  }
+
+return (
+  <div
+    className="relative w-full h-[320px] overflow-hidden"
+    onTouchStart={handleTouchStart}
+    onTouchMove={handleTouchMove}
+    onTouchEnd={handleTouchEnd}
+  >
+    <div
+      className="flex h-full transition-transform duration-500 ease-in-out"
+      style={{ transform: `translateX(-${current * 100}%)` }}
+    >
+      {images.map((img, index) => (
+        <div key={index} className="w-full h-full shrink-0">
+          <img
+            src={img}
+            alt={`${alt}-${index + 1}`}
+            className="w-full h-full object-cover select-none"
+            draggable="false"
+          />
+        </div>
+      ))}
+    </div>
+
+    {images.length > 1 && (
+      <>
+        <button
+          type="button"
+          onClick={handleManualPrev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          onClick={handleManualNext}
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+        >
+          ›
+        </button>
+
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => {
+                pauseAutoPlay();
+                setCurrent(index);
+              }}
+              className={`w-2.5 h-2.5 rounded-full ${
+                current === index ? "bg-white" : "bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+);}export default function Home() {
   const [lang, setLang] = useState("zh");
 
   const teamMembers = [
     {
       name: "Ryan",
-      img: "/team/01.jpg",
+      imgs: ["/team/01-1.jpg", "/team/01-2.jpg", "/team/01-3.jpg"],
       calendar: "https://calendar.google.com/embed?src=a0936085717%40gmail.com",
     },
     {
       name: "Leo",
-      img: "/team/02.jpg",
+      imgs: ["/team/02-1.jpg", "/team/02-2.jpg", "/team/02-3.jpg"],
       calendar: "https://calendar.google.com/ryan",
     },
     {
       name: "Max",
-      img: "/team/03.jpg",
+      imgs: ["/team/profilebanner.jpg"],
       calendar: "https://calendar.google.com/ryan",
     },
     {
       name: "Evan",
-      img: "/team/04.jpg",
+      imgs: ["/team/profilebanner.jpg"],
       calendar: "https://calendar.google.com/ryan",
     },
-  ];
-
+  ];  
   const content = {
     zh: {
       navTeam: "團隊介紹與招募",
@@ -368,12 +508,7 @@ export default function Home() {
               key={index}
               className="bg-white rounded-xl shadow overflow-hidden"
             >
-              <img
-                src={member.img}
-                alt={member.name}
-                className="w-full h-[320px] object-cover"
-              />
-
+<ImageCarousel images={member.imgs} alt={member.name} />
               <div className="p-4">
                 <h3 className="font-bold">{member.name}</h3>
                 <p className="text-sm text-stone-600">{t.memberDesc}</p>
@@ -458,22 +593,6 @@ export default function Home() {
 
     <div className="grid md:grid-cols-2 gap-10 items-start">
       
-      {/* 左側文字 */}
-      <div>
-        <p className="text-gray-700 leading-8 mb-4">
-          {t.aboutDesc}
-        </p>
-
-        <a
-          href="https://maps.app.goo.gl/Tax1CQRNGWz8ScP59"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block mt-4 px-5 py-3 bg-black text-white rounded-xl hover:opacity-90 transition"
-        >
-          查看 Google 地圖
-        </a>
-      </div>
-
       {/* 右側地圖 */}
       <div className="w-full">
         <div className="rounded-2xl overflow-hidden shadow-lg">
