@@ -44,8 +44,8 @@ const LANG_OPTIONS = [
 ];
 
 const NAV_LINK_CLASS =
-  "px-3 py-1 text-sm border rounded-lg transition hover:bg-stone-100";
-const LANG_BUTTON_BASE = "px-3 py-1 text-sm rounded-lg border transition";
+  "px-3 py-1 text-sm border rounded-full transition hover:bg-stone-100";
+const LANG_BUTTON_BASE = "px-3 py-1 text-sm rounded-full border transition";
 const ICON_BUTTON_CLASS =
   "w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 transition";
 const TAG_CLASS =
@@ -353,13 +353,13 @@ const CONTENT = {
 };
 
 const SOCIAL_LINKS = [
-  {
-    name: "LINE",
-    href: LINE_ADD_FRIEND_URL,
-    iconType: "remix",
-    iconClass: "ri-line-fill text-xl",
-    className: `${ICON_BUTTON_CLASS} hover:bg-[#06C755] hover:text-white hover:border-[#06C755]`,
-  },
+{
+  name: "LINE",
+  href: LINE_ADD_FRIEND_URL,
+  iconType: "remix",
+  iconClass: "ri-line-fill text-xl text-white",
+  className: `${ICON_BUTTON_CLASS} bg-[#06C755] border-[#06C755] hover:opacity-90`,
+},
   {
     name: "Instagram",
     href: "https://instagram.com/taipei_wildspa?igsh=MWsxNm1odnV0M2JkdQ%3D%3D&utm_source=qr",
@@ -761,15 +761,15 @@ const handleBookingClick = () => {
   openLineBooking(member.name, lang);
 };
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
+<div
+  className="fixed inset-0 z-50 bg-black/80 overflow-y-auto p-2 md:p-4"
+  onClick={onClose}
+>
+<div
+  className="relative w-full max-w-5xl my-4 md:my-8 mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl"
+  onClick={(e) => e.stopPropagation()}
+>
+          <button
           type="button"
           onClick={onClose}
           className="absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center"
@@ -800,8 +800,8 @@ const handleBookingClick = () => {
           </>
         )}
 
-        <div className="relative bg-black flex items-center justify-center h-[70vh]">
-          <Image
+<div className="relative bg-black flex items-center justify-center h-[55vh] md:h-[70vh]">
+            <Image
             src={member.imgs[gallery.imageIndex]}
             alt={`${member.name}-${gallery.imageIndex + 1}`}
             fill
@@ -833,7 +833,7 @@ const handleBookingClick = () => {
               href={member.calendar}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg text-sm"
+              className="inline-flex items-center px-4 py-2 bg-black text-white rounded-full text-sm"
             >
               {t.scheduleButton}
             </a>
@@ -841,7 +841,7 @@ const handleBookingClick = () => {
 <button
   type="button"
   onClick={handleBookingClick}
-  className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
+  className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-full text-sm transition hover:scale-105"
 >
   {t.bookThis}
 </button>
@@ -858,7 +858,7 @@ const handleBookingClick = () => {
               key={`${member.id}-thumb-${index}`}
               type="button"
               onClick={() => onSelectImage(index)}
-              className={`relative shrink-0 rounded-lg overflow-hidden border-2 w-20 h-20 ${
+              className={`relative shrink-0 rounded-full overflow-hidden border-2 w-20 h-20 ${
                 gallery.imageIndex === index ? "border-black" : "border-stone-200"
               }`}
             >
@@ -927,7 +927,7 @@ export default function Home() {
               href={LINE_ADD_FRIEND_URL}
               target="_blank"
               rel="noreferrer"
-              className="px-3 py-1 text-sm bg-black text-white rounded-lg transition hover:opacity-90"
+              className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
             >
               {t.navContact}
             </a>
