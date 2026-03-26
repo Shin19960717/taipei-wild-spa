@@ -2,27 +2,40 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
+const isMobileDevice = () => {
+  if (typeof navigator === "undefined") return false;
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+};
 
-/** =========================
- * LINE 設定：統一只在這裡改
- * officialId: LINE 加好友連結用，通常要帶 @
- * oaId: oaMessage 預填訊息用，通常不帶 @
- * ========================= */
+const openLineBooking = (memberName, lang) => {
+  const message = getBookingMessage(memberName, lang);
+  const oaMessageUrl = buildLineOaMessageUrl(message);
+  const addFriendUrl = buildLineAddFriendUrl();
+
+  if (typeof window === "undefined") return;
+
+  if (isMobileDevice()) {
+    window.location.href = oaMessageUrl;
+    return;
+  }
+
+  // 桌機或無法直接喚起 LINE App 時，退回官方帳號頁
+  window.open(addFriendUrl, "_blank", "noopener,noreferrer");
+};
 const LINE_CONFIG = {
   officialId: "@834xdutc",
-  oaId: "834xdutc",
 };
 
 const buildLineAddFriendUrl = () =>
   `https://line.me/R/ti/p/${encodeURIComponent(LINE_CONFIG.officialId)}`;
 
-const buildLineOaMessageUrl = (message) =>
-  `https://line.me/R/oaMessage/${encodeURIComponent(
-    LINE_CONFIG.oaId
-  )}/?${encodeURIComponent(message)}`;
-
+const buildLineOaMessageUrl = (message) => {
+  const safeMessage = typeof message === "string" ? message.trim() : "";
+  return `https://line.me/R/oaMessage/${encodeURIComponent(
+    LINE_CONFIG.officialId
+  )}/?${encodeURIComponent(safeMessage)}`;
+};
 const LINE_ADD_FRIEND_URL = buildLineAddFriendUrl();
-
 const LANG_OPTIONS = [
   { key: "zh", label: "中文" },
   { key: "en", label: "EN" },
@@ -744,9 +757,9 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
 
   if (!gallery.isOpen || !member) return null;
 
-  const bookingMessage = getBookingMessage(member.name, lang);
-  const bookingLink = buildLineOaMessageUrl(bookingMessage);
-
+const handleBookingClick = () => {
+  openLineBooking(member.name, lang);
+};
   return (
     <div
       className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
@@ -825,14 +838,13 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
               {t.scheduleButton}
             </a>
 
-            <a
-              href={bookingLink}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
-            >
-              {t.bookThis}
-            </a>
+<button
+  type="button"
+  onClick={handleBookingClick}
+  className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
+>
+  {t.bookThis}
+</button>
           </div>
 
           <p className="text-sm text-stone-500 mt-3">
@@ -864,7 +876,6 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
     </div>
   );
 }
-
 export default function Home() {
   const [lang, setLang] = useState("zh");
   const [recruitOpen, setRecruitOpen] = useState(false);
