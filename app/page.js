@@ -1,41 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
-const isMobileDevice = () => {
-  if (typeof navigator === "undefined") return false;
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-};
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const openLineBooking = (memberName, lang) => {
-  const message = getBookingMessage(memberName, lang);
-  const oaMessageUrl = buildLineOaMessageUrl(message);
-  const addFriendUrl = buildLineAddFriendUrl();
-
-  if (typeof window === "undefined") return;
-
-  if (isMobileDevice()) {
-    window.location.href = oaMessageUrl;
-    return;
-  }
-
-  // 桌機或無法直接喚起 LINE App 時，退回官方帳號頁
-  window.open(addFriendUrl, "_blank", "noopener,noreferrer");
-};
 const LINE_CONFIG = {
   officialId: "@834xdutc",
 };
 
-const buildLineAddFriendUrl = () =>
-  `https://line.me/R/ti/p/${encodeURIComponent(LINE_CONFIG.officialId)}`;
-
-const buildLineOaMessageUrl = (message) => {
-  const safeMessage = typeof message === "string" ? message.trim() : "";
-  return `https://line.me/R/oaMessage/${encodeURIComponent(
-    LINE_CONFIG.officialId
-  )}/?${encodeURIComponent(safeMessage)}`;
-};
-const LINE_ADD_FRIEND_URL = buildLineAddFriendUrl();
 const LANG_OPTIONS = [
   { key: "zh", label: "中文" },
   { key: "en", label: "EN" },
@@ -52,6 +23,10 @@ const TAG_CLASS =
   "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base";
 const PRIMARY_BUTTON_CLASS =
   "inline-flex items-center justify-center px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base transition hover:scale-105";
+const MODAL_ARROW_BUTTON_CLASS =
+  "absolute top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center";
+const MODAL_CLOSE_BUTTON_CLASS =
+  "absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center";
 
 const HERO_IMAGES = [
   "/hero/hero01.jpg",
@@ -231,16 +206,13 @@ const CONTENT = {
     inStoreTime2: "90 mins　TWD $2500",
     inStoreTime3: "120 mins　TWD $3000",
     extraTime: "Extra 30 mins +TWD $600",
-    inStoreNote1:
-      "* Team members are not always waiting on-site. To avoid waiting, please book at least 1 hour in advance.",
-    inStoreNote2:
-      "* A late-night surcharge of TWD $500 may apply for better service arrangement.",
+    inStoreNote1: "* Team members are not always waiting on-site. To avoid waiting, please book at least 1 hour in advance.",
+    inStoreNote2: "* A late-night surcharge of TWD $500 may apply for better service arrangement.",
     homeServiceTitle: "Outcall Service",
     homeServiceTime1: "60 mins　TWD $2500",
     homeServiceTime2: "100 mins　TWD $3000",
     homeNote1: "* To ensure timely arrival, please book at least 1 hour in advance.",
-    homeNote2:
-      "* Transportation fees may apply depending on the area. Please confirm via LINE.",
+    homeNote2: "* Transportation fees may apply depending on the area. Please confirm via LINE.",
     homeNote3: "* A late-night surcharge may apply.",
     aboutTitle: "Our Space",
     aboutDesc: "A quiet, clean, and private space for complete relaxation",
@@ -251,8 +223,7 @@ const CONTENT = {
     bookingTitle: "Booking Method",
     bookingText: "Please make a reservation through our official LINE account",
     noticeTitle: "Notes",
-    noticeText:
-      "To avoid waiting, we recommend booking at least 1 hour in advance. Actual service hours and staff schedules should be confirmed via LINE.",
+    noticeText: "To avoid waiting, we recommend booking at least 1 hour in advance. Actual service hours and staff schedules should be confirmed via LINE.",
     contactTitle: "Contact",
     contactHint: "We recommend contacting us via LINE for the fastest arrangement and reply",
   },
@@ -277,17 +248,13 @@ const CONTENT = {
     inStoreTime2: "90分　TWD $2500",
     inStoreTime3: "120分　TWD $3000",
     extraTime: "延長30分 +TWD $600",
-    inStoreNote1:
-      "* スタッフは常時待機していないため、お待たせしないよう1時間前までのご予約をおすすめします。",
-    inStoreNote2:
-      "* より良いサービス提供のため、深夜は TWD $500 の追加料金を頂く場合があります。",
+    inStoreNote1: "* スタッフは常時待機していないため、お待たせしないよう1時間前までのご予約をおすすめします。",
+    inStoreNote2: "* より良いサービス提供のため、深夜は TWD $500 の追加料金を頂く場合があります。",
     homeServiceTitle: "出張サービス",
     homeServiceTime1: "60分　TWD $2500",
     homeServiceTime2: "100分　TWD $3000",
-    homeNote1:
-      "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
-    homeNote2:
-      "* エリアにより交通費が発生する場合があります。詳細はLINEでご確認ください。",
+    homeNote1: "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
+    homeNote2: "* エリアにより交通費が発生する場合があります。詳細はLINEでご確認ください。",
     homeNote3: "* 深夜は TWD $500 の追加料金を頂く場合があります。",
     aboutTitle: "空間紹介",
     aboutDesc: "静かで清潔、プライバシーに配慮した快適な空間",
@@ -298,8 +265,7 @@ const CONTENT = {
     bookingTitle: "予約方法",
     bookingText: "ご予約は LINE公式アカウントよりお願いいたします",
     noticeTitle: "ご案内",
-    noticeText:
-      "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
+    noticeText: "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
     contactTitle: "お問い合わせ",
     contactHint: "最もスムーズなご案内のため、LINEでのご連絡をおすすめします",
   },
@@ -324,17 +290,13 @@ const CONTENT = {
     inStoreTime2: "90분　TWD $2500",
     inStoreTime3: "120분　TWD $3000",
     extraTime: "30분 연장 +TWD $600",
-    inStoreNote1:
-      "* 팀원이 항상 매장에 대기하지 않을 수 있어, 대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다.",
-    inStoreNote2:
-      "* 보다 나은 서비스 제공을 위해 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
+    inStoreNote1: "* 팀원이 항상 매장에 대기하지 않을 수 있어, 대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다.",
+    inStoreNote2: "* 보다 나은 서비스 제공을 위해 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
     homeServiceTitle: "출장 서비스",
     homeServiceTime1: "60분　TWD $2500",
     homeServiceTime2: "100분　TWD $3000",
-    homeNote1:
-      "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
-    homeNote2:
-      "* 지역에 따라 교통비가 추가될 수 있으니 LINE으로 확인해 주세요.",
+    homeNote1: "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
+    homeNote2: "* 지역에 따라 교통비가 추가될 수 있으니 LINE으로 확인해 주세요.",
     homeNote3: "* 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
     aboutTitle: "공간 소개",
     aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
@@ -345,43 +307,53 @@ const CONTENT = {
     bookingTitle: "예약 방법",
     bookingText: "공식 LINE 계정으로 예약해 주세요",
     noticeTitle: "안내사항",
-    noticeText:
-      "대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다. 실제 서비스 가능 시간과 직원 스케줄은 LINE으로 확인해 주세요.",
+    noticeText: "대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다. 실제 서비스 가능 시간과 직원 스케줄은 LINE으로 확인해 주세요.",
     contactTitle: "연락처",
     contactHint: "가장 빠른 안내와 답변을 위해 LINE으로 문의하시는 것을 권장합니다",
   },
 };
 
+const buildLineAddFriendUrl = () =>
+  `https://line.me/R/ti/p/${encodeURIComponent(LINE_CONFIG.officialId)}`;
+
+const buildLineOaMessageUrl = (message) =>
+  `https://line.me/R/oaMessage/${encodeURIComponent(
+    LINE_CONFIG.officialId
+  )}/?${encodeURIComponent((message || "").trim())}`;
+
+const LINE_ADD_FRIEND_URL = buildLineAddFriendUrl();
+
 const SOCIAL_LINKS = [
-{
-  name: "LINE",
-  href: LINE_ADD_FRIEND_URL,
-  iconType: "remix",
-  iconClass: "ri-line-fill text-xl text-white",
-  className: `${ICON_BUTTON_CLASS} bg-[#06C755] border-[#06C755] hover:opacity-90`,
-},
+  {
+    name: "LINE",
+    href: LINE_ADD_FRIEND_URL,
+    iconClass: "ri-line-fill text-xl text-white",
+    className: `${ICON_BUTTON_CLASS} bg-[#06C755] border-[#06C755] hover:opacity-90`,
+  },
   {
     name: "Instagram",
     href: "https://instagram.com/taipei_wildspa?igsh=MWsxNm1odnV0M2JkdQ%3D%3D&utm_source=qr",
-    iconType: "remix",
     iconClass: "ri-instagram-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/profile.php?id=61576573349568",
-    iconType: "remix",
     iconClass: "ri-facebook-circle-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
   {
     name: "X",
     href: "https://x.com/taipei_wildspa?s=21",
-    iconType: "remix",
     iconClass: "ri-twitter-x-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
 ];
+
+function isMobileDevice() {
+  if (typeof navigator === "undefined") return false;
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
 function getBookingMessage(memberName, lang) {
   const messageMap = {
@@ -390,8 +362,45 @@ function getBookingMessage(memberName, lang) {
     ja: `こんにちは、${memberName}を予約したいです\n🗓️希望時間：\n💆🏻希望サービス：`,
     ko: `안녕하세요, ${memberName} 예약하고 싶습니다\n🗓️시간:\n💆🏻서비스:`,
   };
-
   return messageMap[lang] || messageMap.zh;
+}
+
+function openLineBooking(memberName, lang) {
+  if (typeof window === "undefined") return;
+
+  const message = getBookingMessage(memberName, lang);
+  const oaMessageUrl = buildLineOaMessageUrl(message);
+
+  if (isMobileDevice()) {
+    window.location.href = oaMessageUrl;
+    return;
+  }
+
+  window.open(LINE_ADD_FRIEND_URL, "_blank", "noopener,noreferrer");
+}
+
+function useLockBodyScroll(isLocked) {
+  useEffect(() => {
+    if (!isLocked) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isLocked]);
+}
+
+function useEscapeKey(active, onClose) {
+  useEffect(() => {
+    if (!active) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [active, onClose]);
 }
 
 function useAutoCarousel(length, delay = 3000, paused = false) {
@@ -400,20 +409,26 @@ function useAutoCarousel(length, delay = 3000, paused = false) {
   useEffect(() => {
     if (length <= 1 || paused) return;
 
-    const timer = setInterval(() => {
+    const timer = window.setInterval(() => {
       setCurrent((prev) => (prev + 1) % length);
     }, delay);
 
-    return () => clearInterval(timer);
-  }, [delay, length, paused]);
+    return () => window.clearInterval(timer);
+  }, [length, delay, paused]);
 
   useEffect(() => {
-    if (current > length - 1) {
-      setCurrent(0);
-    }
+    if (current >= length) setCurrent(0);
   }, [current, length]);
 
-  return { current, setCurrent };
+  const goNext = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % length);
+  }, [length]);
+
+  const goPrev = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + length) % length);
+  }, [length]);
+
+  return { current, setCurrent, goNext, goPrev };
 }
 
 function useGallery() {
@@ -434,7 +449,6 @@ function useGallery() {
   const showPrevImage = useCallback(() => {
     setGallery((prev) => {
       if (!prev.member) return prev;
-
       return {
         ...prev,
         imageIndex:
@@ -448,7 +462,6 @@ function useGallery() {
   const showNextImage = useCallback(() => {
     setGallery((prev) => {
       if (!prev.member) return prev;
-
       return {
         ...prev,
         imageIndex:
@@ -482,11 +495,7 @@ function SectionTitle({ children, center = false }) {
 }
 
 function SocialIcon({ item }) {
-  if (item.iconType === "remix") {
-    return <i className={item.iconClass} />;
-  }
-
-  return null;
+  return <i className={item.iconClass} />;
 }
 
 function HeroCarousel({ images }) {
@@ -520,24 +529,20 @@ function HeroCarousel({ images }) {
 function ImageCarousel({ images = [], alt, onImageClick }) {
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(null);
-  const [touchStartX, setTouchStartX] = useState(null);
-  const [touchEndX, setTouchEndX] = useState(null);
+  const touchStartXRef = useRef(null);
+  const touchEndXRef = useRef(null);
 
   const hasMultipleImages = images.length > 1;
-  const { current, setCurrent } = useAutoCarousel(images.length, 3000, isPaused);
+  const { current, setCurrent, goNext, goPrev } = useAutoCarousel(
+    images.length,
+    3000,
+    isPaused
+  );
 
   const pauseAutoPlay = useCallback(() => {
     setIsPaused(true);
     setLastInteraction(Date.now());
   }, []);
-
-  const goNext = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % images.length);
-  }, [images.length, setCurrent]);
-
-  const goPrev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length, setCurrent]);
 
   useEffect(() => {
     if (!hasMultipleImages || !isPaused || !lastInteraction) return;
@@ -546,37 +551,27 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
     const elapsed = Date.now() - lastInteraction;
     const remaining = Math.max(resumeDelay - elapsed, 0);
 
-    const timer = setTimeout(() => {
+    const timer = window.setTimeout(() => {
       setIsPaused(false);
     }, remaining);
 
-    return () => clearTimeout(timer);
+    return () => window.clearTimeout(timer);
   }, [hasMultipleImages, isPaused, lastInteraction]);
-
-  const handleManualPrev = () => {
-    pauseAutoPlay();
-    goPrev();
-  };
-
-  const handleManualNext = () => {
-    pauseAutoPlay();
-    goNext();
-  };
 
   const handleTouchStart = (e) => {
     pauseAutoPlay();
-    setTouchStartX(e.targetTouches[0].clientX);
-    setTouchEndX(null);
+    touchStartXRef.current = e.targetTouches[0].clientX;
+    touchEndXRef.current = null;
   };
 
   const handleTouchMove = (e) => {
-    setTouchEndX(e.targetTouches[0].clientX);
+    touchEndXRef.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX === null || touchEndX === null) return;
+    if (touchStartXRef.current == null || touchEndXRef.current == null) return;
 
-    const distance = touchStartX - touchEndX;
+    const distance = touchStartXRef.current - touchEndXRef.current;
 
     if (distance > 50) goNext();
     if (distance < -50) goPrev();
@@ -607,7 +602,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
               src={img}
               alt={`${alt}-${index + 1}`}
               fill
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover select-none cursor-pointer"
               draggable={false}
               onClick={() => onImageClick?.(index)}
@@ -620,7 +615,10 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
         <>
           <button
             type="button"
-            onClick={handleManualPrev}
+            onClick={() => {
+              pauseAutoPlay();
+              goPrev();
+            }}
             className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
             aria-label="Previous image"
           >
@@ -629,7 +627,10 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
 
           <button
             type="button"
-            onClick={handleManualNext}
+            onClick={() => {
+              pauseAutoPlay();
+              goNext();
+            }}
             className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
             aria-label="Next image"
           >
@@ -659,6 +660,8 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
 }
 
 function TeamCard({ member, lang, onOpen }) {
+  const previewTags = member.desc[lang].slice(0, 3);
+
   return (
     <div className="bg-white rounded-2xl shadow overflow-hidden border border-stone-200">
       <ImageCarousel
@@ -671,7 +674,7 @@ function TeamCard({ member, lang, onOpen }) {
         <h3 className="font-bold text-xl mb-3">{member.name}</h3>
 
         <div className="flex flex-wrap gap-2">
-          {member.desc[lang].slice(0, 3).map((item, index) => (
+          {previewTags.map((item, index) => (
             <span
               key={`${member.id}-${lang}-${index}`}
               className={
@@ -690,6 +693,9 @@ function TeamCard({ member, lang, onOpen }) {
 }
 
 function RecruitModal({ isOpen, lang, onClose }) {
+  useLockBodyScroll(isOpen);
+  useEscapeKey(isOpen, onClose);
+
   if (!isOpen) return null;
 
   return (
@@ -755,24 +761,24 @@ function RecruitModal({ isOpen, lang, onClose }) {
 function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage }) {
   const member = gallery.member;
 
+  useLockBodyScroll(gallery.isOpen);
+  useEscapeKey(gallery.isOpen, onClose);
+
   if (!gallery.isOpen || !member) return null;
 
-const handleBookingClick = () => {
-  openLineBooking(member.name, lang);
-};
   return (
-<div
-  className="fixed inset-0 z-50 bg-black/80 overflow-y-auto p-2 md:p-4"
-  onClick={onClose}
->
-<div
-  className="relative w-full max-w-5xl my-4 md:my-8 mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl"
-  onClick={(e) => e.stopPropagation()}
->
-          <button
+    <div
+      className="fixed inset-0 z-50 bg-black/80 overflow-y-auto p-2 md:p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-5xl my-4 md:my-8 mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center"
+          className={MODAL_CLOSE_BUTTON_CLASS}
           aria-label="Close gallery"
         >
           ×
@@ -783,7 +789,7 @@ const handleBookingClick = () => {
             <button
               type="button"
               onClick={onPrev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+              className={`${MODAL_ARROW_BUTTON_CLASS} left-4`}
               aria-label="Previous gallery image"
             >
               ‹
@@ -792,7 +798,7 @@ const handleBookingClick = () => {
             <button
               type="button"
               onClick={onNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+              className={`${MODAL_ARROW_BUTTON_CLASS} right-4`}
               aria-label="Next gallery image"
             >
               ›
@@ -800,8 +806,8 @@ const handleBookingClick = () => {
           </>
         )}
 
-<div className="relative bg-black flex items-center justify-center h-[55vh] md:h-[70vh]">
-            <Image
+        <div className="relative bg-black flex items-center justify-center h-[55vh] md:h-[70vh]">
+          <Image
             src={member.imgs[gallery.imageIndex]}
             alt={`${member.name}-${gallery.imageIndex + 1}`}
             fill
@@ -838,13 +844,13 @@ const handleBookingClick = () => {
               {t.scheduleButton}
             </a>
 
-<button
-  type="button"
-  onClick={handleBookingClick}
-  className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-full text-sm transition hover:scale-105"
->
-  {t.bookThis}
-</button>
+            <button
+              type="button"
+              onClick={() => openLineBooking(member.name, lang)}
+              className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-full text-sm transition hover:scale-105"
+            >
+              {t.bookThis}
+            </button>
           </div>
 
           <p className="text-sm text-stone-500 mt-3">
@@ -876,16 +882,28 @@ const handleBookingClick = () => {
     </div>
   );
 }
+
 export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 10);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
   const [lang, setLang] = useState("zh");
   const [recruitOpen, setRecruitOpen] = useState(false);
 
-  const t = useMemo(() => {
-    return {
+  const t = useMemo(
+    () => ({
       ...CONTENT[lang],
       bookThis: CONTENT.bookThis[lang],
-    };
-  }, [lang]);
+    }),
+    [lang]
+  );
 
   const {
     gallery,
@@ -898,60 +916,69 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
-      <header className="bg-white py-3 shadow-md sticky top-0 z-40">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3">
-          <div className="flex justify-center w-full">
-            <div className="relative w-[160px] h-[60px] md:w-[220px] md:h-[80px]">
-              <Image
-                src="/flatbanner.png"
-                alt="Taipei Wild Spa"
-                fill
-                priority
-                sizes="220px"
-                className="object-contain"
-              />
-            </div>
-          </div>
+<div className="bg-white">
+  {/* 只有 LOGO 固定 */}
+  <div
+    className={`sticky top-0 z-40 backdrop-blur transition-all duration-500 ease-out ${
+      scrolled
+        ? "bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+        : "bg-white"
+    }`}
+  >
+    <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
+      <div
+        className={`relative transition-all duration-500 ease-out ${
+          scrolled
+            ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
+            : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
+        }`}
+      >
+        <Image
+          src="/flatbanner.png"
+          alt="Taipei Wild Spa"
+          fill
+          priority
+          sizes="220px"
+          className="object-contain"
+        />
+      </div>
+    </div>
+  </div>
 
-          <div className="flex flex-wrap justify-center gap-2 w-full">
-            <a href="#team" className={NAV_LINK_CLASS}>
-              {t.navTeam}
-            </a>
-            <a href="#services" className={NAV_LINK_CLASS}>
-              {t.navServices}
-            </a>
-            <a href="#about" className={NAV_LINK_CLASS}>
-              {t.navAbout}
-            </a>
-            <a
-              href={LINE_ADD_FRIEND_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-            >
-              {t.navContact}
-            </a>
-          </div>
+  {/* 這兩排不固定，滑動後會被帶走 */}
+  <div className="max-w-6xl mx-auto px-4 pb-3 flex flex-col items-center justify-center gap-3">
+    <div className="flex flex-wrap justify-center gap-2 w-full">
+      <a href="#team" className={NAV_LINK_CLASS}>{t.navTeam}</a>
+      <a href="#services" className={NAV_LINK_CLASS}>{t.navServices}</a>
+      <a href="#about" className={NAV_LINK_CLASS}>{t.navAbout}</a>
+      <a
+        href={LINE_ADD_FRIEND_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
+      >
+        {t.navContact}
+      </a>
+    </div>
 
-          <div className="flex flex-wrap justify-center gap-2 w-full">
-            {LANG_OPTIONS.map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                onClick={() => setLang(option.key)}
-                className={`${LANG_BUTTON_BASE} ${
-                  lang === option.key
-                    ? "bg-black text-white shadow-md"
-                    : "bg-white text-black hover:bg-stone-100"
-                }`}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
-
+    <div className="flex flex-wrap justify-center gap-2 w-full">
+      {LANG_OPTIONS.map((option) => (
+        <button
+          key={option.key}
+          type="button"
+          onClick={() => setLang(option.key)}
+          className={`${LANG_BUTTON_BASE} ${
+            lang === option.key
+              ? "bg-black text-white shadow-md"
+              : "bg-white text-black hover:bg-stone-100"
+          }`}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
       <section className="relative h-[42vh] md:h-[58vh]">
         <HeroCarousel images={HERO_IMAGES} />
         <div className="absolute inset-0 bg-black/50" />
