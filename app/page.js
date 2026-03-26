@@ -148,50 +148,106 @@ return (
   const [selectedMember, setSelectedMember] = useState(null);
 const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+const [recruitOpen, setRecruitOpen] = useState(false);
+  {/* 人才招募 Recruit */}
+const recruitData = {
+  title: {
+    zh: "人才招募",
+    en: "Join Our Team",
+    ja: "人材募集",
+    ko: "채용 안내",
+  },
+  desc: {
+    zh: "我們正在尋找重視互動品質與服務細節的夥伴，歡迎加入。",
+    en: "We are looking for team members who value interaction quality and service details.",
+    ja: "接客の質とサービスの細やかさを大切にする方を募集しています。",
+    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다.",
+  },
+  images: [
+    "/recruit/01.jpg",
+    "/recruit/02.jpg",
+    "/recruit/03.jpg",
+  ],
+  items: {
+    zh: ["高配合度", "環境單純", "重視隱私", "彈性排班"],
+    en: ["High cooperation", "Simple environment", "Privacy focused", "Flexible schedule"],
+    ja: ["高い協調性", "シンプルな環境", "プライバシー重視", "柔軟なシフト"],
+    ko: ["높은 협조도", "단순한 환경", "프라이버시 중시", "유연한 스케줄"],
+  },
+  lineLink: "https://line.me/R/ti/p/@834xdutc",
+};
+
 
 const teamMembers = [
+  
   {
     name: "Rookie",
     desc: {
-      zh: "擅長放鬆按摩與肌肉舒緩，風格細膩穩定。",
-      en: "Specializes in relaxation massage and muscle relief with a delicate and steady style.",
-      ja: "リラクゼーションと筋肉のこわばり緩和が得意で、繊細で安定した施術が特徴です。",
-      ko: "이완 마사지와 근육 완화에 강하며, 섬세하고 안정적인 스타일이 특징입니다.",
+      zh: [
+        "171/68/28",
+        "體格健壯",
+        "按摩手法穩健",
+        "開朗健談",
+        "配合度高",
+      ],
+en: [
+  "172/67/33",
+  "Clean and sharp appearance",
+  "Solid and well-built physique",
+  "Natural and easygoing interaction",
+  "Highly cooperative and adaptable"
+],
+ja: [
+  "172/67/33",
+  "清潔感のある整った外見",
+  "しっかりとした筋肉質な体格",
+  "自然で気軽なコミュニケーション",
+  "柔軟に対応できる高い協調性"
+],
+ko: [
+  "172/67/33",
+  "깔끔하고 단정한 외형",
+  "탄탄하고 근육질의 체형",
+  "자연스럽고 편안한 소통",
+  "유연하게 대응 가능한 높은 협조도"
+],
     },
     imgs: ["/team/Rookie01.jpg", "/team/Rookie02.jpg", "/team/Rookie03.jpg", "/team/Rookie04.jpg"],
     calendar: "https://calendar.google.com/ryan",
   },
-  {
-    name: "Ryan",
+    {
+    name: "Eric",
     desc: {
-      zh: "擅長深層按壓與運動後放鬆，適合喜歡明確力道的客人。",
-      en: "Specializes in deep pressure and post-workout recovery, ideal for guests who prefer firm massage.",
-      ja: "深めの圧と運動後のリカバリーが得意で、しっかりした力加減がお好みの方におすすめです。",
-      ko: "깊은 압과 운동 후 이완에 강하며, 확실한 강도를 선호하는 분께 적합합니다.",
+zh: [
+  "172/67/33",
+  "外表乾淨俐落",
+  "肌肉結實厚實",
+  "互動自然不拘束",
+  "配合度高",
+],
+en: [
+  "172/67/33",
+  "Clean and sharp appearance",
+  "Solid and well-built physique",
+  "Natural and easygoing interaction",
+  "Highly cooperative"
+],
+ja: [
+  "172/67/33",
+  "清潔感のある整った外見",
+  "しっかりとした筋肉質な体格",
+  "自然で気軽なコミュニケーション",
+  "協調性が高い"
+],
+ko: [
+  "172/67/33",
+  "깔끔하고 단정한 외형",
+  "탄탄하고 근육질의 체형",
+  "자연스럽고 편안한 소통",
+  "높은 협조도"
+],
     },
-    imgs: ["/team/01-1.jpg", "/team/01-2.jpg", "/team/01-3.jpg"],
-    calendar: "https://calendar.google.com/embed?src=a0936085717%40gmail.com",
-  },
-  {
-    name: "Leo",
-    desc: {
-      zh: "重視節奏與舒適度，適合想要慢慢放鬆身心的客人。",
-      en: "Focuses on rhythm and comfort, suitable for guests who want to unwind gradually.",
-      ja: "リズム感と心地よさを大切にし、ゆっくり心身をほぐしたい方に向いています。",
-      ko: "리듬감과 편안함을 중시하며, 천천히 몸과 마음을 풀고 싶은 분께 적합합니다.",
-    },
-    imgs: ["/team/02-1.jpg", "/team/02-2.jpg", "/team/02-3.jpg"],
-    calendar: "https://calendar.google.com/ryan",
-  },
-  {
-    name: "Evan",
-    desc: {
-      zh: "偏向穩定沉著的按摩風格，適合肩頸與背部緊繃放鬆。",
-      en: "Offers a calm and steady massage style, suitable for relieving shoulder, neck, and back tension.",
-      ja: "落ち着いて安定感のある施術が特徴で、肩・首・背中のこわばり緩和に適しています。",
-      ko: "차분하고 안정적인 마사지 스타일로, 어깨·목·등의 긴장을 푸는 데 적합합니다.",
-    },
-    imgs: ["/team/profilebanner.jpg"],
+    imgs: ["/team/Eric01.jpg", "/team/Eric02.jpg", "/team/Eric03.jpg", "/team/Eric04.jpg"],
     calendar: "https://calendar.google.com/ryan",
   },
 ];
@@ -571,57 +627,123 @@ const showNextImage = () => {
       </section>
 
       {/* Team */}
-      <section id="team" className="p-10">
-        <h2 className="text-2xl font-bold mb-6">{t.teamTitle}</h2>
+<section id="team" className="p-10">
+  <h2 className="text-2xl font-bold mb-3">{t.teamTitle}</h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {/* Recruit Card */}
+  <button
+    type="button"
+    onClick={() => setRecruitOpen(true)}
+    className="inline-block mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full hover:bg-stone-100 hover:scale-105 transition"
+  >
+    {t.recruitTitle}
+  </button>
+
+  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+    {teamMembers.map((member, index) => (
+      <div
+        key={index}
+        className="bg-white rounded-xl shadow overflow-hidden"
+      >
+        <ImageCarousel
+          images={member.imgs}
+          alt={member.name}
+          onImageClick={(index) => openGallery(member, index)}
+        />
+
+        <div className="p-4">
+          <h3 className="font-bold">{member.name}</h3>
+
+          <div className="flex flex-wrap gap-3 mt-3">
+            {member.desc[lang].map((item, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+
           <a
-            href="https://line.me/R/ti/p/@834xdutc"
+            href={member.calendar}
             target="_blank"
             rel="noreferrer"
-            className="bg-black text-white rounded-xl shadow overflow-hidden block hover:opacity-90 transition"
+            className="inline-block mt-3 px-4 py-2 bg-black text-white rounded-lg text-sm"
           >
-            <div className="w-full h-[320px] flex items-center justify-center text-center px-6">
-              <div>
-                <p className="text-sm tracking-[0.2em] mb-3">{t.recruitLabel}</p>
-                <h3 className="text-2xl font-bold mb-2">{t.recruitTitle}</h3>
-                <p className="text-sm text-stone-300">{t.recruitDesc}</p>
-              </div>
-            </div>
-
-            <div className="p-4 border-t border-white/10">
-              <p className="text-sm text-stone-300">{t.recruitButton}</p>
-            </div>
+            {t.scheduleButton}
           </a>
+        </div>
+      </div>
+    ))}
+  </div>
 
-          {teamMembers.map((member, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow overflow-hidden"
+{recruitOpen && (
+  <div
+    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+    onClick={() => setRecruitOpen(false)}
+  >
+    <div
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        type="button"
+        onClick={() => setRecruitOpen(false)}
+        className="absolute right-4 top-4 z-10 w-10 h-10 rounded-full bg-black text-white text-lg hover:scale-105 transition"
+      >
+        ×
+      </button>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-2">
+        {recruitData.images.map((img, idx) => (
+          <img
+            key={idx}
+            src={img}
+            alt={`recruit-${idx + 1}`}
+            className="w-full h-64 object-cover rounded-xl"
+          />
+        ))}
+      </div>
+
+      <div className="p-6 md:p-8">
+        <h3 className="text-2xl md:text-3xl font-bold mb-4">
+          {recruitData.title[lang]}
+        </h3>
+
+        <p className="text-stone-700 leading-8 mb-5">
+          {recruitData.desc[lang]}
+        </p>
+
+        <div className="flex flex-wrap gap-3 mb-6">
+          {recruitData.items[lang].map((item, idx) => (
+            <span
+              key={idx}
+              className="inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base"
             >
-<ImageCarousel
-  images={member.imgs}
-  alt={member.name}
-  onImageClick={(index) => openGallery(member, index)}
-/>
-              <div className="p-4">
-                <h3 className="font-bold">{member.name}</h3>
-<p className="text-sm text-stone-600">{member.desc[lang]}</p>
-                <a
-                  href={member.calendar}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-block mt-3 px-4 py-2 bg-black text-white rounded-lg text-sm"
-                >
-                  {t.scheduleButton}
-                </a>
-              </div>
-            </div>
+              {item}
+            </span>
           ))}
         </div>
-      </section>
 
+        <a
+          href={recruitData.lineLink}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-block px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base hover:scale-105 transition"
+        >
+          {lang === "zh"
+            ? "加入 LINE 應徵"
+            : lang === "en"
+            ? "Apply via LINE"
+            : lang === "ja"
+            ? "LINEで応募する"
+            : "LINE으로 지원하기"}
+        </a>
+      </div>
+    </div>
+  </div>
+)}
+</section>
       {/* Services */}
       <section id="services" className="p-10 bg-white">
         <h2 className="text-2xl font-bold mb-8">{t.servicesTitle}</h2>
@@ -758,7 +880,7 @@ const showNextImage = () => {
 
         {/* X */}
         <a
-          href="https://x.com/你的帳號"
+          href="https://x.com/taipei_wildspa?s=21"
           target="_blank"
           rel="noopener noreferrer"
           className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
@@ -845,8 +967,20 @@ const showNextImage = () => {
             {/* 人名與描述 */}
             <div className="px-6 pt-4">
               <h3 className="text-2xl font-bold">{selectedMember.name}</h3>
-<p className="text-sm text-stone-600 mt-1">{selectedMember.desc[lang]}</p>
-              <p className="text-sm text-stone-500 mt-2">
+<div className="flex flex-wrap gap-3 mt-3">
+  {selectedMember.desc[lang].map((item, idx) => (
+    <span
+      key={idx}
+      className={
+        idx === 0
+          ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm md:text-base font-medium"
+          : "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base"
+      }
+    >
+      {item}
+    </span>
+  ))}
+</div>              <p className="text-sm text-stone-500 mt-2">
                 {selectedImageIndex + 1} / {selectedMember.imgs.length}
               </p>
             </div>
