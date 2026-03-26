@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const LINE_LINK = "https://line.me/R/ti/p/@834xdutc";
 
@@ -11,14 +12,16 @@ const LANG_OPTIONS = [
   { key: "ko", label: "한국어" },
 ];
 
-const NAV_LINK_CLASS = "px-2 py-0.5 text-sm border rounded-lg";
-const LANG_BUTTON_BASE = "px-2 py-0.5 text-sm rounded-lg border transition";
+const NAV_LINK_CLASS = "px-3 py-1 text-sm border rounded-lg transition hover:bg-stone-100";
+const LANG_BUTTON_BASE = "px-3 py-1 text-sm rounded-lg border transition";
 const ICON_BUTTON_CLASS =
   "w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 transition";
 const TAG_CLASS =
   "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base";
 const PRIMARY_BUTTON_CLASS =
-  "inline-block px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base hover:scale-105 transition";
+  "inline-flex items-center justify-center px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base transition hover:scale-105";
+
+const HERO_IMAGES = ["/hero/hero01.jpg", "/hero/hero02.jpg", "/hero/hero03.jpg"];
 
 const RECRUIT_APPLY_TEXT = {
   zh: "加入 LINE 應徵",
@@ -52,6 +55,7 @@ const RECRUIT_DATA = {
 
 const TEAM_MEMBERS = [
   {
+    id: "rookie",
     name: "Rookie",
     desc: {
       zh: ["171/68/28", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
@@ -86,6 +90,7 @@ const TEAM_MEMBERS = [
     calendar: "https://calendar.google.com/ryan",
   },
   {
+    id: "eric",
     name: "Eric",
     desc: {
       zh: ["172/67/33", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
@@ -117,6 +122,12 @@ const TEAM_MEMBERS = [
 ];
 
 const CONTENT = {
+  bookThis: {
+    zh: "預約此位師傅",
+    en: "Book this therapist",
+    ja: "このスタッフを予約",
+    ko: "이 직원 예약하기",
+  },
   zh: {
     navTeam: "團隊介紹與招募",
     navServices: "服務內容",
@@ -187,7 +198,7 @@ const CONTENT = {
     homeServiceTime2: "100 mins　TWD $3000",
     homeNote1: "* To ensure timely arrival, please book at least 1 hour in advance.",
     homeNote2: "* Transportation fees may apply depending on the area. Please confirm via LINE.",
-    homeNote3: "* A late-night surcharge of TWD $500 may apply.",
+    homeNote3: "* A late-night surcharge may apply.",
     aboutTitle: "Our Space",
     aboutDesc: "A quiet, clean, and private space for complete relaxation",
     businessHoursTitle: "Business Hours",
@@ -286,94 +297,187 @@ const CONTENT = {
     contactHint: "가장 빠른 안내와 답변을 위해 LINE으로 문의하시는 것을 권장합니다",
   },
 };
-const HERO_IMAGES = [
-  "/hero/hero01.jpg",
-  "/hero/hero02.jpg",
-  "/hero/hero03.jpg",
-];
+
 const SOCIAL_LINKS = [
   {
     name: "LINE",
     href: LINE_LINK,
-    customIcon: (
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg"
-        alt="LINE"
-        className="w-5 h-5"
-      />
-    ),
+    iconType: "image",
+    iconSrc: "https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg",
+    iconAlt: "LINE",
     className: `${ICON_BUTTON_CLASS} hover:scale-110`,
   },
   {
     name: "Instagram",
     href: "https://instagram.com/taipei_wildspa?igsh=MWsxNm1odnV0M2JkdQ%3D%3D&utm_source=qr",
+    iconType: "remix",
     iconClass: "ri-instagram-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/profile.php?id=61576573349568",
+    iconType: "remix",
     iconClass: "ri-facebook-circle-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
   {
     name: "X",
     href: "https://x.com/taipei_wildspa?s=21",
+    iconType: "remix",
     iconClass: "ri-twitter-x-line text-xl",
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
 ];
-function HeroCarousel({ images = [] }) {
+
+function useAutoCarousel(length, delay = 3000, paused = false) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (images.length <= 1) return;
+    if (length <= 1 || paused) return;
 
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000);
+      setCurrent((prev) => (prev + 1) % length);
+    }, delay);
 
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [delay, length, paused]);
 
-  if (!images.length) return null;
+  useEffect(() => {
+    if (current > length - 1) {
+      setCurrent(0);
+    }
+  }, [current, length]);
+
+  return { current, setCurrent };
+}
+
+function useGallery() {
+  const [gallery, setGallery] = useState({
+    isOpen: false,
+    member: null,
+    imageIndex: 0,
+  });
+
+  const openGallery = useCallback((member, imageIndex = 0) => {
+    setGallery({ isOpen: true, member, imageIndex });
+  }, []);
+
+  const closeGallery = useCallback(() => {
+    setGallery({ isOpen: false, member: null, imageIndex: 0 });
+  }, []);
+
+  const showPrevImage = useCallback(() => {
+    setGallery((prev) => {
+      if (!prev.member) return prev;
+
+      return {
+        ...prev,
+        imageIndex:
+          prev.imageIndex === 0 ? prev.member.imgs.length - 1 : prev.imageIndex - 1,
+      };
+    });
+  }, []);
+
+  const showNextImage = useCallback(() => {
+    setGallery((prev) => {
+      if (!prev.member) return prev;
+
+      return {
+        ...prev,
+        imageIndex:
+          prev.imageIndex === prev.member.imgs.length - 1 ? 0 : prev.imageIndex + 1,
+      };
+    });
+  }, []);
+
+  const selectGalleryImage = useCallback((imageIndex) => {
+    setGallery((prev) => ({ ...prev, imageIndex }));
+  }, []);
+
+  return {
+    gallery,
+    openGallery,
+    closeGallery,
+    showPrevImage,
+    showNextImage,
+    selectGalleryImage,
+  };
+}
+
+function SectionTitle({ children, center = false }) {
+  return (
+    <h2 className={`text-2xl md:text-3xl font-bold ${center ? "text-center" : ""}`}>
+      {children}
+    </h2>
+  );
+}
+
+function SocialIcon({ item }) {
+  if (item.iconType === "image") {
+    return (
+      <Image
+        src={item.iconSrc}
+        alt={item.iconAlt || item.name}
+        width={20}
+        height={20}
+        className="w-5 h-5"
+        unoptimized
+      />
+    );
+  }
+
+  return <i className={item.iconClass} />;
+}
+
+function HeroCarousel({ images }) {
+  const { current } = useAutoCarousel(images.length, 4000);
+
+  if (!images?.length) return null;
 
   return (
     <div className="absolute inset-0">
       {images.map((img, index) => (
-        <img
+        <div
           key={`hero-${index}`}
-          src={img}
-          alt={`hero-${index + 1}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             current === index ? "opacity-100" : "opacity-0"
           }`}
-        />
+        >
+          <Image
+            src={img}
+            alt={`hero-${index + 1}`}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
       ))}
     </div>
   );
 }
+
 function ImageCarousel({ images = [], alt, onImageClick }) {
-  const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
-
   const hasMultipleImages = images.length > 1;
+  const { current, setCurrent } = useAutoCarousel(images.length, 3000, isPaused);
 
-  const pauseAutoPlay = () => {
+  const pauseAutoPlay = useCallback(() => {
     setIsPaused(true);
     setLastInteraction(Date.now());
-  };
+  }, []);
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     setCurrent((prev) => (prev + 1) % images.length);
-  };
+  }, [images.length, setCurrent]);
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     setCurrent((prev) => (prev - 1 + images.length) % images.length);
-  };
+  }, [images.length, setCurrent]);
 
   useEffect(() => {
     if (!hasMultipleImages || !isPaused || !lastInteraction) return;
@@ -389,24 +493,14 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
     return () => clearTimeout(timer);
   }, [hasMultipleImages, isPaused, lastInteraction]);
 
-  useEffect(() => {
-    if (!hasMultipleImages || isPaused) return;
-
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % images.length);
-    }, 3000);
-
-    return () => clearInterval(timer);
-  }, [hasMultipleImages, images.length, isPaused]);
+  const handleManualPrev = () => {
+    pauseAutoPlay();
+    goPrev();
+  };
 
   const handleManualNext = () => {
     pauseAutoPlay();
     goNext();
-  };
-
-  const handleManualPrev = () => {
-    pauseAutoPlay();
-    goPrev();
   };
 
   const handleTouchStart = (e) => {
@@ -438,7 +532,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
 
   return (
     <div
-      className="relative w-full h-[320px] overflow-hidden"
+      className="relative w-full h-[320px] overflow-hidden bg-stone-100"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -448,12 +542,14 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((img, index) => (
-          <div key={`${alt}-${index}`} className="w-full h-full shrink-0">
-            <img
+          <div key={`${alt}-${index}`} className="relative w-full h-full shrink-0">
+            <Image
               src={img}
               alt={`${alt}-${index + 1}`}
-              className="w-full h-full object-cover select-none cursor-pointer"
-              draggable="false"
+              fill
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover select-none cursor-pointer"
+              draggable={false}
               onClick={() => onImageClick?.(index)}
             />
           </div>
@@ -466,6 +562,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
             type="button"
             onClick={handleManualPrev}
             className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+            aria-label="Previous image"
           >
             ‹
           </button>
@@ -474,6 +571,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
             type="button"
             onClick={handleManualNext}
             className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+            aria-label="Next image"
           >
             ›
           </button>
@@ -481,7 +579,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
             {images.map((_, index) => (
               <button
-                key={`dot-${index}`}
+                key={`dot-${alt}-${index}`}
                 type="button"
                 onClick={() => {
                   pauseAutoPlay();
@@ -490,6 +588,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
                 className={`w-2.5 h-2.5 rounded-full ${
                   current === index ? "bg-white" : "bg-white/50"
                 }`}
+                aria-label={`Go to image ${index + 1}`}
               />
             ))}
           </div>
@@ -499,14 +598,34 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
   );
 }
 
+function TeamCard({ member, lang, onOpen }) {
+  return (
+    <div className="bg-white rounded-2xl shadow overflow-hidden border border-stone-200">
+      <ImageCarousel images={member.imgs} alt={member.name} onImageClick={(index) => onOpen(member, index)} />
+
+      <div className="p-4 md:p-5">
+        <h3 className="font-bold text-xl mb-3">{member.name}</h3>
+
+        <div className="flex flex-wrap gap-2">
+          {member.desc[lang].slice(0, 3).map((item, index) => (
+            <span
+              key={`${member.id}-${lang}-${index}`}
+              className={index === 0 ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm" : TAG_CLASS}
+            >
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function RecruitModal({ isOpen, lang, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
       <div
         className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -514,19 +633,23 @@ function RecruitModal({ isOpen, lang, onClose }) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 w-10 h-10 rounded-full bg-black text-white text-lg hover:scale-105 transition"
+          className="absolute right-4 top-4 z-10 w-10 h-10 rounded-full bg-black text-white text-lg transition hover:scale-105"
+          aria-label="Close recruit modal"
         >
           ×
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-2">
           {RECRUIT_DATA.images.map((img, idx) => (
-            <img
-              key={`recruit-${idx}`}
-              src={img}
-              alt={`recruit-${idx + 1}`}
-              className="w-full h-64 object-cover rounded-xl"
-            />
+            <div key={`recruit-${idx}`} className="relative h-64 rounded-xl overflow-hidden">
+              <Image
+                src={img}
+                alt={`recruit-${idx + 1}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="object-cover"
+              />
+            </div>
           ))}
         </div>
 
@@ -542,12 +665,7 @@ function RecruitModal({ isOpen, lang, onClose }) {
             ))}
           </div>
 
-          <a
-            href={RECRUIT_DATA.lineLink}
-            target="_blank"
-            rel="noreferrer"
-            className={PRIMARY_BUTTON_CLASS}
-          >
+          <a href={RECRUIT_DATA.lineLink} target="_blank" rel="noreferrer" className={PRIMARY_BUTTON_CLASS}>
             {RECRUIT_APPLY_TEXT[lang]}
           </a>
         </div>
@@ -556,16 +674,21 @@ function RecruitModal({ isOpen, lang, onClose }) {
   );
 }
 
-function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNext, onSelectImage }) {
+function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage }) {
   const member = gallery.member;
 
   if (!gallery.isOpen || !member) return null;
+    const bookingMessageMap = {
+    zh: `你好，我想預約 ${member.name}\n🗓️時間：\n💆🏻服務：`,
+    en: `Hello, I would like to book ${member.name}\n🗓️Time:\n💆🏻Service:`,
+    ja: `こんにちは、${member.name}を予約したいです\n🗓️希望時間：\n💆🏻希望サービス：`,
+    ko: `안녕하세요, ${member.name} 예약하고 싶습니다\n🗓️시간:\n💆🏻서비스:`,
+  };
+
+  const bookingMessage = bookingMessageMap[lang] || bookingMessageMap.zh;
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={onClose}>
       <div
         className="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -574,6 +697,7 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
           type="button"
           onClick={onClose}
           className="absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center"
+          aria-label="Close gallery"
         >
           ×
         </button>
@@ -584,6 +708,7 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
               type="button"
               onClick={onPrev}
               className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+              aria-label="Previous gallery image"
             >
               ‹
             </button>
@@ -592,17 +717,20 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
               type="button"
               onClick={onNext}
               className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center"
+              aria-label="Next gallery image"
             >
               ›
             </button>
           </>
         )}
 
-        <div className="bg-black flex items-center justify-center">
-          <img
+        <div className="relative bg-black flex items-center justify-center h-[70vh]">
+          <Image
             src={member.imgs[gallery.imageIndex]}
             alt={`${member.name}-${gallery.imageIndex + 1}`}
-            className="w-full max-h-[70vh] object-contain"
+            fill
+            sizes="100vw"
+            className="object-contain"
           />
         </div>
 
@@ -612,7 +740,7 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
           <div className="flex flex-wrap gap-3 mt-3">
             {member.desc[lang].map((item, idx) => (
               <span
-                key={`${member.name}-desc-${idx}`}
+                key={`${member.id}-${lang}-desc-${idx}`}
                 className={
                   idx === 0
                     ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm md:text-base font-medium"
@@ -624,14 +752,25 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
             ))}
           </div>
 
-          <a
-            href={member.calendar}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block mt-4 px-4 py-2 bg-black text-white rounded-lg text-sm"
-          >
-            {scheduleButtonText}
-          </a>
+          <div className="flex flex-wrap gap-3 mt-4">
+            <a
+              href={member.calendar}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center px-4 py-2 bg-black text-white rounded-lg text-sm"
+            >
+              {t.scheduleButton}
+            </a>
+
+    <a
+      href={`${LINE_LINK}?text=${encodeURIComponent(bookingMessage)}`}
+      target="_blank"
+      rel="noreferrer"
+      className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
+    >
+      {t.bookThis}
+    </a>
+          </div>
 
           <p className="text-sm text-stone-500 mt-3">
             {gallery.imageIndex + 1} / {member.imgs.length}
@@ -641,17 +780,19 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
         <div className="flex gap-3 overflow-x-auto px-6 py-4 bg-white">
           {member.imgs.map((img, index) => (
             <button
-              key={`${member.name}-thumb-${index}`}
+              key={`${member.id}-thumb-${index}`}
               type="button"
               onClick={() => onSelectImage(index)}
-              className={`shrink-0 rounded-lg overflow-hidden border-2 ${
+              className={`relative shrink-0 rounded-lg overflow-hidden border-2 w-20 h-20 ${
                 gallery.imageIndex === index ? "border-black" : "border-stone-200"
               }`}
             >
-              <img
+              <Image
                 src={img}
                 alt={`${member.name}-thumb-${index + 1}`}
-                className="w-20 h-20 object-cover"
+                fill
+                sizes="80px"
+                className="object-cover"
               />
             </button>
           ))}
@@ -664,61 +805,25 @@ function GalleryModal({ gallery, lang, scheduleButtonText, onClose, onPrev, onNe
 export default function Home() {
   const [lang, setLang] = useState("zh");
   const [recruitOpen, setRecruitOpen] = useState(false);
-  const [gallery, setGallery] = useState({
-    isOpen: false,
-    member: null,
-    imageIndex: 0,
-  });
+  const t = useMemo(() => ({ ...CONTENT[lang], bookThis: CONTENT.bookThis[lang] }), [lang]);
 
-  const t = useMemo(() => CONTENT[lang], [lang]);
-
-  const openGallery = (member, index = 0) => {
-    setGallery({
-      isOpen: true,
-      member,
-      imageIndex: index,
-    });
-  };
-
-  const closeGallery = () => {
-    setGallery({
-      isOpen: false,
-      member: null,
-      imageIndex: 0,
-    });
-  };
-
-  const showPrevImage = () => {
-    if (!gallery.member) return;
-
-    setGallery((prev) => ({
-      ...prev,
-      imageIndex: prev.imageIndex === 0 ? prev.member.imgs.length - 1 : prev.imageIndex - 1,
-    }));
-  };
-
-  const showNextImage = () => {
-    if (!gallery.member) return;
-
-    setGallery((prev) => ({
-      ...prev,
-      imageIndex: prev.imageIndex === prev.member.imgs.length - 1 ? 0 : prev.imageIndex + 1,
-    }));
-  };
-
-  const selectGalleryImage = (index) => {
-    setGallery((prev) => ({
-      ...prev,
-      imageIndex: index,
-    }));
-  };
+  const {
+    gallery,
+    openGallery,
+    closeGallery,
+    showPrevImage,
+    showNextImage,
+    selectGalleryImage,
+  } = useGallery();
 
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
-      <header className="bg-white py-2 shadow-md">
-        <div className="flex flex-col items-center justify-center gap-2 w-full">
+      <header className="bg-white py-3 shadow-md sticky top-0 z-40">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3">
           <div className="flex justify-center w-full">
-            <img src="/flatbanner.png" alt="Taipei Wild Spa" className="w-30 h-30 object-contain" />
+            <div className="relative w-[160px] h-[60px] md:w-[220px] md:h-[80px]">
+              <Image src="/flatbanner.png" alt="Taipei Wild Spa" fill priority sizes="220px" className="object-contain" />
+            </div>
           </div>
 
           <div className="flex flex-wrap justify-center gap-2 w-full">
@@ -731,7 +836,7 @@ export default function Home() {
             <a href="#about" className={NAV_LINK_CLASS}>
               {t.navAbout}
             </a>
-            <a href={LINE_LINK} target="_blank" rel="noreferrer" className="px-2 py-0.5 text-sm bg-black text-white rounded-lg">
+            <a href={LINE_LINK} target="_blank" rel="noreferrer" className="px-3 py-1 text-sm bg-black text-white rounded-lg transition hover:opacity-90">
               {t.navContact}
             </a>
           </div>
@@ -740,6 +845,7 @@ export default function Home() {
             {LANG_OPTIONS.map((option) => (
               <button
                 key={option.key}
+                type="button"
                 onClick={() => setLang(option.key)}
                 className={`${LANG_BUTTON_BASE} ${
                   lang === option.key
@@ -754,98 +860,94 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="relative h-[40vh] md:h-[55vh]">
-<HeroCarousel images={HERO_IMAGES} />
+      <section className="relative h-[42vh] md:h-[58vh]">
+        <HeroCarousel images={HERO_IMAGES} />
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
-          <p className="mb-6">{t.heroSubtitle}</p>
-          <a href={LINE_LINK} target="_blank" rel="noreferrer" className="bg-white text-black px-6 py-3 rounded-full font-semibold">
+          <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
+          <a
+            href={LINE_LINK}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
+          >
             {t.heroButton}
           </a>
         </div>
       </section>
 
-      <section id="team" className="p-10">
-        <h2 className="text-2xl font-bold mb-3">{t.teamTitle}</h2>
+      <section id="team" className="px-6 py-12 md:px-10">
+        <div className="max-w-6xl mx-auto">
+          <SectionTitle>{t.teamTitle}</SectionTitle>
 
-        <button
-          type="button"
-          onClick={() => setRecruitOpen(true)}
-          className="inline-block mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full hover:bg-stone-100 hover:scale-105 transition"
-        >
-          {t.recruitTitle}
-        </button>
+          <button
+            type="button"
+            onClick={() => setRecruitOpen(true)}
+            className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
+          >
+            {t.recruitTitle}
+          </button>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {TEAM_MEMBERS.map((member) => (
-            <div key={member.name} className="bg-white rounded-xl shadow overflow-hidden">
-              <ImageCarousel
-                images={member.imgs}
-                alt={member.name}
-                onImageClick={(index) => openGallery(member, index)}
-              />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TEAM_MEMBERS.map((member) => (
+              <TeamCard key={member.id} member={member} lang={lang} onOpen={openGallery} />
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <div className="p-4 md:p-5">
-                <h3 className="font-bold text-xl mb-1">{member.name}</h3>
-                <div className="flex flex-wrap gap-3 mt-3">
-                  <span className={TAG_CLASS}>{member.desc[lang][0]}</span>
-                </div>
+      <section id="services" className="px-6 py-12 md:px-10 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <SectionTitle>{t.servicesTitle}</SectionTitle>
+          <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
+
+          <div className="flex flex-wrap gap-2 mb-8">
+            {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
+              <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="p-6 border rounded-2xl shadow-sm">
+              <h3 className="text-xl font-bold mb-4">{t.inStoreTitle}</h3>
+              <ul className="space-y-3 text-stone-700">
+                <li>{t.inStoreTime1}</li>
+                <li>{t.inStoreTime2}</li>
+                <li>{t.inStoreTime3}</li>
+              </ul>
+              <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
+              <div className="text-xs text-stone-400 mt-2 space-y-1">
+                <p>{t.inStoreNote1}</p>
+                <p>{t.inStoreNote2}</p>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      <section id="services" className="p-10 bg-white">
-        <h2 className="text-2xl font-bold mb-8">{t.servicesTitle}</h2>
-        <p className="text-stone-600 mb-6">{t.servicesIntro}</p>
-
-        <div className="flex flex-wrap gap-2 mb-8">
-          {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
-            <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="p-6 border rounded-2xl shadow">
-            <h3 className="text-xl font-bold mb-4">{t.inStoreTitle}</h3>
-            <ul className="space-y-3 text-stone-700">
-              <li>{t.inStoreTime1}</li>
-              <li>{t.inStoreTime2}</li>
-              <li>{t.inStoreTime3}</li>
-            </ul>
-            <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
-            <p className="text-xs text-stone-400 mt-2 space-y-1">
-              <span className="block">{t.inStoreNote1}</span>
-              <span className="block">{t.inStoreNote2}</span>
-            </p>
-          </div>
-
-          <div className="p-6 border rounded-2xl shadow">
-            <h3 className="text-xl font-bold mb-4">{t.homeServiceTitle}</h3>
-            <ul className="space-y-3 text-stone-700">
-              <li>{t.homeServiceTime1}</li>
-              <li>{t.homeServiceTime2}</li>
-            </ul>
-            <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
-            <p className="text-xs text-stone-400 mt-2 space-y-1">
-              <span className="block">{t.homeNote1}</span>
-              <span className="block">{t.homeNote2}</span>
-              <span className="block">{t.homeNote3}</span>
-            </p>
+            <div className="p-6 border rounded-2xl shadow-sm">
+              <h3 className="text-xl font-bold mb-4">{t.homeServiceTitle}</h3>
+              <ul className="space-y-3 text-stone-700">
+                <li>{t.homeServiceTime1}</li>
+                <li>{t.homeServiceTime2}</li>
+              </ul>
+              <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
+              <div className="text-xs text-stone-400 mt-2 space-y-1">
+                <p>{t.homeNote1}</p>
+                <p>{t.homeNote2}</p>
+                <p>{t.homeNote3}</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="about" className="py-16 px-6 bg-white">
+      <section id="about" className="px-6 py-16 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-10">{t.aboutTitle}</h2>
+          <SectionTitle center>{t.aboutTitle}</SectionTitle>
 
-          <div className="grid md:grid-cols-2 gap-10 items-start">
+          <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
             <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
               <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
 
@@ -883,7 +985,7 @@ export default function Home() {
                         className={item.className}
                         aria-label={item.name}
                       >
-                        {item.customIcon ? item.customIcon : <i className={item.iconClass} />}
+                        <SocialIcon item={item} />
                       </a>
                     ))}
                   </div>
@@ -893,19 +995,17 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full">
-              <div className="rounded-2xl overflow-hidden shadow-lg">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
-                  width="100%"
-                  height="350"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Taipei Wild Spa 地圖"
-                />
-              </div>
+            <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+                width="100%"
+                height="350"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Taipei Wild Spa 地圖"
+              />
             </div>
           </div>
         </div>
@@ -916,7 +1016,7 @@ export default function Home() {
       <GalleryModal
         gallery={gallery}
         lang={lang}
-        scheduleButtonText={t.scheduleButton}
+        t={t}
         onClose={closeGallery}
         onPrev={showPrevImage}
         onNext={showNextImage}
