@@ -149,28 +149,52 @@ return (
 const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
-  const teamMembers = [
-    {
-      name: "Ryan",
-      imgs: ["/team/01-1.jpg", "/team/01-2.jpg", "/team/01-3.jpg"],
-      calendar: "https://calendar.google.com/embed?src=a0936085717%40gmail.com",
+const teamMembers = [
+  {
+    name: "Rookie",
+    desc: {
+      zh: "擅長放鬆按摩與肌肉舒緩，風格細膩穩定。",
+      en: "Specializes in relaxation massage and muscle relief with a delicate and steady style.",
+      ja: "リラクゼーションと筋肉のこわばり緩和が得意で、繊細で安定した施術が特徴です。",
+      ko: "이완 마사지와 근육 완화에 강하며, 섬세하고 안정적인 스타일이 특징입니다.",
     },
-    {
-      name: "Leo",
-      imgs: ["/team/02-1.jpg", "/team/02-2.jpg", "/team/02-3.jpg"],
-      calendar: "https://calendar.google.com/ryan",
+    imgs: ["/team/Rookie01.jpg", "/team/Rookie02.jpg", "/team/Rookie03.jpg", "/team/Rookie04.jpg"],
+    calendar: "https://calendar.google.com/ryan",
+  },
+  {
+    name: "Ryan",
+    desc: {
+      zh: "擅長深層按壓與運動後放鬆，適合喜歡明確力道的客人。",
+      en: "Specializes in deep pressure and post-workout recovery, ideal for guests who prefer firm massage.",
+      ja: "深めの圧と運動後のリカバリーが得意で、しっかりした力加減がお好みの方におすすめです。",
+      ko: "깊은 압과 운동 후 이완에 강하며, 확실한 강도를 선호하는 분께 적합합니다.",
     },
-    {
-      name: "Max",
-      imgs: ["/team/profilebanner.jpg"],
-      calendar: "https://calendar.google.com/ryan",
+    imgs: ["/team/01-1.jpg", "/team/01-2.jpg", "/team/01-3.jpg"],
+    calendar: "https://calendar.google.com/embed?src=a0936085717%40gmail.com",
+  },
+  {
+    name: "Leo",
+    desc: {
+      zh: "重視節奏與舒適度，適合想要慢慢放鬆身心的客人。",
+      en: "Focuses on rhythm and comfort, suitable for guests who want to unwind gradually.",
+      ja: "リズム感と心地よさを大切にし、ゆっくり心身をほぐしたい方に向いています。",
+      ko: "리듬감과 편안함을 중시하며, 천천히 몸과 마음을 풀고 싶은 분께 적합합니다.",
     },
-    {
-      name: "Evan",
-      imgs: ["/team/profilebanner.jpg"],
-      calendar: "https://calendar.google.com/ryan",
+    imgs: ["/team/02-1.jpg", "/team/02-2.jpg", "/team/02-3.jpg"],
+    calendar: "https://calendar.google.com/ryan",
+  },
+  {
+    name: "Evan",
+    desc: {
+      zh: "偏向穩定沉著的按摩風格，適合肩頸與背部緊繃放鬆。",
+      en: "Offers a calm and steady massage style, suitable for relieving shoulder, neck, and back tension.",
+      ja: "落ち着いて安定感のある施術が特徴で、肩・首・背中のこわばり緩和に適しています。",
+      ko: "차분하고 안정적인 마사지 스타일로, 어깨·목·등의 긴장을 푸는 데 적합합니다.",
     },
-  ];  
+    imgs: ["/team/profilebanner.jpg"],
+    calendar: "https://calendar.google.com/ryan",
+  },
+];
   const content = {
     zh: {
       navTeam: "團隊介紹與招募",
@@ -212,8 +236,18 @@ const [isGalleryOpen, setIsGalleryOpen] = useState(false);
       homeNote2: "* 外出服務依地區可能酌收交通費，請透過 LINE 預約確認",
       homeNote3: "* 為提供良好服務，夜間將酌收額外服務費 TWD $500",
 
-      aboutTitle: "環境介紹",
-      aboutDesc: "安靜、乾淨、隱私性高的舒適空間",
+aboutTitle: "環境介紹",
+aboutDesc: "安靜、乾淨、隱私性高的舒適空間",
+businessHoursTitle: "營業時間",
+businessHoursText: "每日 11:00 - 25:00",
+locationTitle: "營業地點",
+locationText: "台北市萬華區成都路139號",
+bookingTitle: "預約方式",
+bookingText: "請透過 LINE 官方帳號預約",
+noticeTitle: "注意事項",
+noticeText: "為避免久候，建議至少提前一小時預約，實際服務時段與師傅排班請以 LINE 確認為準。",
+contactTitle: "聯絡方式",
+contactHint: "我們推薦透過 LINE 聯繫，以獲得最快速的安排與即時回覆",
     },
 
     en: {
@@ -261,8 +295,18 @@ const [isGalleryOpen, setIsGalleryOpen] = useState(false);
       homeNote3:
         "* A late-night surcharge of TWD $500 may apply.",
 
-      aboutTitle: "Our Space",
-      aboutDesc: "A quiet, clean, and private space for complete relaxation",
+aboutTitle: "Our Space",
+aboutDesc: "A quiet, clean, and private space for complete relaxation",
+businessHoursTitle: "Business Hours",
+businessHoursText: "Daily 11:00 - 25:00",
+locationTitle: "Location",
+locationText: "No. 139, Chengdu Rd., Wanhua Dist., Taipei City",
+bookingTitle: "Booking Method",
+bookingText: "Please make a reservation through our official LINE account",
+noticeTitle: "Notes",
+noticeText: "To avoid waiting, we recommend booking at least 1 hour in advance. Actual service hours and staff schedules should be confirmed via LINE.",
+contactTitle: "Contact",
+contactHint: "We recommend contacting us via LINE for the fastest arrangement and reply",
     },
 
     ja: {
@@ -310,8 +354,18 @@ const [isGalleryOpen, setIsGalleryOpen] = useState(false);
       homeNote3:
         "* 深夜は TWD $500 の追加料金を頂く場合があります。",
 
-      aboutTitle: "空間紹介",
-      aboutDesc: "静かで清潔、プライバシーに配慮した快適な空間",
+aboutTitle: "空間紹介",
+aboutDesc: "静かで清潔、プライバシーに配慮した快適な空間",
+businessHoursTitle: "営業時間",
+businessHoursText: "毎日 11:00 - 25:00",
+locationTitle: "所在地",
+locationText: "台北市萬華區成都路139號",
+bookingTitle: "予約方法",
+bookingText: "ご予約は LINE公式アカウントよりお願いいたします",
+noticeTitle: "ご案内",
+noticeText: "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
+contactTitle: "お問い合わせ",
+contactHint: "最もスムーズなご案内のため、LINEでのご連絡をおすすめします",
     },
 
     ko: {
@@ -359,8 +413,18 @@ const [isGalleryOpen, setIsGalleryOpen] = useState(false);
       homeNote3:
         "* 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
 
-      aboutTitle: "공간 소개",
-      aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
+aboutTitle: "공간 소개",
+aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
+businessHoursTitle: "영업시간",
+businessHoursText: "매일 11:00 - 25:00",
+locationTitle: "위치",
+locationText: "타이베이시 완화구 청두로 139호",
+bookingTitle: "예약 방법",
+bookingText: "공식 LINE 계정으로 예약해 주세요",
+noticeTitle: "안내사항",
+noticeText: "대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다. 실제 서비스 가능 시간과 직원 스케줄은 LINE으로 확인해 주세요.",
+contactTitle: "연락처",
+contactHint: "가장 빠른 안내와 답변을 위해 LINE으로 문의하시는 것을 권장합니다",
     },
   };
 const openGallery = (member, index = 0) => {
@@ -543,8 +607,7 @@ const showNextImage = () => {
 />
               <div className="p-4">
                 <h3 className="font-bold">{member.name}</h3>
-                <p className="text-sm text-stone-600">{t.memberDesc}</p>
-
+<p className="text-sm text-stone-600">{member.desc[lang]}</p>
                 <a
                   href={member.calendar}
                   target="_blank"
@@ -626,85 +689,91 @@ const showNextImage = () => {
 <div className="grid md:grid-cols-2 gap-10 items-start">
   
   {/* 左側資訊 */}
-  <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
-    <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+<div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
+  <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
 
-    <div className="space-y-5 text-stone-800">
-      <div>
-        <h3 className="text-lg font-bold mb-1">營業時間</h3>
-        <p>每日 11:00 - 25:00</p>
+  <div className="space-y-5 text-stone-800">
+    <div>
+      <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
+      <p>{t.businessHoursText}</p>
+    </div>
+
+    <div>
+      <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
+      <p>{t.locationText}</p>
+    </div>
+
+    <div>
+      <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
+      <p>{t.bookingText}</p>
+    </div>
+
+    <div>
+      <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
+      <p className="text-sm text-stone-600 leading-7">
+        {t.noticeText}
+      </p>
+    </div>
+
+    <div className="pt-4 border-t border-stone-200">
+      <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
+
+      <div className="flex gap-4 mb-4">
+        {/* LINE */}
+        <a
+          href="https://line.me/R/ti/p/@834xdutc"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:scale-110 transition"
+          aria-label="LINE"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg"
+            alt="LINE"
+            className="w-5 h-5"
+          />
+        </a>
+
+        {/* Instagram */}
+        <a
+          href="https://instagram.com/taipei_wildspa?igsh=MWsxNm1odnV0M2JkdQ%3D%3D&utm_source=qr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+          aria-label="Instagram"
+        >
+          <i className="ri-instagram-line text-xl"></i>
+        </a>
+
+        {/* Facebook */}
+        <a
+          href="https://www.facebook.com/profile.php?id=61576573349568"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+          aria-label="Facebook"
+        >
+          <i className="ri-facebook-circle-line text-xl"></i>
+        </a>
+
+        {/* X */}
+        <a
+          href="https://x.com/你的帳號"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
+          aria-label="X"
+        >
+          <i className="ri-twitter-x-line text-xl"></i>
+        </a>
       </div>
 
-      <div>
-        <h3 className="text-lg font-bold mb-1">營業地點</h3>
-        <p>台北市萬華區成都路139號</p>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-bold mb-1">預約方式</h3>
-        <p>請透過 LINE 官方帳號預約</p>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-bold mb-1">注意事項</h3>
-        <p className="text-sm text-stone-600 leading-7">
-          為避免久候，建議至少提前一小時預約，實際服務時段與師傅排班請以 LINE 確認為準。
-        </p>
-      </div>
-{/* 社群連結 */}
-<div className="pt-4 border-t border-stone-200">
-  <h3 className="text-lg font-bold mb-3">聯絡我們</h3>
-
-  <div className="flex items-center gap-4 text-stone-700">
-    {/* Instagram */}
-    <a
-      href="https://instagram.com/你的帳號"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
-      aria-label="Instagram"
-    >
-      <i className="ri-instagram-line text-xl"></i>
-    </a>
-
-    {/* Facebook */}
-    <a
-      href="https://facebook.com/你的帳號"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
-      aria-label="Facebook"
-    >
-      <i className="ri-facebook-circle-line text-xl"></i>
-    </a>
-
-    {/* X */}
-    <a
-      href="https://x.com/你的帳號"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
-      aria-label="X"
-    >
-      <i className="ri-twitter-x-line text-xl"></i>
-    </a>
-
-    {/* LINE */}
-    <a
-      href="https://line.me/R/ti/p/@834xdutc"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 hover:bg-black hover:text-white transition"
-      aria-label="LINE"
-    >
-      <i className="ri-line-fill text-xl"></i>
-    </a>
-  </div>
-  
-</div>
+      <p className="text-sm text-stone-400">
+        {t.contactHint}
+      </p>
     </div>
   </div>
-
+</div>
   {/* 右側地圖 */}
   <div className="w-full">
     <div className="rounded-2xl overflow-hidden shadow-lg">
@@ -776,7 +845,7 @@ const showNextImage = () => {
             {/* 人名與描述 */}
             <div className="px-6 pt-4">
               <h3 className="text-2xl font-bold">{selectedMember.name}</h3>
-              <p className="text-sm text-stone-600 mt-1">{t.memberDesc}</p>
+<p className="text-sm text-stone-600 mt-1">{selectedMember.desc[lang]}</p>
               <p className="text-sm text-stone-500 mt-2">
                 {selectedImageIndex + 1} / {selectedMember.imgs.length}
               </p>
