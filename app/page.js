@@ -3,7 +3,25 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const LINE_LINK = "https://line.me/R/ti/p/@834xdutc";
+/** =========================
+ * LINE 設定：統一只在這裡改
+ * officialId: LINE 加好友連結用，通常要帶 @
+ * oaId: oaMessage 預填訊息用，通常不帶 @
+ * ========================= */
+const LINE_CONFIG = {
+  officialId: "@834xdutc",
+  oaId: "834xdutc",
+};
+
+const buildLineAddFriendUrl = () =>
+  `https://line.me/R/ti/p/${encodeURIComponent(LINE_CONFIG.officialId)}`;
+
+const buildLineOaMessageUrl = (message) =>
+  `https://line.me/R/oaMessage/${encodeURIComponent(
+    LINE_CONFIG.oaId
+  )}/?${encodeURIComponent(message)}`;
+
+const LINE_ADD_FRIEND_URL = buildLineAddFriendUrl();
 
 const LANG_OPTIONS = [
   { key: "zh", label: "中文" },
@@ -12,7 +30,8 @@ const LANG_OPTIONS = [
   { key: "ko", label: "한국어" },
 ];
 
-const NAV_LINK_CLASS = "px-3 py-1 text-sm border rounded-lg transition hover:bg-stone-100";
+const NAV_LINK_CLASS =
+  "px-3 py-1 text-sm border rounded-lg transition hover:bg-stone-100";
 const LANG_BUTTON_BASE = "px-3 py-1 text-sm rounded-lg border transition";
 const ICON_BUTTON_CLASS =
   "w-10 h-10 flex items-center justify-center rounded-full border border-stone-300 transition";
@@ -21,7 +40,11 @@ const TAG_CLASS =
 const PRIMARY_BUTTON_CLASS =
   "inline-flex items-center justify-center px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base transition hover:scale-105";
 
-const HERO_IMAGES = ["/hero/hero01.jpg", "/hero/hero02.jpg", "/hero/hero03.jpg"];
+const HERO_IMAGES = [
+  "/hero/hero01.jpg",
+  "/hero/hero02.jpg",
+  "/hero/hero03.jpg",
+];
 
 const RECRUIT_APPLY_TEXT = {
   zh: "加入 LINE 應徵",
@@ -41,7 +64,7 @@ const RECRUIT_DATA = {
     zh: "我們正在尋找重視互動品質與服務細節的夥伴，歡迎加入。",
     en: "We are looking for team members who value interaction quality and service details.",
     ja: "接客の質とサービスの細やかさを大切にする方を募集しています。",
-    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다.",
+    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다。",
   },
   images: ["/recruit/01.jpg", "/recruit/02.jpg", "/recruit/03.jpg"],
   items: {
@@ -50,7 +73,6 @@ const RECRUIT_DATA = {
     ja: ["高い協調性", "シンプルな環境", "プライバシー重視", "柔軟なシフト"],
     ko: ["높은 협조도", "단순한 환경", "프라이버시 중시", "유연한 스케줄"],
   },
-  lineLink: LINE_LINK,
 };
 
 const TEAM_MEMBERS = [
@@ -116,7 +138,12 @@ const TEAM_MEMBERS = [
         "높은 협조도",
       ],
     },
-    imgs: ["/team/Eric01.jpg", "/team/Eric02.jpg", "/team/Eric03.jpg", "/team/Eric04.jpg"],
+    imgs: [
+      "/team/Eric01.jpg",
+      "/team/Eric02.jpg",
+      "/team/Eric03.jpg",
+      "/team/Eric04.jpg",
+    ],
     calendar: "https://calendar.google.com/ryan",
   },
 ];
@@ -191,13 +218,16 @@ const CONTENT = {
     inStoreTime2: "90 mins　TWD $2500",
     inStoreTime3: "120 mins　TWD $3000",
     extraTime: "Extra 30 mins +TWD $600",
-    inStoreNote1: "* Team members are not always waiting on-site. To avoid waiting, please book at least 1 hour in advance.",
-    inStoreNote2: "* A late-night surcharge of TWD $500 may apply for better service arrangement.",
+    inStoreNote1:
+      "* Team members are not always waiting on-site. To avoid waiting, please book at least 1 hour in advance.",
+    inStoreNote2:
+      "* A late-night surcharge of TWD $500 may apply for better service arrangement.",
     homeServiceTitle: "Outcall Service",
     homeServiceTime1: "60 mins　TWD $2500",
     homeServiceTime2: "100 mins　TWD $3000",
     homeNote1: "* To ensure timely arrival, please book at least 1 hour in advance.",
-    homeNote2: "* Transportation fees may apply depending on the area. Please confirm via LINE.",
+    homeNote2:
+      "* Transportation fees may apply depending on the area. Please confirm via LINE.",
     homeNote3: "* A late-night surcharge may apply.",
     aboutTitle: "Our Space",
     aboutDesc: "A quiet, clean, and private space for complete relaxation",
@@ -208,7 +238,8 @@ const CONTENT = {
     bookingTitle: "Booking Method",
     bookingText: "Please make a reservation through our official LINE account",
     noticeTitle: "Notes",
-    noticeText: "To avoid waiting, we recommend booking at least 1 hour in advance. Actual service hours and staff schedules should be confirmed via LINE.",
+    noticeText:
+      "To avoid waiting, we recommend booking at least 1 hour in advance. Actual service hours and staff schedules should be confirmed via LINE.",
     contactTitle: "Contact",
     contactHint: "We recommend contacting us via LINE for the fastest arrangement and reply",
   },
@@ -233,13 +264,17 @@ const CONTENT = {
     inStoreTime2: "90分　TWD $2500",
     inStoreTime3: "120分　TWD $3000",
     extraTime: "延長30分 +TWD $600",
-    inStoreNote1: "* スタッフは常時待機していないため、お待たせしないよう1時間前までのご予約をおすすめします。",
-    inStoreNote2: "* より良いサービス提供のため、深夜は TWD $500 の追加料金を頂く場合があります。",
+    inStoreNote1:
+      "* スタッフは常時待機していないため、お待たせしないよう1時間前までのご予約をおすすめします。",
+    inStoreNote2:
+      "* より良いサービス提供のため、深夜は TWD $500 の追加料金を頂く場合があります。",
     homeServiceTitle: "出張サービス",
     homeServiceTime1: "60分　TWD $2500",
     homeServiceTime2: "100分　TWD $3000",
-    homeNote1: "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
-    homeNote2: "* エリアにより交通費が発生する場合があります。詳細はLINEでご確認ください。",
+    homeNote1:
+      "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
+    homeNote2:
+      "* エリアにより交通費が発生する場合があります。詳細はLINEでご確認ください。",
     homeNote3: "* 深夜は TWD $500 の追加料金を頂く場合があります。",
     aboutTitle: "空間紹介",
     aboutDesc: "静かで清潔、プライバシーに配慮した快適な空間",
@@ -250,7 +285,8 @@ const CONTENT = {
     bookingTitle: "予約方法",
     bookingText: "ご予約は LINE公式アカウントよりお願いいたします",
     noticeTitle: "ご案内",
-    noticeText: "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
+    noticeText:
+      "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
     contactTitle: "お問い合わせ",
     contactHint: "最もスムーズなご案内のため、LINEでのご連絡をおすすめします",
   },
@@ -275,13 +311,17 @@ const CONTENT = {
     inStoreTime2: "90분　TWD $2500",
     inStoreTime3: "120분　TWD $3000",
     extraTime: "30분 연장 +TWD $600",
-    inStoreNote1: "* 팀원이 항상 매장에 대기하지 않을 수 있어, 대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다.",
-    inStoreNote2: "* 보다 나은 서비스 제공을 위해 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
+    inStoreNote1:
+      "* 팀원이 항상 매장에 대기하지 않을 수 있어, 대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다.",
+    inStoreNote2:
+      "* 보다 나은 서비스 제공을 위해 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
     homeServiceTitle: "출장 서비스",
     homeServiceTime1: "60분　TWD $2500",
     homeServiceTime2: "100분　TWD $3000",
-    homeNote1: "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
-    homeNote2: "* 지역에 따라 교통비가 추가될 수 있으니 LINE으로 확인해 주세요.",
+    homeNote1:
+      "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
+    homeNote2:
+      "* 지역에 따라 교통비가 추가될 수 있으니 LINE으로 확인해 주세요.",
     homeNote3: "* 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
     aboutTitle: "공간 소개",
     aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
@@ -292,7 +332,8 @@ const CONTENT = {
     bookingTitle: "예약 방법",
     bookingText: "공식 LINE 계정으로 예약해 주세요",
     noticeTitle: "안내사항",
-    noticeText: "대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다. 실제 서비스 가능 시간과 직원 스케줄은 LINE으로 확인해 주세요.",
+    noticeText:
+      "대기 시간을 줄이기 위해 최소 1시간 전 예약을 권장합니다. 실제 서비스 가능 시간과 직원 스케줄은 LINE으로 확인해 주세요.",
     contactTitle: "연락처",
     contactHint: "가장 빠른 안내와 답변을 위해 LINE으로 문의하시는 것을 권장합니다",
   },
@@ -301,11 +342,10 @@ const CONTENT = {
 const SOCIAL_LINKS = [
   {
     name: "LINE",
-    href: LINE_LINK,
-    iconType: "image",
-    iconSrc: "https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg",
-    iconAlt: "LINE",
-    className: `${ICON_BUTTON_CLASS} hover:scale-110`,
+    href: LINE_ADD_FRIEND_URL,
+    iconType: "remix",
+    iconClass: "ri-line-fill text-xl",
+    className: `${ICON_BUTTON_CLASS} hover:bg-[#06C755] hover:text-white hover:border-[#06C755]`,
   },
   {
     name: "Instagram",
@@ -329,6 +369,17 @@ const SOCIAL_LINKS = [
     className: `${ICON_BUTTON_CLASS} hover:bg-black hover:text-white`,
   },
 ];
+
+function getBookingMessage(memberName, lang) {
+  const messageMap = {
+    zh: `你好，我想預約 ${memberName}\n🗓️時間：\n💆🏻服務：`,
+    en: `Hello, I would like to book ${memberName}\n🗓️Time:\n💆🏻Service:`,
+    ja: `こんにちは、${memberName}を予約したいです\n🗓️希望時間：\n💆🏻希望サービス：`,
+    ko: `안녕하세요, ${memberName} 예약하고 싶습니다\n🗓️시간:\n💆🏻서비스:`,
+  };
+
+  return messageMap[lang] || messageMap.zh;
+}
 
 function useAutoCarousel(length, delay = 3000, paused = false) {
   const [current, setCurrent] = useState(0);
@@ -374,7 +425,9 @@ function useGallery() {
       return {
         ...prev,
         imageIndex:
-          prev.imageIndex === 0 ? prev.member.imgs.length - 1 : prev.imageIndex - 1,
+          prev.imageIndex === 0
+            ? prev.member.imgs.length - 1
+            : prev.imageIndex - 1,
       };
     });
   }, []);
@@ -386,7 +439,9 @@ function useGallery() {
       return {
         ...prev,
         imageIndex:
-          prev.imageIndex === prev.member.imgs.length - 1 ? 0 : prev.imageIndex + 1,
+          prev.imageIndex === prev.member.imgs.length - 1
+            ? 0
+            : prev.imageIndex + 1,
       };
     });
   }, []);
@@ -414,20 +469,11 @@ function SectionTitle({ children, center = false }) {
 }
 
 function SocialIcon({ item }) {
-  if (item.iconType === "image") {
-    return (
-      <Image
-        src={item.iconSrc}
-        alt={item.iconAlt || item.name}
-        width={20}
-        height={20}
-        className="w-5 h-5"
-        unoptimized
-      />
-    );
+  if (item.iconType === "remix") {
+    return <i className={item.iconClass} />;
   }
 
-  return <i className={item.iconClass} />;
+  return null;
 }
 
 function HeroCarousel({ images }) {
@@ -463,6 +509,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
   const [lastInteraction, setLastInteraction] = useState(null);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
+
   const hasMultipleImages = images.length > 1;
   const { current, setCurrent } = useAutoCarousel(images.length, 3000, isPaused);
 
@@ -601,7 +648,11 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
 function TeamCard({ member, lang, onOpen }) {
   return (
     <div className="bg-white rounded-2xl shadow overflow-hidden border border-stone-200">
-      <ImageCarousel images={member.imgs} alt={member.name} onImageClick={(index) => onOpen(member, index)} />
+      <ImageCarousel
+        images={member.imgs}
+        alt={member.name}
+        onImageClick={(index) => onOpen(member, index)}
+      />
 
       <div className="p-4 md:p-5">
         <h3 className="font-bold text-xl mb-3">{member.name}</h3>
@@ -610,7 +661,11 @@ function TeamCard({ member, lang, onOpen }) {
           {member.desc[lang].slice(0, 3).map((item, index) => (
             <span
               key={`${member.id}-${lang}-${index}`}
-              className={index === 0 ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm" : TAG_CLASS}
+              className={
+                index === 0
+                  ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm"
+                  : TAG_CLASS
+              }
             >
               {item}
             </span>
@@ -625,7 +680,10 @@ function RecruitModal({ isOpen, lang, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -654,7 +712,9 @@ function RecruitModal({ isOpen, lang, onClose }) {
         </div>
 
         <div className="p-6 md:p-8">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">{RECRUIT_DATA.title[lang]}</h3>
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">
+            {RECRUIT_DATA.title[lang]}
+          </h3>
           <p className="text-stone-700 leading-8 mb-5">{RECRUIT_DATA.desc[lang]}</p>
 
           <div className="flex flex-wrap gap-3 mb-6">
@@ -665,7 +725,12 @@ function RecruitModal({ isOpen, lang, onClose }) {
             ))}
           </div>
 
-          <a href={RECRUIT_DATA.lineLink} target="_blank" rel="noreferrer" className={PRIMARY_BUTTON_CLASS}>
+          <a
+            href={LINE_ADD_FRIEND_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={PRIMARY_BUTTON_CLASS}
+          >
             {RECRUIT_APPLY_TEXT[lang]}
           </a>
         </div>
@@ -678,17 +743,15 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
   const member = gallery.member;
 
   if (!gallery.isOpen || !member) return null;
-    const bookingMessageMap = {
-    zh: `你好，我想預約 ${member.name}\n🗓️時間：\n💆🏻服務：`,
-    en: `Hello, I would like to book ${member.name}\n🗓️Time:\n💆🏻Service:`,
-    ja: `こんにちは、${member.name}を予約したいです\n🗓️希望時間：\n💆🏻希望サービス：`,
-    ko: `안녕하세요, ${member.name} 예약하고 싶습니다\n🗓️시간:\n💆🏻서비스:`,
-  };
 
-  const bookingMessage = bookingMessageMap[lang] || bookingMessageMap.zh;
+  const bookingMessage = getBookingMessage(member.name, lang);
+  const bookingLink = buildLineOaMessageUrl(bookingMessage);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -762,14 +825,14 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
               {t.scheduleButton}
             </a>
 
-    <a
-      href={`${LINE_LINK}?text=${encodeURIComponent(bookingMessage)}`}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
-    >
-      {t.bookThis}
-    </a>
+            <a
+              href={bookingLink}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg text-sm transition hover:scale-105"
+            >
+              {t.bookThis}
+            </a>
           </div>
 
           <p className="text-sm text-stone-500 mt-3">
@@ -805,7 +868,13 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
 export default function Home() {
   const [lang, setLang] = useState("zh");
   const [recruitOpen, setRecruitOpen] = useState(false);
-  const t = useMemo(() => ({ ...CONTENT[lang], bookThis: CONTENT.bookThis[lang] }), [lang]);
+
+  const t = useMemo(() => {
+    return {
+      ...CONTENT[lang],
+      bookThis: CONTENT.bookThis[lang],
+    };
+  }, [lang]);
 
   const {
     gallery,
@@ -822,7 +891,14 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3">
           <div className="flex justify-center w-full">
             <div className="relative w-[160px] h-[60px] md:w-[220px] md:h-[80px]">
-              <Image src="/flatbanner.png" alt="Taipei Wild Spa" fill priority sizes="220px" className="object-contain" />
+              <Image
+                src="/flatbanner.png"
+                alt="Taipei Wild Spa"
+                fill
+                priority
+                sizes="220px"
+                className="object-contain"
+              />
             </div>
           </div>
 
@@ -836,7 +912,12 @@ export default function Home() {
             <a href="#about" className={NAV_LINK_CLASS}>
               {t.navAbout}
             </a>
-            <a href={LINE_LINK} target="_blank" rel="noreferrer" className="px-3 py-1 text-sm bg-black text-white rounded-lg transition hover:opacity-90">
+            <a
+              href={LINE_ADD_FRIEND_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1 text-sm bg-black text-white rounded-lg transition hover:opacity-90"
+            >
               {t.navContact}
             </a>
           </div>
@@ -868,7 +949,7 @@ export default function Home() {
           <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
           <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
           <a
-            href={LINE_LINK}
+            href={LINE_ADD_FRIEND_URL}
             target="_blank"
             rel="noreferrer"
             className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
@@ -892,7 +973,12 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TEAM_MEMBERS.map((member) => (
-              <TeamCard key={member.id} member={member} lang={lang} onOpen={openGallery} />
+              <TeamCard
+                key={member.id}
+                member={member}
+                lang={lang}
+                onOpen={openGallery}
+              />
             ))}
           </div>
         </div>
@@ -1011,7 +1097,11 @@ export default function Home() {
         </div>
       </section>
 
-      <RecruitModal isOpen={recruitOpen} lang={lang} onClose={() => setRecruitOpen(false)} />
+      <RecruitModal
+        isOpen={recruitOpen}
+        lang={lang}
+        onClose={() => setRecruitOpen(false)}
+      />
 
       <GalleryModal
         gallery={gallery}
