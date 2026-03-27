@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const LINE_CONFIG = {
   officialId: "@834xdutc",
@@ -52,7 +52,7 @@ const RECRUIT_DATA = {
     zh: "我們正在尋找重視互動品質與服務細節的夥伴，歡迎加入。",
     en: "We are looking for team members who value interaction quality and service details.",
     ja: "接客の質とサービスの細やかさを大切にする方を募集しています。",
-    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다。",
+    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다.",
   },
   images: ["/recruit/01.jpg", "/recruit/02.jpg", "/recruit/03.jpg"],
   items: {
@@ -379,13 +379,12 @@ function openLineBooking(memberName, lang) {
   window.open(LINE_ADD_FRIEND_URL, "_blank", "noopener,noreferrer");
 }
 
-function scrollToSection(sectionId) {
+function scrollToSection(sectionId, headerOffset = 0) {
   if (typeof window === "undefined") return;
 
   const element = document.getElementById(sectionId);
   if (!element) return;
 
-  const headerOffset = 120;
   const elementTop = element.getBoundingClientRect().top + window.scrollY;
   const targetTop = elementTop - headerOffset;
 
@@ -394,6 +393,7 @@ function scrollToSection(sectionId) {
     behavior: "smooth",
   });
 }
+
 function useLockBodyScroll(isLocked) {
   useEffect(() => {
     if (!isLocked) return;
@@ -509,12 +509,7 @@ function SectionTitle({ children, center = false }) {
   );
 }
 
-function RevealOnScroll({
-  children,
-  className = "",
-  delay = 0,
-  y = 24,
-}) {
+function RevealOnScroll({ children, className = "", delay = 0, y = 24 }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -529,9 +524,7 @@ function RevealOnScroll({
           observer.unobserve(node);
         }
       },
-      {
-        threshold: 0.15,
-      }
+      { threshold: 0.15 }
     );
 
     observer.observe(node);
@@ -546,7 +539,7 @@ function RevealOnScroll({
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? "translateY(0)" : `translateY(${y}px)`,
-        transition: `opacity 0.9s ease, transform 0.9s ease`,
+        transition: "opacity 0.9s ease, transform 0.9s ease",
         transitionDelay: `${delay}ms`,
         willChange: "opacity, transform",
       }}
@@ -555,6 +548,7 @@ function RevealOnScroll({
     </div>
   );
 }
+
 function SocialIcon({ item }) {
   return <i className={item.iconClass} />;
 }
@@ -720,7 +714,7 @@ function ImageCarousel({ images = [], alt, onImageClick }) {
   );
 }
 
-function TeamCard({ member, lang, onOpen }) {
+const TeamCard = memo(function TeamCard({ member, lang, onOpen }) {
   const previewTags = member.desc[lang].slice(0, 3);
 
   return (
@@ -750,6 +744,47 @@ function TeamCard({ member, lang, onOpen }) {
         </div>
       </div>
     </div>
+  );
+});
+
+function ServiceCard({
+  imageSrc,
+  imageAlt,
+  title,
+  times,
+  extraTime,
+  notes,
+  className = "",
+  delay = 0,
+  y = 22,
+}) {
+  return (
+    <RevealOnScroll
+      className={`relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg ${className}`}
+      delay={delay}
+      y={y}
+    >
+      <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+      <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
+        <h3 className="text-2xl font-bold mb-4">{title}</h3>
+
+        <ul className="space-y-3 text-white/95 text-lg">
+          {times.map((time) => (
+            <li key={time}>{time}</li>
+          ))}
+        </ul>
+
+        <p className="text-sm text-white/80 mt-5">{extraTime}</p>
+
+        <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+          {notes.map((note) => (
+            <p key={note}>{note}</p>
+          ))}
+        </div>
+      </div>
+    </RevealOnScroll>
   );
 }
 
@@ -946,17 +981,19 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
-
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 10);
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
   const [lang, setLang] = useState("zh");
   const [recruitOpen, setRecruitOpen] = useState(false);
+  const headerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const nextScrolled = window.scrollY > 10;
+      setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const t = useMemo(
     () => ({
@@ -965,6 +1002,44 @@ useEffect(() => {
     }),
     [lang]
   );
+
+  const navItems = useMemo(
+    () => [
+      { id: "team", label: t.navTeam },
+      { id: "services", label: t.navServices },
+      { id: "about", label: t.navAbout },
+    ],
+    [t]
+  );
+
+  const serviceCards = useMemo(
+    () => [
+      {
+        imageSrc: "/services/store.jpg",
+        imageAlt: "store service",
+        title: t.inStoreTitle,
+        times: [t.inStoreTime1, t.inStoreTime2, t.inStoreTime3],
+        notes: [t.inStoreNote1, t.inStoreNote2],
+        className: "md:justify-self-start",
+        delay: 100,
+      },
+      {
+        imageSrc: "/services/home.jpg",
+        imageAlt: "home service",
+        title: t.homeServiceTitle,
+        times: [t.homeServiceTime1, t.homeServiceTime2],
+        notes: [t.homeNote1, t.homeNote2, t.homeNote3],
+        className: "md:justify-self-end",
+        delay: 220,
+      },
+    ],
+    [t]
+  );
+
+  const handleScrollToSection = useCallback((sectionId) => {
+    const headerHeight = headerRef.current?.offsetHeight || 0;
+    scrollToSection(sectionId, headerHeight + 16);
+  }, []);
 
   const {
     gallery,
@@ -975,319 +1050,261 @@ useEffect(() => {
     selectGalleryImage,
   } = useGallery();
 
-return (
-  <div className="min-h-screen bg-stone-300 text-stone-800 scroll-smooth">
-    <div
-      className={`sticky top-0 z-40 transition-all duration-500 ease-out ${
-        scrolled
-          ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-          : "bg-white"
-      }`}
-    >
-      {/* LOGO */}
-      <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
-        <div
-          className={`relative transition-all duration-500 ease-out ${
-            scrolled
-              ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
-              : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
-          }`}
-        >
-          <Image
-            src="/flatbanner.png"
-            alt="Taipei Wild Spa"
-            fill
-            priority
-            sizes="220px"
-            className="object-contain"
-          />
-        </div>
-      </div>
-
-      {/* 選單與語言：滑動後收起 */}
+  return (
+    <div className="min-h-screen bg-stone-300 text-stone-800">
       <div
-        className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-all duration-500 ease-out ${
+        ref={headerRef}
+        className={`sticky top-0 z-40 transition-all duration-500 ease-out ${
           scrolled
-            ? "opacity-0 -translate-y-4 max-h-0 pb-0 pointer-events-none"
-            : "opacity-100 translate-y-0 max-h-40 pb-3"
+            ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+            : "bg-white"
         }`}
       >
-<div className="flex flex-wrap justify-center gap-2 w-full">
-  <button
-    type="button"
-    onClick={() => scrollToSection("team")}
-    className={NAV_LINK_CLASS}
-  >
-    {t.navTeam}
-  </button>
+        <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
+          <div
+            className={`relative transition-all duration-500 ease-out ${
+              scrolled
+                ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
+                : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
+            }`}
+          >
+            <Image
+              src="/flatbanner.png"
+              alt="Taipei Wild Spa"
+              fill
+              priority
+              sizes="220px"
+              className="object-contain"
+            />
+          </div>
+        </div>
 
-  <button
-    type="button"
-    onClick={() => scrollToSection("services")}
-    className={NAV_LINK_CLASS}
-  >
-    {t.navServices}
-  </button>
+        <div
+          className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-all duration-500 ease-out ${
+            scrolled
+              ? "opacity-0 -translate-y-4 max-h-0 pb-0 pointer-events-none"
+              : "opacity-100 translate-y-0 max-h-40 pb-3"
+          }`}
+        >
+          <div className="flex flex-wrap justify-center gap-2 w-full">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => handleScrollToSection(item.id)}
+                className={NAV_LINK_CLASS}
+              >
+                {item.label}
+              </button>
+            ))}
 
-  <button
-    type="button"
-    onClick={() => scrollToSection("about")}
-    className={NAV_LINK_CLASS}
-  >
-    {t.navAbout}
-  </button>
-
-  <a
-    href={LINE_ADD_FRIEND_URL}
-    target="_blank"
-    rel="noreferrer"
-    className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-  >
-    {t.navContact}
-  </a>
-</div>
-        <div className="flex flex-wrap justify-center gap-2 w-full">
-          {LANG_OPTIONS.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={() => setLang(option.key)}
-              className={`${LANG_BUTTON_BASE} ${
-                lang === option.key
-                  ? "bg-black text-white shadow-md"
-                  : "bg-white text-black hover:bg-stone-100"
-              }`}
+            <a
+              href={LINE_ADD_FRIEND_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
             >
-              {option.label}
-            </button>
-          ))}
+              {t.navContact}
+            </a>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-2 w-full">
+            {LANG_OPTIONS.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                onClick={() => setLang(option.key)}
+                className={`${LANG_BUTTON_BASE} ${
+                  lang === option.key
+                    ? "bg-black text-white shadow-md"
+                    : "bg-white text-black hover:bg-stone-100"
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
 
-<section className="relative h-[42vh] md:h-[58vh] overflow-hidden">
-  <HeroCarousel images={HERO_IMAGES} />
-  <div className="absolute inset-0 bg-black/50" />
+      <section className="relative h-[42vh] md:h-[58vh] overflow-hidden">
+        <HeroCarousel images={HERO_IMAGES} />
+        <div className="absolute inset-0 bg-black/50" />
 
-  <RevealOnScroll
-    className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6"
-    y={18}
-  >
-    <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
-    <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
-    <a
-      href={LINE_ADD_FRIEND_URL}
-      target="_blank"
-      rel="noreferrer"
-      className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
-    >
-      {t.heroButton}
-    </a>
-  </RevealOnScroll>
-</section>
-<section id="team" className="px-6 py-12 md:px-10 scroll-mt-32">
-    <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
-    <SectionTitle>{t.teamTitle}</SectionTitle>
-
-    <button
-      type="button"
-      onClick={() => setRecruitOpen(true)}
-      className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
-    >
-      {t.recruitTitle}
-    </button>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {TEAM_MEMBERS.map((member, index) => (
-        <RevealOnScroll key={member.id} delay={index * 120} y={20}>
-          <TeamCard
-            member={member}
-            lang={lang}
-            onOpen={openGallery}
-          />
+        <RevealOnScroll
+          className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6"
+          y={18}
+        >
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
+          <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
+          <a
+            href={LINE_ADD_FRIEND_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
+          >
+            {t.heroButton}
+          </a>
         </RevealOnScroll>
-      ))}
-    </div>
-  </RevealOnScroll>
-</section>
-<section
-  id="services"
-  className="px-6 py-16 md:px-12 relative overflow-hidden bg-gradient-to-b from-white via-stone-100 to-stone-200 scroll-mt-32"
->
-    <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
-    <SectionTitle>{t.servicesTitle}</SectionTitle>
-    <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
+      </section>
 
-    <div className="flex flex-wrap gap-2 mb-8">
-      {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
-        <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
-          {tag}
-        </span>
-      ))}
-    </div>
+      <section id="team" className="px-6 py-12 md:px-10 scroll-mt-32">
+        <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
+          <SectionTitle>{t.teamTitle}</SectionTitle>
 
-    <div className="grid md:grid-cols-2 gap-8 items-center md:px-10">
-      <RevealOnScroll
-        className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-start"
-        delay={100}
-        y={22}
+          <button
+            type="button"
+            onClick={() => setRecruitOpen(true)}
+            className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
+          >
+            {t.recruitTitle}
+          </button>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TEAM_MEMBERS.map((member, index) => (
+              <RevealOnScroll key={member.id} delay={index * 120} y={20}>
+                <TeamCard member={member} lang={lang} onOpen={openGallery} />
+              </RevealOnScroll>
+            ))}
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      <section
+        id="services"
+        className="px-6 py-16 md:px-12 relative overflow-hidden bg-gradient-to-b from-white via-stone-100 to-stone-200 scroll-mt-32"
       >
+        <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
+          <SectionTitle>{t.servicesTitle}</SectionTitle>
+          <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
+
+          <div className="flex flex-wrap gap-2 mb-8">
+            {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
+              <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 items-center md:px-10">
+            {serviceCards.map((card) => (
+              <ServiceCard
+                key={card.title}
+                imageSrc={card.imageSrc}
+                imageAlt={card.imageAlt}
+                title={card.title}
+                times={card.times}
+                extraTime={t.extraTime}
+                notes={card.notes}
+                className={card.className}
+                delay={card.delay}
+              />
+            ))}
+          </div>
+        </RevealOnScroll>
+      </section>
+
+      <section id="about" className="relative px-6 py-16 scroll-mt-32 overflow-hidden">
         <Image
-          src="/services/store.jpg"
-          alt="store service"
+          src="/about/about-bg1.jpg"
+          alt="environment background"
           fill
+          sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
-          <h3 className="text-2xl font-bold mb-4">{t.inStoreTitle}</h3>
 
-          <ul className="space-y-3 text-white/95 text-lg">
-            <li>{t.inStoreTime1}</li>
-            <li>{t.inStoreTime2}</li>
-            <li>{t.inStoreTime3}</li>
-          </ul>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
 
-          <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+        <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
+          <SectionTitle center>{t.aboutTitle}</SectionTitle>
 
-          <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
-            <p>{t.inStoreNote1}</p>
-            <p>{t.inStoreNote2}</p>
+          <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
+            <RevealOnScroll
+              className="bg-white/72 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 border border-white/40"
+              delay={100}
+              y={20}
+            >
+              <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+
+              <div className="space-y-5 text-stone-800">
+                <div>
+                  <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
+                  <p>{t.businessHoursText}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
+                  <p>{t.locationText}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
+                  <p>{t.bookingText}</p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
+                  <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
+                </div>
+
+                <div className="pt-4 border-t border-stone-200/70">
+                  <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
+
+                  <div className="flex gap-4 mb-4">
+                    {SOCIAL_LINKS.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={item.className}
+                        aria-label={item.name}
+                      >
+                        <SocialIcon item={item} />
+                      </a>
+                    ))}
+                  </div>
+
+                  <p className="text-sm text-stone-500">{t.contactHint}</p>
+                </div>
+              </div>
+            </RevealOnScroll>
+
+            <RevealOnScroll
+              className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
+              delay={220}
+              y={20}
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+                width="100%"
+                height="350"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Taipei Wild Spa 地圖"
+              />
+            </RevealOnScroll>
           </div>
-        </div>
-      </RevealOnScroll>
+        </RevealOnScroll>
+      </section>
 
-      <RevealOnScroll
-        className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-end"
-        delay={220}
-        y={22}
-      >
-        <Image
-          src="/services/home.jpg"
-          alt="home service"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
-          <h3 className="text-2xl font-bold mb-4">{t.homeServiceTitle}</h3>
+      <RecruitModal
+        isOpen={recruitOpen}
+        lang={lang}
+        onClose={() => setRecruitOpen(false)}
+      />
 
-          <ul className="space-y-3 text-white/95 text-lg">
-            <li>{t.homeServiceTime1}</li>
-            <li>{t.homeServiceTime2}</li>
-          </ul>
-
-          <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
-
-          <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
-            <p>{t.homeNote1}</p>
-            <p>{t.homeNote2}</p>
-            <p>{t.homeNote3}</p>
-          </div>
-        </div>
-      </RevealOnScroll>
+      <GalleryModal
+        gallery={gallery}
+        lang={lang}
+        t={t}
+        onClose={closeGallery}
+        onPrev={showPrevImage}
+        onNext={showNextImage}
+        onSelectImage={selectGalleryImage}
+      />
     </div>
-  </RevealOnScroll>
-</section>
-<section id="about" className="relative px-6 py-16 scroll-mt-32 overflow-hidden">
-  <Image
-    src="/about/about-bg.jpg"
-    alt="environment background"
-    fill
-    sizes="100vw"
-    className="object-cover"
-  />
-
-  <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
-
-  <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
-    <SectionTitle center>{t.aboutTitle}</SectionTitle>
-
-    <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
-      <RevealOnScroll
-        className="bg-white/72 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 border border-white/40"
-        delay={100}
-        y={20}
-      >
-        <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
-
-        <div className="space-y-5 text-stone-800">
-          <div>
-            <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
-            <p>{t.businessHoursText}</p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
-            <p>{t.locationText}</p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
-            <p>{t.bookingText}</p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
-            <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
-          </div>
-
-          <div className="pt-4 border-t border-stone-200/70">
-            <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
-
-            <div className="flex gap-4 mb-4">
-              {SOCIAL_LINKS.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={item.className}
-                  aria-label={item.name}
-                >
-                  <SocialIcon item={item} />
-                </a>
-              ))}
-            </div>
-
-            <p className="text-sm text-stone-500">{t.contactHint}</p>
-          </div>
-        </div>
-      </RevealOnScroll>
-
-      <RevealOnScroll
-        className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
-        delay={220}
-        y={20}
-      >
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
-          width="100%"
-          height="350"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Taipei Wild Spa 地圖"
-        />
-      </RevealOnScroll>
-    </div>
-  </RevealOnScroll>
-</section>
-    <RecruitModal
-      isOpen={recruitOpen}
-      lang={lang}
-      onClose={() => setRecruitOpen(false)}
-    />
-
-    <GalleryModal
-      gallery={gallery}
-      lang={lang}
-      t={t}
-      onClose={closeGallery}
-      onPrev={showPrevImage}
-      onNext={showNextImage}
-      onSelectImage={selectGalleryImage}
-    />
-  </div>
-);}
+  );
+}
