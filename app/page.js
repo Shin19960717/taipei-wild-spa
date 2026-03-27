@@ -1219,57 +1219,71 @@ export default function Home() {
           <SectionTitle center>{t.aboutTitle}</SectionTitle>
 
           <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
-            <RevealOnScroll
-              className="bg-white/72 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 border border-white/40"
-              delay={100}
-              y={20}
+<RevealOnScroll
+  className="relative rounded-2xl shadow-lg border border-white/40 overflow-hidden min-h-[720px]"
+  delay={100}
+  y={20}
+>
+  {/* 背景圖片 */}
+  <Image
+    src="/about/card-bg.jpg"
+    alt="card background"
+    fill
+    className="object-cover object-[82%_center]"
+    priority
+  />
+
+  {/* 遮罩 */}
+  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-sm" />
+
+  {/* 內容 */}
+  <div className="relative z-10 p-6 md:p-8">
+    <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+
+    <div className="space-y-5 text-stone-800">
+      <div>
+        <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
+        <p>{t.businessHoursText}</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
+        <p>{t.locationText}</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
+        <p>{t.bookingText}</p>
+      </div>
+
+      <div>
+        <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
+        <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
+      </div>
+
+      <div className="pt-4 border-t border-stone-200/70">
+        <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
+
+        <div className="flex gap-4 mb-4">
+          {SOCIAL_LINKS.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={item.className}
+              aria-label={item.name}
             >
-              <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+              <SocialIcon item={item} />
+            </a>
+          ))}
+        </div>
 
-              <div className="space-y-5 text-stone-800">
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
-                  <p>{t.businessHoursText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
-                  <p>{t.locationText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
-                  <p>{t.bookingText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
-                  <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
-                </div>
-
-                <div className="pt-4 border-t border-stone-200/70">
-                  <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
-
-                  <div className="flex gap-4 mb-4">
-                    {SOCIAL_LINKS.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={item.className}
-                        aria-label={item.name}
-                      >
-                        <SocialIcon item={item} />
-                      </a>
-                    ))}
-                  </div>
-
-                  <p className="text-sm text-stone-500">{t.contactHint}</p>
-                </div>
-              </div>
-            </RevealOnScroll>
-
+        <p className="text-sm text-stone-500">{t.contactHint}</p>
+      </div>
+    </div>
+  </div>
+</RevealOnScroll>
             <RevealOnScroll
               className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
               delay={220}
