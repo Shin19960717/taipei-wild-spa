@@ -914,242 +914,279 @@ useEffect(() => {
     selectGalleryImage,
   } = useGallery();
 
-  return (
-    <div className="min-h-screen bg-stone-300 text-stone-800">
-<div className="bg-white">
-  {/* 只有 LOGO 固定 */}
-  <div
-    className={`sticky top-0 z-40 backdrop-blur transition-all duration-500 ease-out ${
-      scrolled
-        ? "bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-        : "bg-white"
-    }`}
-  >
-    <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
-      <div
-        className={`relative transition-all duration-500 ease-out ${
-          scrolled
-            ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
-            : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
-        }`}
-      >
-        <Image
-          src="/flatbanner.png"
-          alt="Taipei Wild Spa"
-          fill
-          priority
-          sizes="220px"
-          className="object-contain"
-        />
-      </div>
-    </div>
-  </div>
-
-  {/* 這兩排不固定，滑動後會被帶走 */}
-  <div className="max-w-6xl mx-auto px-4 pb-3 flex flex-col items-center justify-center gap-3">
-    <div className="flex flex-wrap justify-center gap-2 w-full">
-      <a href="#team" className={NAV_LINK_CLASS}>{t.navTeam}</a>
-      <a href="#services" className={NAV_LINK_CLASS}>{t.navServices}</a>
-      <a href="#about" className={NAV_LINK_CLASS}>{t.navAbout}</a>
-      <a
-        href={LINE_ADD_FRIEND_URL}
-        target="_blank"
-        rel="noreferrer"
-        className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-      >
-        {t.navContact}
-      </a>
-    </div>
-
-    <div className="flex flex-wrap justify-center gap-2 w-full">
-      {LANG_OPTIONS.map((option) => (
-        <button
-          key={option.key}
-          type="button"
-          onClick={() => setLang(option.key)}
-          className={`${LANG_BUTTON_BASE} ${
-            lang === option.key
-              ? "bg-black text-white shadow-md"
-              : "bg-white text-black hover:bg-stone-100"
+return (
+  <div className="min-h-screen bg-stone-300 text-stone-800">
+    <div
+      className={`sticky top-0 z-40 transition-all duration-500 ease-out ${
+        scrolled
+          ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+          : "bg-white"
+      }`}
+    >
+      {/* LOGO */}
+      <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
+        <div
+          className={`relative transition-all duration-500 ease-out ${
+            scrolled
+              ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
+              : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
           }`}
         >
-          {option.label}
-        </button>
-      ))}
-    </div>
-  </div>
-</div>
-      <section className="relative h-[42vh] md:h-[58vh]">
-        <HeroCarousel images={HERO_IMAGES} />
-        <div className="absolute inset-0 bg-black/50" />
+          <Image
+            src="/flatbanner.png"
+            alt="Taipei Wild Spa"
+            fill
+            priority
+            sizes="220px"
+            className="object-contain"
+          />
+        </div>
+      </div>
 
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
-          <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
+      {/* 選單與語言：滑動後收起 */}
+      <div
+        className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-all duration-500 ease-out ${
+          scrolled
+            ? "opacity-0 -translate-y-4 max-h-0 pb-0 pointer-events-none"
+            : "opacity-100 translate-y-0 max-h-40 pb-3"
+        }`}
+      >
+        <div className="flex flex-wrap justify-center gap-2 w-full">
+          <a href="#team" className={NAV_LINK_CLASS}>
+            {t.navTeam}
+          </a>
+          <a href="#services" className={NAV_LINK_CLASS}>
+            {t.navServices}
+          </a>
+          <a href="#about" className={NAV_LINK_CLASS}>
+            {t.navAbout}
+          </a>
           <a
             href={LINE_ADD_FRIEND_URL}
             target="_blank"
             rel="noreferrer"
-            className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
+            className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
           >
-            {t.heroButton}
+            {t.navContact}
           </a>
         </div>
-      </section>
 
-      <section id="team" className="px-6 py-12 md:px-10">
-        <div className="max-w-6xl mx-auto">
-          <SectionTitle>{t.teamTitle}</SectionTitle>
-
-          <button
-            type="button"
-            onClick={() => setRecruitOpen(true)}
-            className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
-          >
-            {t.recruitTitle}
-          </button>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TEAM_MEMBERS.map((member) => (
-              <TeamCard
-                key={member.id}
-                member={member}
-                lang={lang}
-                onOpen={openGallery}
-              />
-            ))}
-          </div>
+        <div className="flex flex-wrap justify-center gap-2 w-full">
+          {LANG_OPTIONS.map((option) => (
+            <button
+              key={option.key}
+              type="button"
+              onClick={() => setLang(option.key)}
+              className={`${LANG_BUTTON_BASE} ${
+                lang === option.key
+                  ? "bg-black text-white shadow-md"
+                  : "bg-white text-black hover:bg-stone-100"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
         </div>
-      </section>
-
-      <section id="services" className="px-6 py-12 md:px-10 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <SectionTitle>{t.servicesTitle}</SectionTitle>
-          <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
-
-          <div className="flex flex-wrap gap-2 mb-8">
-            {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
-              <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="p-6 border rounded-2xl shadow-sm">
-              <h3 className="text-xl font-bold mb-4">{t.inStoreTitle}</h3>
-              <ul className="space-y-3 text-stone-700">
-                <li>{t.inStoreTime1}</li>
-                <li>{t.inStoreTime2}</li>
-                <li>{t.inStoreTime3}</li>
-              </ul>
-              <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
-              <div className="text-xs text-stone-400 mt-2 space-y-1">
-                <p>{t.inStoreNote1}</p>
-                <p>{t.inStoreNote2}</p>
-              </div>
-            </div>
-
-            <div className="p-6 border rounded-2xl shadow-sm">
-              <h3 className="text-xl font-bold mb-4">{t.homeServiceTitle}</h3>
-              <ul className="space-y-3 text-stone-700">
-                <li>{t.homeServiceTime1}</li>
-                <li>{t.homeServiceTime2}</li>
-              </ul>
-              <p className="text-sm text-stone-500 mt-4">{t.extraTime}</p>
-              <div className="text-xs text-stone-400 mt-2 space-y-1">
-                <p>{t.homeNote1}</p>
-                <p>{t.homeNote2}</p>
-                <p>{t.homeNote3}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="about" className="px-6 py-16 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <SectionTitle center>{t.aboutTitle}</SectionTitle>
-
-          <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
-            <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
-              <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
-
-              <div className="space-y-5 text-stone-800">
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
-                  <p>{t.businessHoursText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
-                  <p>{t.locationText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
-                  <p>{t.bookingText}</p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
-                  <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
-                </div>
-
-                <div className="pt-4 border-t border-stone-200">
-                  <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
-
-                  <div className="flex gap-4 mb-4">
-                    {SOCIAL_LINKS.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={item.className}
-                        aria-label={item.name}
-                      >
-                        <SocialIcon item={item} />
-                      </a>
-                    ))}
-                  </div>
-
-                  <p className="text-sm text-stone-400">{t.contactHint}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full rounded-2xl overflow-hidden shadow-lg">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
-                width="100%"
-                height="350"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Taipei Wild Spa 地圖"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <RecruitModal
-        isOpen={recruitOpen}
-        lang={lang}
-        onClose={() => setRecruitOpen(false)}
-      />
-
-      <GalleryModal
-        gallery={gallery}
-        lang={lang}
-        t={t}
-        onClose={closeGallery}
-        onPrev={showPrevImage}
-        onNext={showNextImage}
-        onSelectImage={selectGalleryImage}
-      />
+      </div>
     </div>
-  );
-}
+
+    <section className="relative h-[42vh] md:h-[58vh]">
+      <HeroCarousel images={HERO_IMAGES} />
+      <div className="absolute inset-0 bg-black/50" />
+
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6">
+        <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
+        <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
+        <a
+          href={LINE_ADD_FRIEND_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
+        >
+          {t.heroButton}
+        </a>
+      </div>
+    </section>
+
+    <section id="team" className="px-6 py-12 md:px-10">
+      <div className="max-w-6xl mx-auto">
+        <SectionTitle>{t.teamTitle}</SectionTitle>
+
+        <button
+          type="button"
+          onClick={() => setRecruitOpen(true)}
+          className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
+        >
+          {t.recruitTitle}
+        </button>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {TEAM_MEMBERS.map((member) => (
+            <TeamCard
+              key={member.id}
+              member={member}
+              lang={lang}
+              onOpen={openGallery}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+<section
+  id="services"
+  className="px-6 py-16 md:px-12 relative overflow-hidden bg-gradient-to-b from-white via-stone-100 to-stone-200"
+>
+        <div className="max-w-6xl mx-auto">
+        <SectionTitle>{t.servicesTitle}</SectionTitle>
+        <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
+
+        <div className="flex flex-wrap gap-2 mb-8">
+          {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
+            <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+<div className="grid md:grid-cols-2 gap-8 items-center md:px-10">
+  <div className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-start">
+        <Image
+      src="/services/store.jpg"
+      alt="store service"
+      fill
+      className="object-cover"
+    />
+<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+    <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
+      <h3 className="text-2xl font-bold mb-4">{t.inStoreTitle}</h3>
+
+      <ul className="space-y-3 text-white/95 text-lg">
+        <li>{t.inStoreTime1}</li>
+        <li>{t.inStoreTime2}</li>
+        <li>{t.inStoreTime3}</li>
+      </ul>
+
+      <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+
+      <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+        <p>{t.inStoreNote1}</p>
+        <p>{t.inStoreNote2}</p>
+      </div>
+    </div>
+  </div>
+
+<div className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-end">
+        <Image
+      src="/services/home.jpg"
+      alt="home service"
+      fill
+      className="object-cover"
+    />
+<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+    <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
+      <h3 className="text-2xl font-bold mb-4">{t.homeServiceTitle}</h3>
+
+      <ul className="space-y-3 text-white/95 text-lg">
+        <li>{t.homeServiceTime1}</li>
+        <li>{t.homeServiceTime2}</li>
+      </ul>
+
+      <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+
+      <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+        <p>{t.homeNote1}</p>
+        <p>{t.homeNote2}</p>
+        <p>{t.homeNote3}</p>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section id="about" className="px-6 py-16 bg-white">
+<div className="max-w-6xl mx-auto md:px-10">
+            <SectionTitle center>{t.aboutTitle}</SectionTitle>
+
+        <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
+            <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+
+            <div className="space-y-5 text-stone-800">
+              <div>
+                <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
+                <p>{t.businessHoursText}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
+                <p>{t.locationText}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
+                <p>{t.bookingText}</p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
+                <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
+              </div>
+
+              <div className="pt-4 border-t border-stone-200">
+                <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
+
+                <div className="flex gap-4 mb-4">
+                  {SOCIAL_LINKS.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={item.className}
+                      aria-label={item.name}
+                    >
+                      <SocialIcon item={item} />
+                    </a>
+                  ))}
+                </div>
+
+                <p className="text-sm text-stone-400">{t.contactHint}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full rounded-2xl overflow-hidden shadow-lg">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+              width="100%"
+              height="350"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Taipei Wild Spa 地圖"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <RecruitModal
+      isOpen={recruitOpen}
+      lang={lang}
+      onClose={() => setRecruitOpen(false)}
+    />
+
+    <GalleryModal
+      gallery={gallery}
+      lang={lang}
+      t={t}
+      onClose={closeGallery}
+      onPrev={showPrevImage}
+      onNext={showNextImage}
+      onSelectImage={selectGalleryImage}
+    />
+  </div>
+);}
