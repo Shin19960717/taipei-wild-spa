@@ -379,6 +379,21 @@ function openLineBooking(memberName, lang) {
   window.open(LINE_ADD_FRIEND_URL, "_blank", "noopener,noreferrer");
 }
 
+function scrollToSection(sectionId) {
+  if (typeof window === "undefined") return;
+
+  const element = document.getElementById(sectionId);
+  if (!element) return;
+
+  const headerOffset = 120;
+  const elementTop = element.getBoundingClientRect().top + window.scrollY;
+  const targetTop = elementTop - headerOffset;
+
+  window.scrollTo({
+    top: targetTop,
+    behavior: "smooth",
+  });
+}
 function useLockBodyScroll(isLocked) {
   useEffect(() => {
     if (!isLocked) return;
@@ -494,6 +509,52 @@ function SectionTitle({ children, center = false }) {
   );
 }
 
+function RevealOnScroll({
+  children,
+  className = "",
+  delay = 0,
+  y = 24,
+}) {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(node);
+        }
+      },
+      {
+        threshold: 0.15,
+      }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : `translateY(${y}px)`,
+        transition: `opacity 0.9s ease, transform 0.9s ease`,
+        transitionDelay: `${delay}ms`,
+        willChange: "opacity, transform",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 function SocialIcon({ item }) {
   return <i className={item.iconClass} />;
 }
@@ -915,7 +976,7 @@ useEffect(() => {
   } = useGallery();
 
 return (
-  <div className="min-h-screen bg-stone-300 text-stone-800">
+  <div className="min-h-screen bg-stone-300 text-stone-800 scroll-smooth">
     <div
       className={`sticky top-0 z-40 transition-all duration-500 ease-out ${
         scrolled
@@ -951,26 +1012,40 @@ return (
             : "opacity-100 translate-y-0 max-h-40 pb-3"
         }`}
       >
-        <div className="flex flex-wrap justify-center gap-2 w-full">
-          <a href="#team" className={NAV_LINK_CLASS}>
-            {t.navTeam}
-          </a>
-          <a href="#services" className={NAV_LINK_CLASS}>
-            {t.navServices}
-          </a>
-          <a href="#about" className={NAV_LINK_CLASS}>
-            {t.navAbout}
-          </a>
-          <a
-            href={LINE_ADD_FRIEND_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-          >
-            {t.navContact}
-          </a>
-        </div>
+<div className="flex flex-wrap justify-center gap-2 w-full">
+  <button
+    type="button"
+    onClick={() => scrollToSection("team")}
+    className={NAV_LINK_CLASS}
+  >
+    {t.navTeam}
+  </button>
 
+  <button
+    type="button"
+    onClick={() => scrollToSection("services")}
+    className={NAV_LINK_CLASS}
+  >
+    {t.navServices}
+  </button>
+
+  <button
+    type="button"
+    onClick={() => scrollToSection("about")}
+    className={NAV_LINK_CLASS}
+  >
+    {t.navAbout}
+  </button>
+
+  <a
+    href={LINE_ADD_FRIEND_URL}
+    target="_blank"
+    rel="noreferrer"
+    className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
+  >
+    {t.navContact}
+  </a>
+</div>
         <div className="flex flex-wrap justify-center gap-2 w-full">
           {LANG_OPTIONS.map((option) => (
             <button
@@ -990,189 +1065,215 @@ return (
       </div>
     </div>
 
-    <section className="relative h-[42vh] md:h-[58vh]">
-      <HeroCarousel images={HERO_IMAGES} />
-      <div className="absolute inset-0 bg-black/50" />
+<section className="relative h-[42vh] md:h-[58vh] overflow-hidden">
+  <HeroCarousel images={HERO_IMAGES} />
+  <div className="absolute inset-0 bg-black/50" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
-        <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
-        <a
-          href={LINE_ADD_FRIEND_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
-        >
-          {t.heroButton}
-        </a>
-      </div>
-    </section>
+  <RevealOnScroll
+    className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-6"
+    y={18}
+  >
+    <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
+    <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
+    <a
+      href={LINE_ADD_FRIEND_URL}
+      target="_blank"
+      rel="noreferrer"
+      className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
+    >
+      {t.heroButton}
+    </a>
+  </RevealOnScroll>
+</section>
+<section id="team" className="px-6 py-12 md:px-10 scroll-mt-32">
+    <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
+    <SectionTitle>{t.teamTitle}</SectionTitle>
 
-    <section id="team" className="px-6 py-12 md:px-10">
-      <div className="max-w-6xl mx-auto">
-        <SectionTitle>{t.teamTitle}</SectionTitle>
+    <button
+      type="button"
+      onClick={() => setRecruitOpen(true)}
+      className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
+    >
+      {t.recruitTitle}
+    </button>
 
-        <button
-          type="button"
-          onClick={() => setRecruitOpen(true)}
-          className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
-        >
-          {t.recruitTitle}
-        </button>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TEAM_MEMBERS.map((member) => (
-            <TeamCard
-              key={member.id}
-              member={member}
-              lang={lang}
-              onOpen={openGallery}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {TEAM_MEMBERS.map((member, index) => (
+        <RevealOnScroll key={member.id} delay={index * 120} y={20}>
+          <TeamCard
+            member={member}
+            lang={lang}
+            onOpen={openGallery}
+          />
+        </RevealOnScroll>
+      ))}
+    </div>
+  </RevealOnScroll>
+</section>
 <section
   id="services"
-  className="px-6 py-16 md:px-12 relative overflow-hidden bg-gradient-to-b from-white via-stone-100 to-stone-200"
+  className="px-6 py-16 md:px-12 relative overflow-hidden bg-gradient-to-b from-white via-stone-100 to-stone-200 scroll-mt-32"
 >
-        <div className="max-w-6xl mx-auto">
-        <SectionTitle>{t.servicesTitle}</SectionTitle>
-        <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
+    <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
+    <SectionTitle>{t.servicesTitle}</SectionTitle>
+    <p className="text-stone-600 mt-4 mb-6">{t.servicesIntro}</p>
 
-        <div className="flex flex-wrap gap-2 mb-8">
-          {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
-            <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
-              {tag}
-            </span>
-          ))}
+    <div className="flex flex-wrap gap-2 mb-8">
+      {[t.serviceTag1, t.serviceTag2, t.serviceTag3].map((tag) => (
+        <span key={tag} className="px-3 py-1 bg-stone-200 rounded-full text-sm">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-8 items-center md:px-10">
+      <RevealOnScroll
+        className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-start"
+        delay={100}
+        y={22}
+      >
+        <Image
+          src="/services/store.jpg"
+          alt="store service"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
+          <h3 className="text-2xl font-bold mb-4">{t.inStoreTitle}</h3>
+
+          <ul className="space-y-3 text-white/95 text-lg">
+            <li>{t.inStoreTime1}</li>
+            <li>{t.inStoreTime2}</li>
+            <li>{t.inStoreTime3}</li>
+          </ul>
+
+          <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+
+          <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+            <p>{t.inStoreNote1}</p>
+            <p>{t.inStoreNote2}</p>
+          </div>
         </div>
+      </RevealOnScroll>
 
-<div className="grid md:grid-cols-2 gap-8 items-center md:px-10">
-  <div className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-start">
+      <RevealOnScroll
+        className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-end"
+        delay={220}
+        y={22}
+      >
         <Image
-      src="/services/store.jpg"
-      alt="store service"
-      fill
-      className="object-cover"
-    />
-<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-    <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
-      <h3 className="text-2xl font-bold mb-4">{t.inStoreTitle}</h3>
+          src="/services/home.jpg"
+          alt="home service"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
+          <h3 className="text-2xl font-bold mb-4">{t.homeServiceTitle}</h3>
 
-      <ul className="space-y-3 text-white/95 text-lg">
-        <li>{t.inStoreTime1}</li>
-        <li>{t.inStoreTime2}</li>
-        <li>{t.inStoreTime3}</li>
-      </ul>
+          <ul className="space-y-3 text-white/95 text-lg">
+            <li>{t.homeServiceTime1}</li>
+            <li>{t.homeServiceTime2}</li>
+          </ul>
 
-      <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+          <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
 
-      <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
-        <p>{t.inStoreNote1}</p>
-        <p>{t.inStoreNote2}</p>
-      </div>
+          <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+            <p>{t.homeNote1}</p>
+            <p>{t.homeNote2}</p>
+            <p>{t.homeNote3}</p>
+          </div>
+        </div>
+      </RevealOnScroll>
     </div>
-  </div>
+  </RevealOnScroll>
+</section>
+<section id="about" className="relative px-6 py-16 scroll-mt-32 overflow-hidden">
+  <Image
+    src="/about/about-bg.jpg"
+    alt="environment background"
+    fill
+    sizes="100vw"
+    className="object-cover"
+  />
 
-<div className="relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg md:justify-self-end">
-        <Image
-      src="/services/home.jpg"
-      alt="home service"
-      fill
-      className="object-cover"
-    />
-<div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-    <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
-      <h3 className="text-2xl font-bold mb-4">{t.homeServiceTitle}</h3>
+  <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
 
-      <ul className="space-y-3 text-white/95 text-lg">
-        <li>{t.homeServiceTime1}</li>
-        <li>{t.homeServiceTime2}</li>
-      </ul>
+  <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
+    <SectionTitle center>{t.aboutTitle}</SectionTitle>
 
-      <p className="text-sm text-white/80 mt-5">{t.extraTime}</p>
+    <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
+      <RevealOnScroll
+        className="bg-white/72 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 border border-white/40"
+        delay={100}
+        y={20}
+      >
+        <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
 
-      <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
-        <p>{t.homeNote1}</p>
-        <p>{t.homeNote2}</p>
-        <p>{t.homeNote3}</p>
-      </div>
-    </div>
-  </div>
-</div>
-      </div>
-    </section>
+        <div className="space-y-5 text-stone-800">
+          <div>
+            <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
+            <p>{t.businessHoursText}</p>
+          </div>
 
-    <section id="about" className="px-6 py-16 bg-white">
-<div className="max-w-6xl mx-auto md:px-10">
-            <SectionTitle center>{t.aboutTitle}</SectionTitle>
+          <div>
+            <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
+            <p>{t.locationText}</p>
+          </div>
 
-        <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
-          <div className="bg-stone-50 rounded-2xl shadow-lg p-6 md:p-8">
-            <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+          <div>
+            <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
+            <p>{t.bookingText}</p>
+          </div>
 
-            <div className="space-y-5 text-stone-800">
-              <div>
-                <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
-                <p>{t.businessHoursText}</p>
-              </div>
+          <div>
+            <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
+            <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
+          </div>
 
-              <div>
-                <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
-                <p>{t.locationText}</p>
-              </div>
+          <div className="pt-4 border-t border-stone-200/70">
+            <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
 
-              <div>
-                <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
-                <p>{t.bookingText}</p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
-                <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
-              </div>
-
-              <div className="pt-4 border-t border-stone-200">
-                <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
-
-                <div className="flex gap-4 mb-4">
-                  {SOCIAL_LINKS.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={item.className}
-                      aria-label={item.name}
-                    >
-                      <SocialIcon item={item} />
-                    </a>
-                  ))}
-                </div>
-
-                <p className="text-sm text-stone-400">{t.contactHint}</p>
-              </div>
+            <div className="flex gap-4 mb-4">
+              {SOCIAL_LINKS.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={item.className}
+                  aria-label={item.name}
+                >
+                  <SocialIcon item={item} />
+                </a>
+              ))}
             </div>
-          </div>
 
-          <div className="w-full rounded-2xl overflow-hidden shadow-lg">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
-              width="100%"
-              height="350"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Taipei Wild Spa 地圖"
-            />
+            <p className="text-sm text-stone-500">{t.contactHint}</p>
           </div>
         </div>
-      </div>
-    </section>
+      </RevealOnScroll>
 
+      <RevealOnScroll
+        className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
+        delay={220}
+        y={20}
+      >
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+          width="100%"
+          height="350"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          title="Taipei Wild Spa 地圖"
+        />
+      </RevealOnScroll>
+    </div>
+  </RevealOnScroll>
+</section>
     <RecruitModal
       isOpen={recruitOpen}
       lang={lang}
