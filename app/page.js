@@ -172,12 +172,13 @@ const CONTENT = {
     homeNote1: "* 為使團隊成員於指定時間前往服務，為免久候，建議提前至少一小時預約",
     homeNote2: "* 外出服務依地區可能酌收交通費，請透過 LINE 預約確認",
     homeNote3: "* 為提供良好服務，夜間將酌收額外服務費 TWD $500",
-    aboutTitle: "環境介紹",
-    aboutDesc: "安靜、乾淨、隱私性高的舒適空間",
-    businessHoursTitle: "營業時間",
+    aboutHeader: "環境介紹",
+    aboutTitle: "服務簡介",
+    aboutText: "安靜、乾淨、隱私性高的舒適空間",
+    businessHoursTitle: "服務時間",
     businessHoursText: "每日 11:00 - 25:00",
-    locationTitle: "營業地點",
-    locationText: "台北市萬華區成都路139號",
+    locationTitle: "服務地點",
+    locationText: "台北市萬華區康定路99號",
     bookingTitle: "預約方式",
     bookingText: "請透過 LINE 官方帳號預約",
     noticeTitle: "注意事項",
@@ -214,12 +215,13 @@ const CONTENT = {
     homeNote1: "* To ensure timely arrival, please book at least 1 hour in advance.",
     homeNote2: "* Transportation fees may apply depending on the area. Please confirm via LINE.",
     homeNote3: "* A late-night surcharge may apply.",
-    aboutTitle: "Our Space",
-    aboutDesc: "A quiet, clean, and private space for complete relaxation",
+    aboutHeader: "Our Space",
+    aboutTitle: "Service Overview",
+    aboutText: "A quiet, clean, and private space for complete relaxation",
     businessHoursTitle: "Business Hours",
     businessHoursText: "Daily 11:00 - 25:00",
     locationTitle: "Location",
-    locationText: "No. 139, Chengdu Rd., Wanhua Dist., Taipei City",
+    locationText: "No. 99, KangDing Rd., Wanhua Dist., Taipei City",
     bookingTitle: "Booking Method",
     bookingText: "Please make a reservation through our official LINE account",
     noticeTitle: "Notes",
@@ -256,12 +258,13 @@ const CONTENT = {
     homeNote1: "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
     homeNote2: "* エリアにより交通費が発生する場合があります。詳細はLINEでご確認ください。",
     homeNote3: "* 深夜は TWD $500 の追加料金を頂く場合があります。",
-    aboutTitle: "空間紹介",
-    aboutDesc: "静かで清潔、プライバシーに配慮した快適な空間",
+    aboutHeader: "空間紹介",
+    aboutTitle: "サービス概要",
+    aboutText: "静かで清潔、プライバシーに配慮した快適な空間",
     businessHoursTitle: "営業時間",
     businessHoursText: "毎日 11:00 - 25:00",
     locationTitle: "所在地",
-    locationText: "台北市萬華區成都路139號",
+    locationText: "台北市萬華區康定路99號",
     bookingTitle: "予約方法",
     bookingText: "ご予約は LINE公式アカウントよりお願いいたします",
     noticeTitle: "ご案内",
@@ -298,12 +301,13 @@ const CONTENT = {
     homeNote1: "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
     homeNote2: "* 지역에 따라 교통비가 추가될 수 있으니 LINE으로 확인해 주세요.",
     homeNote3: "* 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
-    aboutTitle: "공간 소개",
-    aboutDesc: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
+    aboutHeader: "공간 소개",
+    aboutTitle: "서비스 소개",
+    aboutText: "조용하고 깨끗하며 프라이버시가 높은 편안한 공간",
     businessHoursTitle: "영업시간",
     businessHoursText: "매일 11:00 - 25:00",
     locationTitle: "위치",
-    locationText: "타이베이시 완화구 청두로 139호",
+    locationText: "타이베이시 완화구 캉딩로 99호",
     bookingTitle: "예약 방법",
     bookingText: "공식 LINE 계정으로 예약해 주세요",
     noticeTitle: "안내사항",
@@ -1224,11 +1228,11 @@ useEffect(() => {
         <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
 
         <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
-          <SectionTitle center>{t.aboutTitle}</SectionTitle>
+          <SectionTitle center>{t.aboutHeader}</SectionTitle>
 
           <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
 <RevealOnScroll
-  className="relative rounded-2xl shadow-lg border border-white/40 overflow-hidden min-h-[720px]"
+  className="relative rounded-2xl shadow-lg border border-white/40 overflow-hidden min-h-[560px]"
   delay={100}
   y={20}
 >
@@ -1245,52 +1249,73 @@ useEffect(() => {
   <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-xs" />
 
   {/* 內容 */}
-  <div className="relative z-10 p-6 md:p-8">
-    <p className="text-stone-600 mb-3">{t.aboutDesc}</p>
+<div className="relative z-10 p-6 md:p-8 space-y-6">
+  <div className="space-y-1">
+    <h3 className="text-lg font-bold text-stone-900">
+      {t.aboutTitle}
+    </h3>
+    <p className="text-stone-700">
+      {t.aboutText}
+    </p>
+  </div>
 
-    <div className="space-y-5 text-stone-800">
-      <div>
-        <h3 className="text-lg font-bold mb-1">{t.businessHoursTitle}</h3>
-        <p>{t.businessHoursText}</p>
+<div className="space-y-5 text-stone-700">
+      <div className="space-y-1">
+<h3 className="text-lg font-bold text-stone-900">
+          {t.businessHoursTitle}
+      </h3>
+      <p>{t.businessHoursText}</p>
+    </div>
+
+    <div className="space-y-1">
+<h3 className="text-lg font-bold text-stone-900">
+          {t.locationTitle}
+      </h3>
+      <p>{t.locationText}</p>
+    </div>
+
+    <div className="space-y-1">
+<h3 className="text-lg font-bold text-stone-900">
+          {t.bookingTitle}
+      </h3>
+      <p>{t.bookingText}</p>
+    </div>
+
+    <div className="space-y-1">
+<h3 className="text-lg font-bold text-stone-900">
+          {t.noticeTitle}
+      </h3>
+      <p className="text-sm text-stone-600 leading-7">
+        {t.noticeText}
+      </p>
+    </div>
+
+    <div className="pt-4 border-t border-stone-200/70 space-y-3">
+<h3 className="text-lg font-bold text-stone-900">
+          {t.contactTitle}
+      </h3>
+
+      <div className="flex gap-4">
+        {SOCIAL_LINKS.map((item) => (
+          <a
+            key={item.name}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={item.className}
+            aria-label={item.name}
+          >
+            <SocialIcon item={item} />
+          </a>
+        ))}
       </div>
 
-      <div>
-        <h3 className="text-lg font-bold mb-1">{t.locationTitle}</h3>
-        <p>{t.locationText}</p>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-bold mb-1">{t.bookingTitle}</h3>
-        <p>{t.bookingText}</p>
-      </div>
-
-      <div>
-        <h3 className="text-lg font-bold mb-1">{t.noticeTitle}</h3>
-        <p className="text-sm text-stone-600 leading-7">{t.noticeText}</p>
-      </div>
-
-      <div className="pt-4 border-t border-stone-200/70">
-        <h3 className="text-lg font-bold mb-3">{t.contactTitle}</h3>
-
-        <div className="flex gap-4 mb-4">
-          {SOCIAL_LINKS.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={item.className}
-              aria-label={item.name}
-            >
-              <SocialIcon item={item} />
-            </a>
-          ))}
-        </div>
-
-        <p className="text-sm text-stone-500">{t.contactHint}</p>
-      </div>
+      <p className="text-sm text-stone-500">
+        {t.contactHint}
+      </p>
     </div>
   </div>
+</div>
 </RevealOnScroll>
             <RevealOnScroll
               className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
