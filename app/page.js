@@ -985,16 +985,24 @@ export default function Home() {
   const [recruitOpen, setRecruitOpen] = useState(false);
   const headerRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const nextScrolled = window.scrollY > 10;
-      setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
-    };
+useEffect(() => {
+  const EXPAND_THRESHOLD = 30;
+  const COLLAPSE_THRESHOLD = 80;
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleScroll = () => {
+    const y = window.scrollY;
 
+    setScrolled((prev) => {
+      if (!prev && y > COLLAPSE_THRESHOLD) return true;
+      if (prev && y < EXPAND_THRESHOLD) return false;
+      return prev;
+    });
+  };
+
+  handleScroll();
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
   const t = useMemo(
     () => ({
       ...CONTENT[lang],
@@ -1052,15 +1060,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
-      <div
-        ref={headerRef}
-        className={`sticky top-0 z-40 transition-all duration-500 ease-out ${
-          scrolled
-            ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-            : "bg-white"
-        }`}
-      >
-        <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
+<div
+  ref={headerRef}
+  className={`sticky top-0 z-40 transition-[background-color,box-shadow] duration-500 ease-out ${
+    scrolled
+      ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+      : "bg-white"
+  }`}
+>
+          <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
           <div
             className={`relative transition-all duration-500 ease-out ${
               scrolled
@@ -1079,14 +1087,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div
-          className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-all duration-500 ease-out ${
-            scrolled
-              ? "opacity-0 -translate-y-4 max-h-0 pb-0 pointer-events-none"
-              : "opacity-100 translate-y-0 max-h-40 pb-3"
-          }`}
-        >
-          <div className="flex flex-wrap justify-center gap-2 w-full">
+<div
+  className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-[opacity,transform,max-height,padding] duration-500 ease-out ${
+    scrolled
+      ? "opacity-0 -translate-y-2 max-h-0 pb-0 pointer-events-none"
+      : "opacity-100 translate-y-0 max-h-40 pb-3"
+  }`}
+>
+            <div className="flex flex-wrap justify-center gap-2 w-full">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -1229,7 +1237,7 @@ export default function Home() {
     src="/about/card-bg.jpg"
     alt="card background"
     fill
-    className="object-cover object-[82%_center]"
+    className="object-cover object-[65%_center]"
     priority
   />
 
