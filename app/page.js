@@ -149,7 +149,7 @@ const CONTENT = {
     navAbout: "環境概覽",
     navContact: "即刻預約",
     heroTitle: "Taipei Wild Spa",
-    heroSubtitle: "專業放鬆體驗｜隱私安全｜高品質服務",
+    heroSubtitle: "專業男仕放鬆體驗｜獨立套房 隱密 安心｜高品質服務",
     heroButton: "立即加 LINE 預約",
     teamTitle: "團隊介紹",
     scheduleButton: "查看班表",
@@ -192,7 +192,7 @@ const CONTENT = {
     navAbout: "Space",
     navContact: "Book Now",
     heroTitle: "Taipei Wild Spa",
-    heroSubtitle: "Professional relaxation ｜ Privacy ｜ Premium service",
+    heroSubtitle: "Professional relaxation Experience for Men ｜ Private Suites · Discreet · Safe & Secure ｜ Premium service",
     heroButton: "Book via LINE",
     teamTitle: "Our Team",
     scheduleButton: "View Schedule",
@@ -235,7 +235,7 @@ const CONTENT = {
     navAbout: "空間紹介",
     navContact: "今すぐ予約",
     heroTitle: "Taipei Wild Spa",
-    heroSubtitle: "上質な癒し｜安心できる空間｜高品質サービス",
+    heroSubtitle: "男性向けのプロフェッショナルリラクゼーション体験｜完全個室・プライベート・安心｜高品質サービス",
     heroButton: "LINEで予約する",
     teamTitle: "スタッフ紹介",
     scheduleButton: "出勤表を見る",
@@ -278,7 +278,7 @@ const CONTENT = {
     navAbout: "공간 소개",
     navContact: "바로 예약",
     heroTitle: "Taipei Wild Spa",
-    heroSubtitle: "전문적인 휴식 ｜ 프라이버시 ｜ 고품질 서비스",
+    heroSubtitle: "남성을 위한 프리미엄 힐링 & 릴렉세이션 경험 ｜ 개인 전용 공간 · 프라이버시 · 안전 ｜ 고품질 서비스",
     heroButton: "LINE으로 예약하기",
     teamTitle: "팀 소개",
     scheduleButton: "스케줄 보기",
@@ -1323,9 +1323,9 @@ useEffect(() => {
               y={20}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.720699767034!2d121.50058377537685!3d25.043550877810183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a90887199d5f%3A0xc99cf0b88c4be9f3!2zMTA4NDToh7rljJfluILokKzoj6_ljYDmiJDpg73ot68xMznomZ8!5e0!3m2!1szh-TW!2stw!4v1774421460605!5m2!1szh-TW!2stw"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.8358363076327!2d121.4994605753547!3d25.039644638064257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9a872a72d25%3A0xb0b2343c58e9b562!2zMTA46Ie65YyX5biC6JCs6I-v5Y2A5bq35a6a6LevOTnomZ8!5e0!3m2!1szh-TW!2stw!4v1774715460312!5m2!1szh-TW!2stw"
                 width="100%"
-                height="350"
+                height="450"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
