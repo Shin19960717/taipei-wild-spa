@@ -1242,7 +1242,7 @@ useEffect(() => {
   />
 
   {/* 遮罩 */}
-  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-sm" />
+  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-xs" />
 
   {/* 內容 */}
   <div className="relative z-10 p-6 md:p-8">
