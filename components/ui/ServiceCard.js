@@ -1,17 +1,7 @@
-import Image from "next/image";
-import RevealOnScroll from "./RevealOnScroll";
+"use client";
 
-type Props = {
-  imageSrc: string;
-  imageAlt: string;
-  title: string;
-  times: string[];
-  extraTime: string;
-  notes: string[];
-  className?: string;
-  delay?: number;
-  y?: number;
-};
+import Image from "next/image";
+import RevealOnScroll from "@/components/ui/RevealOnScroll";
 
 export default function ServiceCard({
   imageSrc,
@@ -23,7 +13,7 @@ export default function ServiceCard({
   className = "",
   delay = 0,
   y = 22,
-}: Props) {
+}) {
   return (
     <RevealOnScroll
       className={`relative w-full max-w-[520px] min-h-[360px] rounded-2xl overflow-hidden shadow-lg ${className}`}

@@ -2,25 +2,16 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useAutoCarousel } from "@/hooks/useAutoCarousel";
+import useAutoCarousel from "@/hooks/useAutoCarousel";
 
-type Props = {
-  images?: string[];
-  alt: string;
-  onImageClick?: (index: number) => void;
-};
-
-export default function ImageCarousel({
-  images = [],
-  alt,
-  onImageClick,
-}: Props) {
+export default function ImageCarousel({ images = [], alt, onImageClick }) {
   const [isPaused, setIsPaused] = useState(false);
-  const [lastInteraction, setLastInteraction] = useState<number | null>(null);
-  const touchStartXRef = useRef<number | null>(null);
-  const touchEndXRef = useRef<number | null>(null);
+  const [lastInteraction, setLastInteraction] = useState(null);
+  const touchStartXRef = useRef(null);
+  const touchEndXRef = useRef(null);
 
   const hasMultipleImages = images.length > 1;
+
   const { current, setCurrent, goNext, goPrev } = useAutoCarousel(
     images.length,
     3000,
@@ -46,13 +37,13 @@ export default function ImageCarousel({
     return () => window.clearTimeout(timer);
   }, [hasMultipleImages, isPaused, lastInteraction]);
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchStart = (e) => {
     pauseAutoPlay();
     touchStartXRef.current = e.targetTouches[0].clientX;
     touchEndXRef.current = null;
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+  const handleTouchMove = (e) => {
     touchEndXRef.current = e.targetTouches[0].clientX;
   };
 
@@ -85,7 +76,10 @@ export default function ImageCarousel({
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((img, index) => (
-          <div key={`${alt}-${index}`} className="relative w-full h-full shrink-0">
+          <div
+            key={`${alt}-${index}`}
+            className="relative w-full h-full shrink-0"
+          >
             <Image
               src={img}
               alt={`${alt}-${index + 1}`}

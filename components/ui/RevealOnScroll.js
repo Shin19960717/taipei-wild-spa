@@ -2,29 +2,24 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Props = {
-  children: React.ReactNode;
-  className?: string;
-  delay?: number;
-  y?: number;
-};
-
 export default function RevealOnScroll({
   children,
   className = "",
   delay = 0,
   y = 24,
-}: Props) {
-  const ref = useRef<HTMLDivElement | null>(null);
+}) {
+  const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const node = ref.current;
     if (!node) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && node) {
           setIsVisible(true);
           observer.unobserve(node);
         }
@@ -34,7 +29,10 @@ export default function RevealOnScroll({
 
     observer.observe(node);
 
-    return () => observer.disconnect();
+    return () => {
+      if (node) observer.unobserve(node);
+      observer.disconnect();
+    };
   }, []);
 
   return (

@@ -1,18 +1,12 @@
 "use client";
 
 import { memo } from "react";
-import ImageCarousel from "./ImageCarousel";
-import { TAG_CLASS } from "@/constants/styles";
-import type { Lang } from "@/types/common";
-import type { TeamMember } from "@/types/team";
+import ImageCarousel from "@/components/ui/ImageCarousel";
 
-type Props = {
-  member: TeamMember;
-  lang: Lang;
-  onOpen: (member: TeamMember, index: number) => void;
-};
+const TAG_CLASS =
+  "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base";
 
-const TeamCard = memo(function TeamCard({ member, lang, onOpen }: Props) {
+const TeamCard = memo(function TeamCard({ member, lang, onOpen }) {
   const previewTags = member.desc[lang].slice(0, 3);
 
   return (

@@ -1,12 +1,4 @@
-import type { Lang, LocalizedString } from "@/types/common";
-
-export const CONTENT: {
-  bookThis: LocalizedString;
-  zh: Record<string, string>;
-  en: Record<string, string>;
-  ja: Record<string, string>;
-  ko: Record<string, string>;
-} = {
+const CONTENT = {
   bookThis: {
     zh: "預約此位師傅",
     en: "Book this therapist",
@@ -140,7 +132,7 @@ export const CONTENT: {
     noticeTitle: "ご案内",
     noticeText: "お待たせを避けるため、少なくとも1時間前までのご予約をおすすめします。実際の対応時間やスタッフの出勤状況はLINEでご確認ください。",
     contactTitle: "お問い合わせ",
-    contactHint: "最もスムーズなご案內のため、LINEでのご連絡をおすすめします",
+    contactHint: "最もスムーズなご案内のため、LINEでのご連絡をおすすめします",
   },
   ko: {
     navTeam: "팀 소개 및 채용",
@@ -187,9 +179,4 @@ export const CONTENT: {
   },
 };
 
-export function getLocalizedContent(lang: Lang) {
-  return {
-    ...CONTENT[lang],
-    bookThis: CONTENT.bookThis[lang],
-  };
-}
+export default CONTENT;
