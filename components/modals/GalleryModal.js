@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import useLockBodyScroll from "@/hooks/useLockBodyScroll";
-import useEscapeKey from "@/hooks/useEscapeKey";
-
+import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
+import { useEscapeKey } from "@/hooks/useEscapeKey";
 const MODAL_ARROW_BUTTON_CLASS =
   "absolute top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center";
 

@@ -3,16 +3,9 @@
 import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import HERO_IMAGES from "@/data/heroImages";
+import { LINE_ADD_FRIEND_URL } from "@/lib/line";
 
-type HeroSectionProps = {
-  t: {
-    heroTitle: string;
-    heroSubtitle: string;
-    heroButton: string;
-  };
-};
-
-export default function HeroSection({ t }: HeroSectionProps) {
+export default function HeroSection({ t }) {
   return (
     <section className="relative h-[42vh] md:h-[58vh] overflow-hidden">
       <HeroCarousel images={HERO_IMAGES} />
@@ -25,7 +18,7 @@ export default function HeroSection({ t }: HeroSectionProps) {
         <h1 className="text-4xl md:text-6xl font-bold mb-4">{t.heroTitle}</h1>
         <p className="mb-6 text-sm md:text-base">{t.heroSubtitle}</p>
         <a
-          href="https://line.me/R/ti/p/@834xdutc"
+          href={LINE_ADD_FRIEND_URL}
           target="_blank"
           rel="noreferrer"
           className="bg-white text-black px-6 py-3 rounded-full font-semibold transition hover:scale-105"
