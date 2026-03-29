@@ -1,16 +1,15 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import type { GalleryState, TeamMember } from "@/types/team";
 
-export function useGallery() {
-  const [gallery, setGallery] = useState<GalleryState>({
+export default function useGallery() {
+  const [gallery, setGallery] = useState({
     isOpen: false,
     member: null,
     imageIndex: 0,
   });
 
-  const openGallery = useCallback((member: TeamMember, imageIndex = 0) => {
+  const openGallery = useCallback((member, imageIndex = 0) => {
     setGallery({ isOpen: true, member, imageIndex });
   }, []);
 
@@ -46,7 +45,7 @@ export function useGallery() {
     });
   }, []);
 
-  const selectGalleryImage = useCallback((imageIndex: number) => {
+  const selectGalleryImage = useCallback((imageIndex) => {
     setGallery((prev) => ({ ...prev, imageIndex }));
   }, []);
 

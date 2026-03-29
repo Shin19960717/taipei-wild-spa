@@ -9,6 +9,9 @@ import HeroCarousel from "@/components/ui/HeroCarousel";
 import ServiceCard from "@/components/ui/ServiceCard";
 import TeamCard from "@/components/ui/TeamCard";
 import CONTENT from "@/data/content";
+import useLockBodyScroll from "@/hooks/useLockBodyScroll";
+import useEscapeKey from "@/hooks/useEscapeKey";
+import useGallery from "@/hooks/useGallery";
 const LINE_CONFIG = {
   officialId: "@834xdutc",
 };
@@ -192,85 +195,6 @@ function scrollToSection(sectionId, headerOffset = 0) {
     top: targetTop,
     behavior: "smooth",
   });
-}
-
-function useLockBodyScroll(isLocked) {
-  useEffect(() => {
-    if (!isLocked) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, [isLocked]);
-}
-
-function useEscapeKey(active, onClose) {
-  useEffect(() => {
-    if (!active) return;
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [active, onClose]);
-}
-
-function useGallery() {
-  const [gallery, setGallery] = useState({
-    isOpen: false,
-    member: null,
-    imageIndex: 0,
-  });
-
-  const openGallery = useCallback((member, imageIndex = 0) => {
-    setGallery({ isOpen: true, member, imageIndex });
-  }, []);
-
-  const closeGallery = useCallback(() => {
-    setGallery({ isOpen: false, member: null, imageIndex: 0 });
-  }, []);
-
-  const showPrevImage = useCallback(() => {
-    setGallery((prev) => {
-      if (!prev.member) return prev;
-      return {
-        ...prev,
-        imageIndex:
-          prev.imageIndex === 0
-            ? prev.member.imgs.length - 1
-            : prev.imageIndex - 1,
-      };
-    });
-  }, []);
-
-  const showNextImage = useCallback(() => {
-    setGallery((prev) => {
-      if (!prev.member) return prev;
-      return {
-        ...prev,
-        imageIndex:
-          prev.imageIndex === prev.member.imgs.length - 1
-            ? 0
-            : prev.imageIndex + 1,
-      };
-    });
-  }, []);
-
-  const selectGalleryImage = useCallback((imageIndex) => {
-    setGallery((prev) => ({ ...prev, imageIndex }));
-  }, []);
-
-  return {
-    gallery,
-    openGallery,
-    closeGallery,
-    showPrevImage,
-    showNextImage,
-    selectGalleryImage,
-  };
 }
 
 function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage }) {
