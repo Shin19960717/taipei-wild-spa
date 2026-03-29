@@ -1,22 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { TAG_CLASS, MODAL_ARROW_BUTTON_CLASS, MODAL_CLOSE_BUTTON_CLASS } from "@/constants/styles";
-import { openLineBooking } from "@/lib/line";
-import { useEscapeKey } from "@/hooks/useEscapeKey";
-import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
-import type { Lang } from "@/types/common";
-import type { GalleryState } from "@/types/team";
+import useLockBodyScroll from "@/hooks/useLockBodyScroll";
+import useEscapeKey from "@/hooks/useEscapeKey";
 
-type Props = {
-  gallery: GalleryState;
-  lang: Lang;
-  t: Record<string, string>;
-  onClose: () => void;
-  onPrev: () => void;
-  onNext: () => void;
-  onSelectImage: (index: number) => void;
-};
+const MODAL_ARROW_BUTTON_CLASS =
+  "absolute top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center";
+
+const MODAL_CLOSE_BUTTON_CLASS =
+  "absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center";
+
+const TAG_CLASS =
+  "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base";
 
 export default function GalleryModal({
   gallery,
@@ -26,7 +21,8 @@ export default function GalleryModal({
   onPrev,
   onNext,
   onSelectImage,
-}: Props) {
+  openLineBooking,
+}) {
   const member = gallery.member;
 
   useLockBodyScroll(gallery.isOpen);
@@ -47,7 +43,7 @@ export default function GalleryModal({
           type="button"
           onClick={onClose}
           className={MODAL_CLOSE_BUTTON_CLASS}
-          aria-label="Close gallery modal"
+          aria-label="Close gallery"
         >
           ×
         </button>
@@ -57,8 +53,8 @@ export default function GalleryModal({
             <button
               type="button"
               onClick={onPrev}
-              className={`${MODAL_ARROW_BUTTON_CLASS} left-3`}
-              aria-label="Previous image"
+              className={`${MODAL_ARROW_BUTTON_CLASS} left-4`}
+              aria-label="Previous gallery image"
             >
               ‹
             </button>
@@ -66,15 +62,15 @@ export default function GalleryModal({
             <button
               type="button"
               onClick={onNext}
-              className={`${MODAL_ARROW_BUTTON_CLASS} right-3`}
-              aria-label="Next image"
+              className={`${MODAL_ARROW_BUTTON_CLASS} right-4`}
+              aria-label="Next gallery image"
             >
               ›
             </button>
           </>
         )}
 
-        <div className="relative w-full h-[60vh] bg-black">
+        <div className="relative bg-black flex items-center justify-center h-[55vh] md:h-[70vh]">
           <Image
             src={member.imgs[gallery.imageIndex]}
             alt={`${member.name}-${gallery.imageIndex + 1}`}

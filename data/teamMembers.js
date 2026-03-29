@@ -1,6 +1,4 @@
-import type { TeamMember } from "@/types/team";
-
-export const TEAM_MEMBERS: TeamMember[] = [
+const TEAM_MEMBERS = [
   {
     id: "rookie",
     name: "Rookie",
@@ -72,3 +70,5 @@ export const TEAM_MEMBERS: TeamMember[] = [
     calendar: "https://calendar.google.com/ryan",
   },
 ];
+
+export default TEAM_MEMBERS;

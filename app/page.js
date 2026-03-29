@@ -1,5 +1,4 @@
 "use client";
-import SocialIcon from "@/components/ui/SocialIcon";
 import Link from "next/link";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -8,10 +7,12 @@ import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import HeroCarousel from "@/components/ui/HeroCarousel";
 import ServiceCard from "@/components/ui/ServiceCard";
 import TeamCard from "@/components/ui/TeamCard";
+import GalleryModal from "@/components/modals/GalleryModal";
+import AboutSection from "@/components/sections/AboutSection";
 import CONTENT from "@/data/content";
-import useLockBodyScroll from "@/hooks/useLockBodyScroll";
-import useEscapeKey from "@/hooks/useEscapeKey";
 import useGallery from "@/hooks/useGallery";
+import HERO_IMAGES from "@/data/heroImages";
+import TEAM_MEMBERS from "@/data/teamMembers";
 const LINE_CONFIG = {
   officialId: "@834xdutc",
 };
@@ -32,89 +33,6 @@ const TAG_CLASS =
   "inline-flex items-center px-4 py-2 rounded-full bg-stone-100 text-stone-800 text-sm md:text-base";
 const PRIMARY_BUTTON_CLASS =
   "inline-flex items-center justify-center px-5 py-3 bg-black text-white rounded-xl text-sm md:text-base transition hover:scale-105";
-const MODAL_ARROW_BUTTON_CLASS =
-  "absolute top-1/2 -translate-y-1/2 z-20 bg-black/60 text-white w-12 h-12 rounded-full text-2xl flex items-center justify-center";
-const MODAL_CLOSE_BUTTON_CLASS =
-  "absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center";
-
-const HERO_IMAGES = [
-  "/hero/hero01.jpg",
-  "/hero/hero02.jpg",
-  "/hero/hero03.jpg",
-];
-
-const TEAM_MEMBERS = [
-  {
-    id: "rookie",
-    name: "Rookie",
-    desc: {
-      zh: ["171/68/28", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
-      en: [
-        "171/68/28",
-        "Strong physique",
-        "Steady massage technique",
-        "Friendly and talkative",
-        "Highly cooperative and adaptable",
-      ],
-      ja: [
-        "171/68/28",
-        "しっかりした体格",
-        "安定感のある施術",
-        "明るく話しやすい雰囲気",
-        "柔軟に対応できる高い協調性",
-      ],
-      ko: [
-        "171/68/28",
-        "탄탄한 체형",
-        "안정감 있는 마사지 스타일",
-        "밝고 편안한 소통",
-        "유연하게 대응 가능한 높은 협조도",
-      ],
-    },
-    imgs: [
-      "/team/Rookie01.jpg",
-      "/team/Rookie02.jpg",
-      "/team/Rookie03.jpg",
-      "/team/Rookie04.jpg",
-    ],
-    calendar: "https://calendar.google.com/ryan",
-  },
-  {
-    id: "eric",
-    name: "Eric",
-    desc: {
-      zh: ["172/67/33", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
-      en: [
-        "172/67/33",
-        "Clean and sharp appearance",
-        "Solid and well-built physique",
-        "Natural and easygoing interaction",
-        "Highly cooperative",
-      ],
-      ja: [
-        "172/67/33",
-        "清潔感のある整った外見",
-        "しっかりとした筋肉質な体格",
-        "自然で気軽なコミュニケーション",
-        "協調性が高い",
-      ],
-      ko: [
-        "172/67/33",
-        "깔끔하고 단정한 외형",
-        "탄탄하고 근육질의 체형",
-        "자연스럽고 편안한 소통",
-        "높은 협조도",
-      ],
-    },
-    imgs: [
-      "/team/Eric01.jpg",
-      "/team/Eric02.jpg",
-      "/team/Eric03.jpg",
-      "/team/Eric04.jpg",
-    ],
-    calendar: "https://calendar.google.com/ryan",
-  },
-];
 
 const buildLineAddFriendUrl = () =>
   `https://line.me/R/ti/p/${encodeURIComponent(LINE_CONFIG.officialId)}`;
@@ -195,131 +113,6 @@ function scrollToSection(sectionId, headerOffset = 0) {
     top: targetTop,
     behavior: "smooth",
   });
-}
-
-function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage }) {
-  const member = gallery.member;
-
-  useLockBodyScroll(gallery.isOpen);
-  useEscapeKey(gallery.isOpen, onClose);
-
-  if (!gallery.isOpen || !member) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 overflow-y-auto p-2 md:p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-5xl my-4 md:my-8 mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className={MODAL_CLOSE_BUTTON_CLASS}
-          aria-label="Close gallery"
-        >
-          ×
-        </button>
-
-        {member.imgs.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={onPrev}
-              className={`${MODAL_ARROW_BUTTON_CLASS} left-4`}
-              aria-label="Previous gallery image"
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={onNext}
-              className={`${MODAL_ARROW_BUTTON_CLASS} right-4`}
-              aria-label="Next gallery image"
-            >
-              ›
-            </button>
-          </>
-        )}
-
-        <div className="relative bg-black flex items-center justify-center h-[55vh] md:h-[70vh]">
-          <Image
-            src={member.imgs[gallery.imageIndex]}
-            alt={`${member.name}-${gallery.imageIndex + 1}`}
-            fill
-            sizes="100vw"
-            className="object-contain"
-          />
-        </div>
-
-        <div className="p-4 md:p-5">
-          <h3 className="text-2xl font-bold">{member.name}</h3>
-
-          <div className="flex flex-wrap gap-3 mt-3">
-            {member.desc[lang].map((item, idx) => (
-              <span
-                key={`${member.id}-${lang}-desc-${idx}`}
-                className={
-                  idx === 0
-                    ? "inline-flex items-center px-4 py-2 rounded-full bg-black text-white text-sm md:text-base font-medium"
-                    : TAG_CLASS
-                }
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-3 mt-4">
-            <a
-              href={member.calendar}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center px-4 py-2 bg-black text-white rounded-full text-sm"
-            >
-              {t.scheduleButton}
-            </a>
-
-            <button
-              type="button"
-              onClick={() => openLineBooking(member.name, lang)}
-              className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-full text-sm transition hover:scale-105"
-            >
-              {t.bookThis}
-            </button>
-          </div>
-
-          <p className="text-sm text-stone-500 mt-3">
-            {gallery.imageIndex + 1} / {member.imgs.length}
-          </p>
-        </div>
-
-        <div className="flex gap-3 overflow-x-auto px-6 py-4 bg-white">
-          {member.imgs.map((img, index) => (
-            <button
-              key={`${member.id}-thumb-${index}`}
-              type="button"
-              onClick={() => onSelectImage(index)}
-              className={`relative shrink-0 rounded-full overflow-hidden border-2 w-20 h-20 ${
-                gallery.imageIndex === index ? "border-black" : "border-stone-200"
-              }`}
-            >
-              <Image
-                src={img}
-                alt={`${member.name}-thumb-${index + 1}`}
-                fill
-                sizes="80px"
-                className="object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default function Home() {
@@ -553,126 +346,7 @@ useEffect(() => {
         </RevealOnScroll>
       </section>
 
-      <section id="about" className="relative px-6 py-16 scroll-mt-32 overflow-hidden">
-        <Image
-          src="/about/about-bg1.jpg"
-          alt="environment background"
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
-
-        <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
-          <SectionTitle center>{t.aboutHeader}</SectionTitle>
-
-          <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
-<RevealOnScroll
-  className="relative rounded-2xl shadow-lg border border-white/40 overflow-hidden min-h-[560px]"
-  delay={100}
-  y={20}
->
-  {/* 背景圖片 */}
-  <Image
-    src="/about/card-bg.jpg"
-    alt="card background"
-    fill
-    className="object-cover object-[65%_center]"
-    priority
-  />
-
-  {/* 遮罩 */}
-  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-xs" />
-
-  {/* 內容 */}
-<div className="relative z-10 p-6 md:p-8 space-y-6">
-  <div className="space-y-1">
-    <h3 className="text-lg font-bold text-stone-900">
-      {t.aboutTitle}
-    </h3>
-    <p className="text-stone-700">
-      {t.aboutText}
-    </p>
-  </div>
-
-<div className="space-y-5 text-stone-700">
-      <div className="space-y-1">
-<h3 className="text-lg font-bold text-stone-900">
-          {t.businessHoursTitle}
-      </h3>
-      <p>{t.businessHoursText}</p>
-    </div>
-
-    <div className="space-y-1">
-<h3 className="text-lg font-bold text-stone-900">
-          {t.locationTitle}
-      </h3>
-      <p>{t.locationText}</p>
-    </div>
-
-    <div className="space-y-1">
-<h3 className="text-lg font-bold text-stone-900">
-          {t.bookingTitle}
-      </h3>
-      <p>{t.bookingText}</p>
-    </div>
-
-    <div className="space-y-1">
-<h3 className="text-lg font-bold text-stone-900">
-          {t.noticeTitle}
-      </h3>
-      <p className="text-sm text-stone-600 leading-7">
-        {t.noticeText}
-      </p>
-    </div>
-
-    <div className="pt-4 border-t border-stone-200/70 space-y-3">
-<h3 className="text-lg font-bold text-stone-900">
-          {t.contactTitle}
-      </h3>
-
-      <div className="flex gap-4">
-        {SOCIAL_LINKS.map((item) => (
-          <a
-            key={item.name}
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={item.className}
-            aria-label={item.name}
-          >
-            <SocialIcon item={item} />
-          </a>
-        ))}
-      </div>
-
-      <p className="text-sm text-stone-500">
-        {t.contactHint}
-      </p>
-    </div>
-  </div>
-</div>
-</RevealOnScroll>
-            <RevealOnScroll
-              className="w-full rounded-2xl overflow-hidden shadow-lg border border-white/40"
-              delay={220}
-              y={20}
-            >
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.8358363076327!2d121.4994605753547!3d25.039644638064257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a9a872a72d25%3A0xb0b2343c58e9b562!2zMTA46Ie65YyX5biC6JCs6I-v5Y2A5bq35a6a6LevOTnomZ8!5e0!3m2!1szh-TW!2stw!4v1774715460312!5m2!1szh-TW!2stw"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Taipei Wild Spa 地圖"
-              />
-            </RevealOnScroll>
-          </div>
-        </RevealOnScroll>
-      </section>
+      <AboutSection t={t} socialLinks={SOCIAL_LINKS} />
 
       <GalleryModal
         gallery={gallery}
@@ -682,7 +356,8 @@ useEffect(() => {
         onPrev={showPrevImage}
         onNext={showNextImage}
         onSelectImage={selectGalleryImage}
+        openLineBooking={openLineBooking}
       />
-    </div>
-  );
+</div>
+);
 }
