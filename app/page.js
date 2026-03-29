@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -34,34 +35,6 @@ const HERO_IMAGES = [
   "/hero/hero03.jpg",
 ];
 
-const RECRUIT_APPLY_TEXT = {
-  zh: "加入 LINE 應徵",
-  en: "Apply via LINE",
-  ja: "LINEで応募する",
-  ko: "LINE으로 지원하기",
-};
-
-const RECRUIT_DATA = {
-  title: {
-    zh: "人才招募",
-    en: "Join Our Team",
-    ja: "人材募集",
-    ko: "채용 안내",
-  },
-  desc: {
-    zh: "我們正在尋找重視互動品質與服務細節的夥伴，歡迎加入。",
-    en: "We are looking for team members who value interaction quality and service details.",
-    ja: "接客の質とサービスの細やかさを大切にする方を募集しています。",
-    ko: "서비스 디테일과 소통을 중요하게 생각하는 분을 찾고 있습니다.",
-  },
-  images: ["/recruit/01.jpg", "/recruit/02.jpg", "/recruit/03.jpg"],
-  items: {
-    zh: ["高配合度", "環境單純", "重視隱私", "彈性排班"],
-    en: ["High cooperation", "Simple environment", "Privacy focused", "Flexible schedule"],
-    ja: ["高い協調性", "シンプルな環境", "プライバシー重視", "柔軟なシフト"],
-    ko: ["높은 협조도", "단순한 환경", "프라이버시 중시", "유연한 스케줄"],
-  },
-};
 
 const TEAM_MEMBERS = [
   {
@@ -517,24 +490,29 @@ function RevealOnScroll({ children, className = "", delay = 0, y = 24 }) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
+useEffect(() => {
+  if (typeof window === "undefined") return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(node);
-        }
-      },
-      { threshold: 0.15 }
-    );
+  const node = ref.current;
+  if (!node) return;
 
-    observer.observe(node);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting && node) {
+        setIsVisible(true);
+        observer.unobserve(node);
+      }
+    },
+    { threshold: 0.15 }
+  );
 
-    return () => observer.disconnect();
-  }, []);
+  observer.observe(node);
+
+  return () => {
+    if (node) observer.unobserve(node);
+    observer.disconnect();
+  };
+}, []);
 
   return (
     <div
@@ -792,71 +770,6 @@ function ServiceCard({
   );
 }
 
-function RecruitModal({ isOpen, lang, onClose }) {
-  useLockBodyScroll(isOpen);
-  useEscapeKey(isOpen, onClose);
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute right-4 top-4 z-10 w-10 h-10 rounded-full bg-black text-white text-lg transition hover:scale-105"
-          aria-label="Close recruit modal"
-        >
-          ×
-        </button>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-2">
-          {RECRUIT_DATA.images.map((img, idx) => (
-            <div key={`recruit-${idx}`} className="relative h-64 rounded-xl overflow-hidden">
-              <Image
-                src={img}
-                alt={`recruit-${idx + 1}`}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className="p-6 md:p-8">
-          <h3 className="text-2xl md:text-3xl font-bold mb-4">
-            {RECRUIT_DATA.title[lang]}
-          </h3>
-          <p className="text-stone-700 leading-8 mb-5">{RECRUIT_DATA.desc[lang]}</p>
-
-          <div className="flex flex-wrap gap-3 mb-6">
-            {RECRUIT_DATA.items[lang].map((item, idx) => (
-              <span key={`recruit-item-${idx}`} className={TAG_CLASS}>
-                {item}
-              </span>
-            ))}
-          </div>
-
-          <a
-            href={LINE_ADD_FRIEND_URL}
-            target="_blank"
-            rel="noreferrer"
-            className={PRIMARY_BUTTON_CLASS}
-          >
-            {RECRUIT_APPLY_TEXT[lang]}
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage }) {
   const member = gallery.member;
@@ -986,7 +899,6 @@ function GalleryModal({ gallery, lang, t, onClose, onPrev, onNext, onSelectImage
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState("zh");
-  const [recruitOpen, setRecruitOpen] = useState(false);
   const headerRef = useRef(null);
 
 useEffect(() => {
@@ -1164,13 +1076,12 @@ useEffect(() => {
         <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
           <SectionTitle>{t.teamTitle}</SectionTitle>
 
-          <button
-            type="button"
-            onClick={() => setRecruitOpen(true)}
-            className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
-          >
-            {t.recruitTitle}
-          </button>
+<Link
+  href="/recruit"
+  className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
+>
+  {t.recruitTitle}
+</Link>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {TEAM_MEMBERS.map((member, index) => (
@@ -1336,12 +1247,6 @@ useEffect(() => {
           </div>
         </RevealOnScroll>
       </section>
-
-      <RecruitModal
-        isOpen={recruitOpen}
-        lang={lang}
-        onClose={() => setRecruitOpen(false)}
-      />
 
       <GalleryModal
         gallery={gallery}
