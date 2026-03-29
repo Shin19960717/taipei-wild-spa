@@ -1,0 +1,2 @@
+export const HEADER_EXPAND_THRESHOLD = 30;
+export const HEADER_COLLAPSE_THRESHOLD = 80;

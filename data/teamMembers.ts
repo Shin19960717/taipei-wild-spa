@@ -1,4 +1,14 @@
-const TEAM_MEMBERS = [
+export type Lang = "zh" | "en" | "ja" | "ko";
+
+export type TeamMember = {
+  id: string;
+  name: string;
+  desc: Record<Lang, string[]>;
+  imgs: string[];
+  calendar: string;
+};
+
+const TEAM_MEMBERS: TeamMember[] = [
   {
     id: "rookie",
     name: "Rookie",
