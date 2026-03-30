@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import type { Dispatch, RefObject, SetStateAction } from "react";
-import LANG_OPTIONS from "@/data/langOptions";
-import { LINE_ADD_FRIEND_URL } from "@/lib/line";
-import { NAV_LINK_CLASS, LANG_BUTTON_BASE } from "@/constants/uiClasses";
+import HeaderLogo from "@/components/header/HeaderLogo";
+import HeaderNav from "@/components/header/HeaderNav";
+import HeaderLanguage from "@/components/header/HeaderLanguage";
 
 type NavItem = {
   id: string;
@@ -29,8 +28,7 @@ export default function Header({
   setLang,
   onScrollToSection,
   navContactLabel,
-}: 
-HeaderProps) {
+}: HeaderProps) {
   return (
     <div
       ref={headerRef}
@@ -40,25 +38,12 @@ HeaderProps) {
           : "bg-white"
       }`}
     >
+      {/* Logo */}
       <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
-<div
-  className={`transition-all duration-500 ease-out flex items-center justify-center ${
-    scrolled
-      ? "w-[110px] h-[42px] md:w-[150px] md:h-[52px] py-1"
-      : "w-[160px] h-[60px] md:w-[220px] md:h-[80px] py-2 md:py-3"
-  }`}
->
-  <Image
-    src="/flatbanner.png"
-    alt="Taipei Wild Spa"
-    width={220}
-    height={80}
-    priority
-    className="w-full h-full object-contain"
-  />
-</div>
+        <HeaderLogo scrolled={scrolled} />
       </div>
 
+      {/* Nav + Lang */}
       <div
         className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-[opacity,transform,max-height,padding] duration-500 ease-out ${
           scrolled
@@ -66,44 +51,16 @@ HeaderProps) {
             : "opacity-100 translate-y-0 max-h-40 pb-3"
         }`}
       >
-        <div className="flex flex-wrap justify-center gap-2 w-full">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => onScrollToSection(item.id)}
-              className={NAV_LINK_CLASS}
-            >
-              {item.label}
-            </button>
-          ))}
+        <HeaderNav
+          navItems={navItems}
+          onScrollToSection={onScrollToSection}
+          navContactLabel={navContactLabel}
+        />
 
-          <a
-            href={LINE_ADD_FRIEND_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-          >
-            {navContactLabel}
-          </a>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-2 w-full">
-          {LANG_OPTIONS.map((option) => (
-            <button
-              key={option.key}
-              type="button"
-              onClick={() => setLang(option.key)}
-              className={`${LANG_BUTTON_BASE} ${
-                lang === option.key
-                  ? "bg-black text-white shadow-md"
-                  : "bg-white text-black hover:bg-stone-100"
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        <HeaderLanguage
+          lang={lang}
+          setLang={setLang}
+        />
       </div>
     </div>
   );

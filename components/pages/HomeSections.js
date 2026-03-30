@@ -1,13 +1,7 @@
 "use client";
 
-import Header from "@/components/sections/Header";
-import HeroSection from "@/components/sections/HeroSection";
-import ServicesSection from "@/components/sections/ServicesSection";
-import TeamSection from "@/components/sections/TeamSection";
-import GalleryModal from "@/components/modals/GalleryModal";
-import AboutSection from "@/components/sections/AboutSection";
-import SOCIAL_LINKS from "@/data/socialLinks";
-import { openLineBooking } from "@/lib/line";
+import HomePageSections from "@/components/pages/home/HomePageSections";
+import HomeGalleryLayer from "@/components/pages/home/HomeGalleryLayer";
 
 export default function HomeSections({
   headerRef,
@@ -27,37 +21,26 @@ export default function HomeSections({
 }) {
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
-      <Header
+      <HomePageSections
         headerRef={headerRef}
         scrolled={scrolled}
         navItems={navItems}
         lang={lang}
         setLang={setLang}
         onScrollToSection={onScrollToSection}
-        navContactLabel={t.navContact}
-      />
-
-      <HeroSection t={t} />
-
-      <TeamSection
         t={t}
-        lang={lang}
+        serviceCards={serviceCards}
         onOpenGallery={onOpenGallery}
       />
 
-      <ServicesSection t={t} serviceCards={serviceCards} />
-
-      <AboutSection t={t} socialLinks={SOCIAL_LINKS} />
-
-      <GalleryModal
+      <HomeGalleryLayer
         gallery={gallery}
         lang={lang}
         t={t}
-        onClose={onCloseGallery}
-        onPrev={onPrevGallery}
-        onNext={onNextGallery}
-        onSelectImage={onSelectGalleryImage}
-        openLineBooking={openLineBooking}
+        onCloseGallery={onCloseGallery}
+        onPrevGallery={onPrevGallery}
+        onNextGallery={onNextGallery}
+        onSelectGalleryImage={onSelectGalleryImage}
       />
     </div>
   );
