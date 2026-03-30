@@ -1,7 +1,7 @@
 const HERO_IMAGES = [
-  "/hero/hero01.jpg",
-  "/hero/hero02.jpg",
-  "/hero/hero03.jpg",
+  "/hero/hero-main01.jpg",
+  "/hero/hero-main02.jpg",
+  "/hero/hero-main03.jpg",
 ];
 
 export default HERO_IMAGES;

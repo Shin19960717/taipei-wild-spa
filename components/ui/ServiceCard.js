@@ -20,7 +20,13 @@ export default function ServiceCard({
       delay={delay}
       y={y}
     >
-      <Image src={imageSrc} alt={imageAlt} fill className="object-cover" />
+<Image
+  src={imageSrc}
+  alt={imageAlt}
+  fill
+  sizes="(max-width: 768px) 100vw, 50vw"
+  className="object-cover"
+/>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
       <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">

@@ -5,18 +5,8 @@ import SocialIcon from "@/components/ui/SocialIcon";
 
 export default function AboutSection({ t, socialLinks }) {
   return (
-    <section id="about" className="relative px-6 py-16 scroll-mt-32 overflow-hidden">
-      <Image
-        src="/about/about-bg1.jpg"
-        alt="environment background"
-        fill
-        sizes="100vw"
-        className="object-cover"
-      />
-
-      <div className="absolute inset-0 bg-gradient-to-b from-white/88 via-stone-100/82 to-stone-200/88" />
-
-      <RevealOnScroll className="relative z-10 max-w-6xl mx-auto md:px-10" y={24}>
+    <section className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
+      <RevealOnScroll y={24}>
         <SectionTitle center>{t.aboutHeader}</SectionTitle>
 
         <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
@@ -25,13 +15,15 @@ export default function AboutSection({ t, socialLinks }) {
             delay={100}
             y={20}
           >
-            <Image
-              src="/about/card-bg.jpg"
-              alt="card background"
-              fill
-              className="object-cover object-[65%_center]"
-              priority
-            />
+            <div className="absolute inset-0 z-0">
+              <Image
+                src="/about/card-bg.jpg"
+                alt="card background"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-[65%_center]"
+              />
+            </div>
 
             <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/84 to-white/88 backdrop-blur-xs" />
 

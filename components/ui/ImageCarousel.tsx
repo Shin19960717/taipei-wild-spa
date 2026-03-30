@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useAutoCarousel from "@/hooks/useAutoCarousel";
+
 type Props = {
   images?: string[];
   alt: string;
@@ -16,10 +17,12 @@ export default function ImageCarousel({
 }: Props) {
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState<number | null>(null);
+  const [failedImages, setFailedImages] = useState<Record<number, boolean>>({});
   const touchStartXRef = useRef<number | null>(null);
   const touchEndXRef = useRef<number | null>(null);
 
   const hasMultipleImages = images.length > 1;
+
   const { current, setCurrent, goNext, goPrev } = useAutoCarousel(
     images.length,
     3000,
@@ -64,9 +67,17 @@ export default function ImageCarousel({
     if (distance < -50) goPrev();
   };
 
+  const handleImageError = (index: number, img: string) => {
+    console.error(`[ImageCarousel] image failed to load: ${img}`);
+    setFailedImages((prev) => ({
+      ...prev,
+      [index]: true,
+    }));
+  };
+
   if (!images.length) {
     return (
-      <div className="w-full h-[320px] bg-stone-200 flex items-center justify-center text-stone-500">
+      <div className="flex h-full w-full items-center justify-center bg-stone-200 text-stone-500">
         No image
       </div>
     );
@@ -74,26 +85,37 @@ export default function ImageCarousel({
 
   return (
     <div
-      className="relative w-full h-[320px] overflow-hidden bg-stone-100"
+      className="relative h-full w-full overflow-hidden bg-stone-100"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="flex h-full transition-transform duration-500 ease-in-out"
+        className="flex h-full w-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
       >
         {images.map((img, index) => (
-          <div key={`${alt}-${index}`} className="relative w-full h-full shrink-0">
-            <Image
-              src={img}
-              alt={`${alt}-${index + 1}`}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover select-none cursor-pointer"
-              draggable={false}
-              onClick={() => onImageClick?.(index)}
-            />
+          <div
+            key={`${alt}-${index}`}
+            className="relative h-full min-w-full"
+          >
+            {failedImages[index] ? (
+              <div className="flex h-full w-full items-center justify-center bg-stone-200 text-sm text-stone-500">
+                Image failed: {img}
+              </div>
+            ) : (
+              <Image
+                src={img}
+                alt={`${alt}-${index + 1}`}
+                fill
+                unoptimized
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-cover select-none cursor-pointer"
+                draggable={false}
+                onClick={() => onImageClick?.(index)}
+                onError={() => handleImageError(index, img)}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -106,7 +128,7 @@ export default function ImageCarousel({
               pauseAutoPlay();
               goPrev();
             }}
-            className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+            className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white"
             aria-label="Previous image"
           >
             ‹
@@ -118,13 +140,13 @@ export default function ImageCarousel({
               pauseAutoPlay();
               goNext();
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/60 text-white w-10 h-10 rounded-full flex items-center justify-center z-10"
+            className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white"
             aria-label="Next image"
           >
             ›
           </button>
 
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-2">
             {images.map((_, index) => (
               <button
                 key={`dot-${alt}-${index}`}
@@ -133,7 +155,7 @@ export default function ImageCarousel({
                   pauseAutoPlay();
                   setCurrent(index);
                 }}
-                className={`w-2.5 h-2.5 rounded-full ${
+                className={`h-2.5 w-2.5 rounded-full ${
                   current === index ? "bg-white" : "bg-white/50"
                 }`}
                 aria-label={`Go to image ${index + 1}`}

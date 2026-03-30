@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-function useAutoCarousel(length, delay = 3000, paused = false) {
+function useAutoCarousel(length, delay = 4000, paused = false) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (length <= 1 || paused) return;
+    if (!length || length <= 1 || paused) return;
 
     const timer = window.setInterval(() => {
       setCurrent((prev) => (prev + 1) % length);
@@ -17,33 +17,31 @@ function useAutoCarousel(length, delay = 3000, paused = false) {
   }, [length, delay, paused]);
 
   useEffect(() => {
+    if (!length) return;
     if (current >= length) setCurrent(0);
   }, [current, length]);
 
-  const goNext = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % length);
-  }, [length]);
-
-  const goPrev = useCallback(() => {
-    setCurrent((prev) => (prev - 1 + length) % length);
-  }, [length]);
-
-  return { current, setCurrent, goNext, goPrev };
+  return current;
 }
 
-export default function HeroCarousel({ images }) {
-  const { current } = useAutoCarousel(images.length, 4000);
+export default function HeroCarousel({ images = [] }) {
+  const validImages = images.filter(
+    (img) => typeof img === "string" && img.trim().length > 0
+  );
 
-  if (!images?.length) return null;
+  const current = useAutoCarousel(validImages.length, 4000);
+
+  if (!validImages.length) return null;
 
   return (
-    <div className="absolute inset-0">
-      {images.map((img, index) => (
+    <div className="absolute inset-0 h-full w-full">
+      {validImages.map((img, index) => (
         <div
           key={`hero-${index}`}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
+          className={`absolute inset-0 h-full w-full transition-opacity duration-1000 ${
             current === index ? "opacity-100" : "opacity-0"
           }`}
+          aria-hidden={current !== index}
         >
           <Image
             src={img}
@@ -51,7 +49,7 @@ export default function HeroCarousel({ images }) {
             fill
             priority={index === 0}
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
         </div>
       ))}

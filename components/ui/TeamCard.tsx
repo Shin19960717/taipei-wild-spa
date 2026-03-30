@@ -22,11 +22,14 @@ const TeamCard = memo(function TeamCard({
 
   return (
     <div className="bg-white rounded-2xl shadow overflow-hidden border border-stone-200">
-<ImageCarousel
-  images={member.imgs}
-  alt={member.name}
-  onImageClick={(index: number) => onOpen(member, index)}
-/>
+      <div className="relative w-full h-[340px] md:h-[380px]">
+        <ImageCarousel
+          images={member.imgs}
+          alt={member.name}
+          onImageClick={(index: number) => onOpen(member, index)}
+        />
+      </div>
+
       <div className="p-4 md:p-5">
         <h3 className="font-bold text-xl mb-3">{member.name}</h3>
 
