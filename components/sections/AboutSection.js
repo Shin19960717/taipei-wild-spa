@@ -1,19 +1,24 @@
 import SectionTitle from "@/components/ui/SectionTitle";
-import RevealOnScroll from "@/components/ui/RevealOnScroll";
 import AboutCard from "@/components/about/AboutCard";
 import AboutMap from "@/components/about/AboutMap";
+import AboutSectionBackground from "@/components/about/AboutSectionBackground";
 
 export default function AboutSection({ t, socialLinks }) {
   return (
-    <section className="relative z-10 max-w-6xl mx-auto px-4 md:px-10">
-      <RevealOnScroll y={24}>
-        <SectionTitle center>{t.aboutHeader}</SectionTitle>
+    <section
+      id="about"
+      className="relative overflow-hidden py-16 px-4 md:px-6"
+    >
+      <AboutSectionBackground />
 
-        <div className="grid md:grid-cols-2 gap-10 items-start mt-10">
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <SectionTitle>{t.aboutTitle}</SectionTitle>
+
+        <div className="grid md:grid-cols-2 gap-8 items-start">
           <AboutCard t={t} socialLinks={socialLinks} />
           <AboutMap />
         </div>
-      </RevealOnScroll>
+      </div>
     </section>
   );
 }
