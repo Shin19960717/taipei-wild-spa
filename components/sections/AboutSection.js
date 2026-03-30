@@ -11,14 +11,14 @@ export default function AboutSection({ t, socialLinks }) {
     >
       <AboutSectionBackground />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <SectionTitle>{t.aboutTitle}</SectionTitle>
+<div className="relative z-10 max-w-6xl mx-auto space-y-12 md:space-y-16">
+    <SectionTitle>{t.aboutTitle}</SectionTitle>
 
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <AboutCard t={t} socialLinks={socialLinks} />
-          <AboutMap />
-        </div>
-      </div>
+  <div className="grid md:grid-cols-2 gap-8 items-start">
+    <AboutCard t={t} socialLinks={socialLinks} />
+    <AboutMap />
+  </div>
+</div>
     </section>
   );
 }
