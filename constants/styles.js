@@ -15,3 +15,6 @@ export const MODAL_ARROW_BUTTON_CLASS =
 
 export const MODAL_CLOSE_BUTTON_CLASS =
   "absolute top-4 right-4 z-20 bg-black/70 text-white w-10 h-10 rounded-full text-xl flex items-center justify-center";
+
+export const PRIMARY_BUTTON_CLASS =
+  "inline-flex items-center justify-center rounded-xl bg-black px-5 py-3 text-sm font-medium text-white transition hover:opacity-90";
