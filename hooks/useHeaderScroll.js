@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   HEADER_EXPAND_THRESHOLD,
   HEADER_COLLAPSE_THRESHOLD,
@@ -8,9 +8,10 @@ import {
 
 export default function useHeaderScroll() {
   const [scrolled, setScrolled] = useState(false);
+  const tickingRef = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateScrollState = () => {
       const y = window.scrollY;
 
       setScrolled((prev) => {
@@ -18,6 +19,15 @@ export default function useHeaderScroll() {
         if (prev && y < HEADER_EXPAND_THRESHOLD) return false;
         return prev;
       });
+
+      tickingRef.current = false;
+    };
+
+    const handleScroll = () => {
+      if (tickingRef.current) return;
+
+      tickingRef.current = true;
+      window.requestAnimationFrame(updateScrollState);
     };
 
     handleScroll();

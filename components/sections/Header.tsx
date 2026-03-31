@@ -30,37 +30,39 @@ export default function Header({
   navContactLabel,
 }: HeaderProps) {
   return (
-    <div
-      ref={headerRef}
-      className={`sticky top-0 z-40 transition-[background-color,box-shadow] duration-500 ease-out ${
-        scrolled
-          ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-          : "bg-white"
-      }`}
-    >
-      {/* Logo */}
-      <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
-        <HeaderLogo scrolled={scrolled} />
-      </div>
-
-      {/* Nav + Lang */}
+    <div>
       <div
-        className={`max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3 overflow-hidden transition-[opacity,transform,max-height,padding] duration-500 ease-out ${
+        ref={headerRef}
+        className={`sticky top-0 z-40 relative transition-[background-color,box-shadow] duration-500 ease-out ${
           scrolled
-            ? "opacity-0 -translate-y-2 max-h-0 pb-0 pointer-events-none"
-            : "opacity-100 translate-y-0 max-h-40 pb-3"
+            ? "bg-white/95 backdrop-blur shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+            : "bg-white"
         }`}
       >
-        <HeaderNav
-          navItems={navItems}
-          onScrollToSection={onScrollToSection}
-          navContactLabel={navContactLabel}
-        />
+        {/* Logo */}
+        <div className="max-w-6xl mx-auto px-4 flex justify-center transition-all duration-500 ease-out">
+          <HeaderLogo scrolled={scrolled} />
+        </div>
 
-        <HeaderLanguage
-          lang={lang}
-          setLang={setLang}
-        />
+        {/* Nav + Language */}
+        <div
+          className={`max-w-6xl mx-auto px-4 pb-4 md:pb-6 flex flex-col items-center justify-center gap-3
+            transition-[opacity,transform] duration-500 ease-out
+            ${
+              scrolled
+                ? "absolute left-0 right-0 top-full opacity-0 -translate-y-4 pointer-events-none"
+                : "relative opacity-100 translate-y-0"
+            }
+          `}
+        >
+          <HeaderNav
+            navItems={navItems}
+            onScrollToSection={onScrollToSection}
+            navContactLabel={navContactLabel}
+          />
+
+          <HeaderLanguage lang={lang} setLang={setLang} />
+        </div>
       </div>
     </div>
   );
