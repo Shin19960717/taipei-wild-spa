@@ -3,7 +3,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import TeamSection from "@/components/sections/TeamSection";
 import AboutSection from "@/components/sections/AboutSection";
-import SOCIAL_LINKS from "@/data/socialLinks";
 
 export default function HomePageSections({
   headerRef,
@@ -15,6 +14,7 @@ export default function HomePageSections({
   t,
   serviceCards,
   onOpenGallery,
+  socialLinks,
 }) {
   return (
     <>
@@ -38,7 +38,7 @@ export default function HomePageSections({
 
       <ServicesSection t={t} serviceCards={serviceCards} />
 
-      <AboutSection t={t} socialLinks={SOCIAL_LINKS} />
+      <AboutSection t={t} socialLinks={socialLinks} />
     </>
   );
 }

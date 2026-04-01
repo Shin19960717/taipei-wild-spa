@@ -1,6 +1,6 @@
 import SocialIcon from "@/components/ui/SocialIcon";
 
-export default function AboutSocialLinks({ socialLinks, t }) {
+export default function AboutSocialLinks({ socialLinks = [], t }) {
   return (
     <div className="pt-4 border-t border-stone-200/70 space-y-3">
       <h3 className="text-lg font-bold text-stone-900">

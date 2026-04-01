@@ -12,6 +12,7 @@ export default function HomeSections({
   onScrollToSection,
   t,
   serviceCards,
+  socialLinks,
   gallery,
   onOpenGallery,
   onCloseGallery,
@@ -30,6 +31,7 @@ export default function HomeSections({
         onScrollToSection={onScrollToSection}
         t={t}
         serviceCards={serviceCards}
+        socialLinks={socialLinks}
         onOpenGallery={onOpenGallery}
       />
 
