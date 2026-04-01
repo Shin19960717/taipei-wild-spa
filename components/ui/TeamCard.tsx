@@ -10,7 +10,7 @@ const TAG_CLASS =
 type TeamCardProps = {
   member: TeamMember;
   lang: Lang;
-  onOpen: (member: TeamMember, index?: number) => void;
+  onOpen?: (member: TeamMember, index?: number) => void;
 };
 
 const TeamCard = memo(function TeamCard({
@@ -26,7 +26,7 @@ const TeamCard = memo(function TeamCard({
         <ImageCarousel
           images={member.imgs}
           alt={member.name}
-          onImageClick={(index: number) => onOpen(member, index)}
+          onImageClick={(index: number) => onOpen?.(member, index)}
         />
       </div>
 

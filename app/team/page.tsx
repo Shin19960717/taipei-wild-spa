@@ -1,13 +1,15 @@
-"use client";
-
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import TeamGrid from "@/components/team/TeamGrid";
-import TEAM_MEMBERS, { type Lang, type TeamMember } from "@/data/teamMembers";
+import TEAM_MEMBERS, { type Lang } from "@/data/teamMembers";
 
-export default function TeamPage() {
-  const searchParams = useSearchParams();
-  const langParam = searchParams.get("lang");
+type TeamPageProps = {
+  searchParams?: {
+    lang?: string;
+  };
+};
+
+export default function TeamPage({ searchParams }: TeamPageProps) {
+  const langParam = searchParams?.lang;
 
   const lang: Lang =
     langParam === "en" ||
@@ -18,10 +20,6 @@ export default function TeamPage() {
       : "zh";
 
   const backHref = lang === "zh" ? "/" : `/?lang=${lang}`;
-
-  const handleOpenGallery = (_member: TeamMember, _index = 0) => {
-    // 先保留空函式，之後再接回真正的 GalleryModal
-  };
 
   const pageText = {
     zh: {
@@ -66,11 +64,7 @@ export default function TeamPage() {
           </p>
         </div>
 
-        <TeamGrid
-          members={TEAM_MEMBERS}
-          lang={lang}
-          onOpenGallery={handleOpenGallery}
-        />
+        <TeamGrid members={TEAM_MEMBERS} lang={lang} />
       </div>
     </main>
   );
