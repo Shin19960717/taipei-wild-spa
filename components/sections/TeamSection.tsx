@@ -25,6 +25,7 @@ export default function TeamSection({
       <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
         <SectionTitle>{t.teamTitle}</SectionTitle>
 
+        {/* 原本招募按鈕 */}
         <Link
           href="/recruit"
           className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
@@ -32,11 +33,22 @@ export default function TeamSection({
           {t.recruitTitle}
         </Link>
 
+        {/* 👇 Team 卡片 */}
         <TeamGrid
           members={TEAM_MEMBERS}
           lang={lang}
           onOpenGallery={onOpenGallery}
         />
+
+        {/* 👇 新增：查看所有師傅 */}
+        <div className="mt-10 flex justify-center">
+          <Link
+            href={`/team?lang=${lang}`}
+            className="inline-flex items-center justify-center rounded-full border border-stone-400 px-6 py-3 text-sm font-medium text-stone-800 transition hover:bg-stone-100 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            查看所有師傅
+          </Link>
+        </div>
       </RevealOnScroll>
     </section>
   );

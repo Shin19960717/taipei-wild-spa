@@ -6,16 +6,20 @@ type TeamGridProps = {
   members: TeamMember[];
   lang: Lang;
   onOpenGallery: (member: TeamMember, index?: number) => void;
+  limit?: number;
 };
 
 export default function TeamGrid({
   members,
   lang,
   onOpenGallery,
+  limit,
 }: TeamGridProps) {
+  const visibleMembers = limit ? members.slice(0, limit) : members;
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {members.map((member, index) => (
+      {visibleMembers.map((member, index) => (
         <RevealOnScroll key={member.id} delay={index * 120} y={20}>
           <TeamCard
             member={member}
