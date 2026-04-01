@@ -11,12 +11,14 @@ type TeamCardProps = {
   member: TeamMember;
   lang: Lang;
   onOpen?: (member: TeamMember, index?: number) => void;
+  openLineBooking?: (memberName: string, lang: string) => void;
 };
 
 const TeamCard = memo(function TeamCard({
   member,
   lang,
   onOpen,
+  openLineBooking,
 }: TeamCardProps) {
   const previewTags = member.desc[lang].slice(0, 3);
 

@@ -6,6 +6,7 @@ type TeamGridProps = {
   members: TeamMember[];
   lang: Lang;
   onOpenGallery?: (member: TeamMember, index?: number) => void;
+  openLineBooking?: (memberName: string, lang: string) => void;
   limit?: number;
 };
 
@@ -13,6 +14,7 @@ export default function TeamGrid({
   members,
   lang,
   onOpenGallery,
+  openLineBooking,
   limit,
 }: TeamGridProps) {
   const visibleMembers = limit ? members.slice(0, limit) : members;
@@ -25,6 +27,7 @@ export default function TeamGrid({
             member={member}
             lang={lang}
             onOpen={onOpenGallery}
+            openLineBooking={openLineBooking}
           />
         </RevealOnScroll>
       ))}

@@ -19,6 +19,7 @@ export default function HomeSections({
   onPrevGallery,
   onNextGallery,
   onSelectGalleryImage,
+  openLineBooking,
 }) {
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
@@ -33,6 +34,7 @@ export default function HomeSections({
         serviceCards={serviceCards}
         socialLinks={socialLinks}
         onOpenGallery={onOpenGallery}
+        openLineBooking={openLineBooking}
       />
 
       <HomeGalleryLayer

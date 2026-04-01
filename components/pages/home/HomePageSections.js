@@ -15,6 +15,7 @@ export default function HomePageSections({
   serviceCards,
   onOpenGallery,
   socialLinks,
+  openLineBooking,
 }) {
   return (
     <>
@@ -34,6 +35,7 @@ export default function HomePageSections({
         t={t}
         lang={lang}
         onOpenGallery={onOpenGallery}
+        openLineBooking={openLineBooking}
       />
 
       <ServicesSection t={t} serviceCards={serviceCards} />

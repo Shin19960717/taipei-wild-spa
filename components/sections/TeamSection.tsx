@@ -14,12 +14,14 @@ type TeamSectionProps = {
   };
   lang: Lang;
   onOpenGallery: (member: TeamMember, index?: number) => void;
+  openLineBooking: (memberName: string, lang: string) => void;
 };
 
 export default function TeamSection({
   t,
   lang,
   onOpenGallery,
+  openLineBooking,
 }: TeamSectionProps) {
   return (
     <section id="team" className="px-6 py-12 md:px-10 scroll-mt-32">
@@ -37,6 +39,7 @@ export default function TeamSection({
           members={TEAM_MEMBERS}
           lang={lang}
           onOpenGallery={onOpenGallery}
+          openLineBooking={openLineBooking}
         />
 
         <div className="mt-10 flex justify-center">
