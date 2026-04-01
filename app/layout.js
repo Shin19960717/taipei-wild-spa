@@ -9,8 +9,15 @@ export const metadata = {
 
   alternates: {
     canonical: "/",
+    languages: {
+      "zh-Hant": "/",
+      en: "/?lang=en",
+      ja: "/?lang=ja",
+      ko: "/?lang=ko",
+    },
   },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="zh-Hant">

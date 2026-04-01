@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import HomeSections from "@/components/pages/HomeSections";
 import useGallery from "@/hooks/useGallery";
 import useHeaderScroll from "@/hooks/useHeaderScroll";
@@ -9,10 +10,49 @@ import { scrollToSection } from "@/lib/scroll";
 import SOCIAL_LINKS from "@/data/socialLinks";
 import { openLineBooking } from "@/lib/line";
 
+const VALID_LANGS = ["zh", "en", "ja", "ko"];
+
 export default function Home() {
   const scrolled = useHeaderScroll();
-  const [lang, setLang] = useState("zh");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const headerRef = useRef(null);
+
+  const searchParamsString = searchParams.toString();
+  const langParam = searchParams.get("lang");
+
+  const resolvedLang = useMemo(() => {
+    return typeof langParam === "string" && VALID_LANGS.includes(langParam)
+      ? langParam
+      : "zh";
+  }, [langParam]);
+
+  const [lang, setLang] = useState(resolvedLang);
+
+  useEffect(() => {
+    setLang((prev) => (prev === resolvedLang ? prev : resolvedLang));
+  }, [resolvedLang]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParamsString);
+
+    if (lang === "zh") {
+      params.delete("lang");
+    } else {
+      params.set("lang", lang);
+    }
+
+    const nextQuery = params.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+    const currentUrl = searchParamsString
+      ? `${pathname}?${searchParamsString}`
+      : pathname;
+
+    if (nextUrl !== currentUrl) {
+      router.replace(nextUrl, { scroll: false });
+    }
+  }, [lang, pathname, router, searchParamsString]);
 
   const { t, navItems, serviceCards } = useHomeViewModel(lang);
 

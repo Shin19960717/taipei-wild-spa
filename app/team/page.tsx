@@ -17,6 +17,8 @@ export default function TeamPage() {
       ? langParam
       : "zh";
 
+  const backHref = lang === "zh" ? "/" : `/?lang=${lang}`;
+
   const handleOpenGallery = (_member: TeamMember, _index = 0) => {
     // 先保留空函式，之後再接回真正的 GalleryModal
   };
@@ -49,7 +51,7 @@ export default function TeamPage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 md:mb-14">
           <Link
-            href={`/?lang=${lang}`}
+            href={backHref}
             className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-700 transition hover:bg-stone-50"
           >
             {pageText.back}
