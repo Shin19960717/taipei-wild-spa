@@ -5,7 +5,7 @@ import type { Lang, TeamMember } from "@/data/teamMembers";
 type TeamGridProps = {
   members: TeamMember[];
   lang: Lang;
-  onOpenGallery: (member: TeamMember, index?: number) => void;
+  onOpenGallery?: (member: TeamMember, index?: number) => void;
   limit?: number;
 };
 
