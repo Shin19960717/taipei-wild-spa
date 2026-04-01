@@ -23,6 +23,8 @@ export default function TeamSection({
   onOpenGallery,
   openLineBooking,
 }: TeamSectionProps) {
+  const teamHref = lang === "zh" ? "/team" : `/team?lang=${lang}`;
+
   return (
     <section id="team" className="px-6 py-12 md:px-10 scroll-mt-32">
       <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
@@ -44,7 +46,7 @@ export default function TeamSection({
 
         <div className="mt-10 flex justify-center">
           <Link
-            href={`/team?lang=${lang}`}
+            href={teamHref}
             className="inline-flex items-center justify-center rounded-full border border-stone-400 px-6 py-3 text-sm font-medium text-stone-800 transition hover:bg-stone-100 hover:-translate-y-0.5 hover:shadow-md"
           >
             {t.viewAllTherapists}

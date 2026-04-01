@@ -3,13 +3,14 @@ import TeamGrid from "@/components/team/TeamGrid";
 import TEAM_MEMBERS, { type Lang } from "@/data/teamMembers";
 
 type TeamPageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     lang?: string;
-  };
+  }>;
 };
 
-export default function TeamPage({ searchParams }: TeamPageProps) {
-  const langParam = searchParams?.lang;
+export default async function TeamPage({ searchParams }: TeamPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const langParam = resolvedSearchParams?.lang;
 
   const lang: Lang =
     langParam === "en" ||
