@@ -6,6 +6,7 @@ import TeamGrid from "@/components/team/TeamGrid";
 import TEAM_MEMBERS, { type Lang } from "@/data/teamMembers";
 import useGallery from "@/hooks/useGallery";
 import GalleryModal from "@/components/ui/gallery/GalleryModal";
+import RecruitSection from "@/components/recruit/RecruitSection";
 import { openLineBooking } from "@/lib/line";
 
 type TeamPageClientProps = {
@@ -64,31 +65,35 @@ export default function TeamPageClient({ lang }: TeamPageClientProps) {
 
   return (
     <>
-      <main className="min-h-screen bg-white px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-32">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-10 md:mb-14">
-            <Link
-              href={backHref}
-              className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-700 transition hover:bg-stone-50"
-            >
-              {pageText.back}
-            </Link>
+      <main className="min-h-screen bg-white pt-28 md:pt-32">
+        <section className="px-6 pb-16 md:px-10 md:pb-24">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-10 md:mb-14">
+              <Link
+                href={backHref}
+                className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-700 transition hover:bg-stone-50"
+              >
+                {pageText.back}
+              </Link>
 
-            <h1 className="mt-6 text-3xl font-bold md:text-5xl">
-              {pageText.title}
-            </h1>
+              <h1 className="mt-6 text-3xl font-bold md:text-5xl">
+                {pageText.title}
+              </h1>
 
-            <p className="mt-3 text-sm text-stone-600 md:text-base">
-              {pageText.subtitle}
-            </p>
+              <p className="mt-3 text-sm text-stone-600 md:text-base">
+                {pageText.subtitle}
+              </p>
+            </div>
+
+            <TeamGrid
+              members={TEAM_MEMBERS}
+              lang={lang}
+              onOpenGallery={openGallery}
+            />
           </div>
+        </section>
 
-          <TeamGrid
-            members={TEAM_MEMBERS}
-            lang={lang}
-            onOpenGallery={openGallery}
-          />
-        </div>
+        <RecruitSection lang={lang} />
       </main>
 
       <GalleryModal

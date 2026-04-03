@@ -30,13 +30,6 @@ export default function TeamSection({
       <RevealOnScroll className="max-w-6xl mx-auto" y={24}>
         <SectionTitle>{t.teamTitle}</SectionTitle>
 
-        <Link
-          href="/recruit"
-          className="inline-block mt-4 mb-6 px-3 py-1.5 border border-stone-700 text-stone-700 text-sm rounded-full transition hover:bg-stone-100 hover:scale-105"
-        >
-          {t.recruitTitle}
-        </Link>
-
         <TeamGrid
           members={TEAM_MEMBERS}
           lang={lang}
