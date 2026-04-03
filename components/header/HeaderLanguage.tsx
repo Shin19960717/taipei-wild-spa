@@ -1,5 +1,4 @@
 import LANG_OPTIONS from "@/data/langOptions";
-import { LANG_BUTTON_BASE } from "@/constants/uiClasses";
 
 type HeaderLanguageProps = {
   lang: string;
@@ -11,21 +10,25 @@ export default function HeaderLanguage({
   setLang,
 }: HeaderLanguageProps) {
   return (
-    <div className="flex flex-wrap justify-center gap-2 w-full">
-      {LANG_OPTIONS.map((option) => (
-        <button
-          key={option.key}
-          type="button"
-          onClick={() => setLang(option.key)}
-          className={`${LANG_BUTTON_BASE} ${
-            lang === option.key
-              ? "bg-black text-white shadow-md"
-              : "bg-white text-black hover:bg-stone-100"
-          }`}
-        >
-          {option.label}
-        </button>
-      ))}
+    <div className="flex items-center rounded-full border border-black/10 bg-white/70 backdrop-blur-md p-1 shadow-sm">
+      {LANG_OPTIONS.map((option) => {
+        const isActive = lang === option.key;
+
+        return (
+          <button
+            key={option.key}
+            type="button"
+            onClick={() => setLang(option.key)}
+            className={`px-3 py-1.5 text-sm rounded-full transition-all duration-200 ${
+              isActive
+                ? "bg-black text-white shadow"
+                : "text-stone-700 hover:bg-stone-100"
+            }`}
+          >
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

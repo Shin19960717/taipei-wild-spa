@@ -1,12 +1,12 @@
 "use client";
 
 import { Suspense } from "react";
-import HomeContent from "./HomeContent";
+import HomePageClient from "./HomePageClient";
 
 export default function Home() {
   return (
     <Suspense fallback={null}>
-      <HomeContent />
+      <HomePageClient />
     </Suspense>
   );
 }
