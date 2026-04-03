@@ -1,5 +1,4 @@
 import { LINE_ADD_FRIEND_URL } from "@/lib/line";
-import { NAV_LINK_CLASS } from "@/constants/uiClasses";
 
 type NavItem = {
   id: string;
@@ -18,26 +17,31 @@ export default function HeaderNav({
   navContactLabel,
 }: HeaderNavProps) {
   return (
-    <div className="flex flex-wrap justify-center gap-2 w-full">
-      {navItems.map((item) => (
-        <button
-          key={item.id}
-          type="button"
-          onClick={() => onScrollToSection(item.id)}
-          className={NAV_LINK_CLASS}
-        >
-          {item.label}
-        </button>
-      ))}
+    <nav className="flex min-w-0 flex-1 items-center">
+      <ul className="flex min-w-0 flex-wrap items-center gap-2 lg:gap-3">
+        {navItems.map((item) => (
+          <li key={item.id}>
+            <button
+              type="button"
+              onClick={() => onScrollToSection(item.id)}
+              className="whitespace-nowrap rounded-full border border-black/20 bg-white px-4 py-2 text-sm text-stone-800 transition hover:bg-black hover:text-white"
+            >
+              {item.label}
+            </button>
+          </li>
+        ))}
 
-      <a
-        href={LINE_ADD_FRIEND_URL}
-        target="_blank"
-        rel="noreferrer"
-        className="px-3 py-1 text-sm bg-black text-white rounded-full transition hover:opacity-90"
-      >
-        {navContactLabel}
-      </a>
-    </div>
+        <li>
+          <a
+            href={LINE_ADD_FRIEND_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex whitespace-nowrap rounded-full bg-black px-4 py-2 text-sm text-white transition hover:opacity-90"
+          >
+            {navContactLabel}
+          </a>
+        </li>
+      </ul>
+    </nav>
   );
 }

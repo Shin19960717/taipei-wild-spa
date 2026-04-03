@@ -14,7 +14,7 @@ type TeamPageClientProps = {
 };
 
 export default function TeamPageClient({ lang }: TeamPageClientProps) {
-  const backHref = lang === "zh" ? "/" : `/?lang=${lang}`;
+  const backHref = `/?lang=${lang}`;
 
   const pageText = useMemo(
     () =>
