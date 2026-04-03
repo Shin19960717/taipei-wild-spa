@@ -79,6 +79,37 @@ const TEAM_MEMBERS: TeamMember[] = [
     ],
     calendar: "https://calendar.google.com/ryan",
   },
+    {
+    id: "Dragon",
+    name: "Dragon",
+    desc: {
+      zh: ["175/73/22", "年下感", "運動感", "禮貌靦腆"],
+      en: [
+        "175/73/22",
+        "boyish charm",
+        "sporty",
+        "soft-spoken and polite",
+      ],
+      ja: [
+        "175/73/22",
+        "少年っぽい感じ",
+        "スポーティーな感じ",
+        "礼儀正しくて少し恥ずかしがり屋",
+      ],
+      ko: [
+        "175/73/22",
+        "소년 같은 느낌",
+        "스포티한 느낌",
+        "공손하고 부끄러움 많은 스타일",
+      ],
+    },
+    imgs: [
+      "/team/Dragon01.jpg",
+      "/team/Dragon02.jpg",
+    ],
+    calendar: "https://calendar.google.com/ryan",
+  },
+
 ];
 
 export default TEAM_MEMBERS;
