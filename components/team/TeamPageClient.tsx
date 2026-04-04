@@ -19,37 +19,33 @@ export default function TeamPageClient({ lang }: TeamPageClientProps) {
   const pageText = useMemo(
     () =>
       ({
-        zh: {
-          title: "全部師傅",
-          subtitle: "查看目前可預約師傅的照片與基本資訊。",
-          back: "返回首頁",
-          scheduleButton: "查看班表",
-          bookThis: "LINE預約這位師傅",
-        },
-        en: {
-          title: "All Therapists",
-          subtitle:
-            "Browse photos and basic information of all available therapists.",
-          back: "Back to Home",
-          scheduleButton: "View Schedule",
-          bookThis: "Book This Therapist via LINE",
-        },
-        ja: {
-          title: "全セラピスト一覧",
-          subtitle:
-            "現在予約可能なセラピストの写真と基本情報をご覧いただけます。",
-          back: "ホームへ戻る",
-          scheduleButton: "スケジュールを見る",
-          bookThis: "LINEでこのセラピストを予約",
-        },
-        ko: {
-          title: "전체 테라피스트",
-          subtitle:
-            "현재 예약 가능한 테라피스트의 사진과 기본 정보를 확인하세요.",
-          back: "홈으로 돌아가기",
-          scheduleButton: "스케줄 보기",
-          bookThis: "LINE으로 이 테라피스트 예약",
-        },
+zh: {
+  title: "全部師傅",
+  subtitle: "查看目前可預約師傅的照片與基本資訊。",
+  back: "返回首頁",
+  bookThis: "LINE預約這位師傅",
+},
+en: {
+  title: "All Therapists",
+  subtitle:
+    "Browse photos and basic information of all available therapists.",
+  back: "Back to Home",
+  bookThis: "Book This Therapist via LINE",
+},
+ja: {
+  title: "全セラピスト一覧",
+  subtitle:
+    "現在予約可能なセラピストの写真と基本情報をご覧いただけます。",
+  back: "ホームへ戻る",
+  bookThis: "LINEでこのセラピストを予約",
+},
+ko: {
+  title: "전체 테라피스트",
+  subtitle:
+    "현재 예약 가능한 테라피스트의 사진과 기본 정보를 확인하세요.",
+  back: "홈으로 돌아가기",
+  bookThis: "LINE으로 이 테라피스트 예약",
+},
       })[lang],
     [lang]
   );

@@ -42,7 +42,8 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Rookie03.jpg",
       "/team/Rookie04.jpg",
     ],
-    calendar: "https://calendar.google.com/ryan",
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=rookie_calendar_id%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
   {
     id: "eric",
@@ -77,10 +78,11 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Eric03.jpg",
       "/team/Eric04.jpg",
     ],
-    calendar: "https://calendar.google.com/ryan",
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=eric_calendar_id%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
-    {
-    id: "Dragon",
+  {
+    id: "dragon",
     name: "Dragon",
     desc: {
       zh: ["175/73/22", "年下感", "運動感", "禮貌靦腆"],
@@ -107,9 +109,9 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Dragon01.jpg",
       "/team/Dragon02.jpg",
     ],
-    calendar: "https://calendar.google.com/ryan",
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=dragon_calendar_id%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
-
 ];
 
 export default TEAM_MEMBERS;
