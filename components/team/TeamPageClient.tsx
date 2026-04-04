@@ -65,22 +65,22 @@ export default function TeamPageClient({ lang }: TeamPageClientProps) {
 
   return (
     <>
-      <main className="min-h-screen bg-white pt-28 md:pt-32">
+      <main className="min-h-screen bg-white pt-28 text-stone-900 md:pt-32">
         <section className="px-6 pb-16 md:px-10 md:pb-24">
           <div className="mx-auto max-w-7xl">
             <div className="mb-10 md:mb-14">
               <Link
                 href={backHref}
-                className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-700 transition hover:bg-stone-50"
+                className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-800 transition hover:bg-stone-50"
               >
                 {pageText.back}
               </Link>
 
-              <h1 className="mt-6 text-3xl font-bold md:text-5xl">
+              <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-900 md:text-5xl">
                 {pageText.title}
               </h1>
 
-              <p className="mt-3 text-sm text-stone-600 md:text-base">
+              <p className="mt-3 text-sm leading-7 text-stone-700 md:text-base">
                 {pageText.subtitle}
               </p>
             </div>
