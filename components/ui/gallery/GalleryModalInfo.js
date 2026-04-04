@@ -13,6 +13,18 @@ export default function GalleryModalInfo({
   const memberKey = member.id.toLowerCase();
   const slots = TEAM_SCHEDULES[memberKey] ?? [];
 
+  const handleBookingClick = (e, slot) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openLineBooking(member.name, lang, slot, e);
+  };
+
+  const handleGeneralBookingClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openLineBooking(member.name, lang, undefined, e);
+  };
+
   return (
     <div className="p-4 md:p-5">
       <h3 className="text-2xl font-bold">{member.name}</h3>
@@ -39,7 +51,7 @@ export default function GalleryModalInfo({
               <button
                 key={`${member.id}-${slot.date}-${slot.time}`}
                 type="button"
-                onClick={() => openLineBooking(member.name, lang, slot)}
+                onClick={(e) => handleBookingClick(e, slot)}
                 className="inline-flex items-center rounded-full border border-stone-300 bg-white px-4 py-2 text-sm text-stone-900 transition hover:-translate-y-0.5 hover:border-stone-500 hover:bg-stone-50"
               >
                 {slot.label}
@@ -64,7 +76,7 @@ export default function GalleryModalInfo({
       <div className="mt-5">
         <button
           type="button"
-          onClick={() => openLineBooking(member.name, lang)}
+          onClick={handleGeneralBookingClick}
           className="inline-flex items-center rounded-full bg-green-500 px-4 py-2 text-sm text-white transition hover:scale-105"
         >
           {t.bookThis}
