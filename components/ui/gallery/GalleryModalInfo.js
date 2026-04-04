@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import { PRIMARY_TAG_CLASS, TAG_CLASS } from "./galleryModal.constants";
 import { TEAM_SCHEDULES } from "@/data/teamSchedules";
 
@@ -13,6 +14,26 @@ export default function GalleryModalInfo({
   const memberKey = member.id.toLowerCase();
   const slots = TEAM_SCHEDULES[memberKey] ?? [];
 
+  const [isMobile, setIsMobile] = useState(false);
+  const [iframeReady, setIframeReady] = useState(false);
+
+  useEffect(() => {
+    const updateIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", updateIsMobile);
+    };
+  }, []);
+
+  useEffect(() => {
+    setIframeReady(false);
+  }, [member?.id, lang, isMobile]);
+
   const handleBookingClick = (e, slot) => {
     e.preventDefault();
     e.stopPropagation();
@@ -24,6 +45,31 @@ export default function GalleryModalInfo({
     e.stopPropagation();
     openLineBooking(member.name, lang, undefined, e);
   };
+
+  const calendarSrc = useMemo(() => {
+    if (!member?.calendar) return "";
+
+    try {
+      const url = new URL(member.calendar);
+
+      if (isMobile) {
+        url.searchParams.set("mode", "AGENDA");
+        url.searchParams.set("showTitle", "0");
+        url.searchParams.set("showPrint", "0");
+        url.searchParams.set("showTabs", "0");
+        url.searchParams.set("showCalendars", "0");
+        url.searchParams.set("showTz", "0");
+      } else {
+        if (!url.searchParams.get("mode")) {
+          url.searchParams.set("mode", "MONTH");
+        }
+      }
+
+      return url.toString();
+    } catch {
+      return member.calendar;
+    }
+  }, [member?.calendar, isMobile]);
 
   return (
     <div className="p-4 md:p-5">
@@ -62,14 +108,35 @@ export default function GalleryModalInfo({
       )}
 
       {member.calendar && (
-        <div className="mt-5 overflow-hidden rounded-2xl border border-stone-200">
-          <iframe
-            src={member.calendar}
-            className="h-[380px] w-full md:h-[520px]"
-            style={{ border: 0 }}
-            loading="lazy"
-            title={`${member.name} calendar`}
-          />
+        <div className="mt-5">
+          <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
+            {!iframeReady && (
+              <div className="flex h-[420px] w-full items-center justify-center text-sm text-stone-500 md:h-[520px]">
+                載入班表中...
+              </div>
+            )}
+
+            <iframe
+              key={`${member.id}-${lang}-${isMobile ? "mobile" : "desktop"}`}
+              src={calendarSrc}
+              className={`${iframeReady ? "block" : "block"} w-full ${
+                isMobile ? "h-[420px]" : "h-[520px]"
+              }`}
+              style={{
+                border: 0,
+                backgroundColor: "#ffffff",
+              }}
+              title={`${member.name} calendar`}
+              onLoad={() => setIframeReady(true)}
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+
+          <p className="mt-2 text-xs leading-5 text-stone-500">
+            {isMobile
+              ? "手機版已自動切換為較適合小螢幕瀏覽的日程模式。"
+              : "桌機版顯示完整 Google 日曆。"}
+          </p>
         </div>
       )}
 
