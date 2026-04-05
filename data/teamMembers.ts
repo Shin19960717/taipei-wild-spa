@@ -79,7 +79,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Eric04.jpg",
     ],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=eric_calendar_id%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
   {
     id: "dragon",
@@ -110,7 +110,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Dragon02.jpg",
     ],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=dragon_calendar_id%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
 ];
 
