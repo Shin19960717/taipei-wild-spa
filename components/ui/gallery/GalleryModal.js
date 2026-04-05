@@ -34,6 +34,21 @@ export default function GalleryModal({
     onSelectImage(index);
   };
 
+  const handlePrev = () => {
+    triggerInteractionSignal();
+    onPrev?.();
+  };
+
+  const handleNext = () => {
+    triggerInteractionSignal();
+    onNext?.();
+  };
+
+  const handleStageSelectImage = (index) => {
+    triggerInteractionSignal();
+    onSelectImage?.(index);
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 overflow-y-auto bg-black/80 p-2 md:p-4"
@@ -49,8 +64,9 @@ export default function GalleryModal({
               member={member}
               imageIndex={gallery.imageIndex}
               onClose={onClose}
-              onPrev={onPrev}
-              onNext={onNext}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              onSelectImage={handleStageSelectImage}
               interactionSignal={interactionSignal}
             />
 

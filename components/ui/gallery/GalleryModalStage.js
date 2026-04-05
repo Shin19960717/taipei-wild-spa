@@ -1,15 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   MODAL_ARROW_BUTTON_CLASS,
   MODAL_CLOSE_BUTTON_CLASS,
 } from "./galleryModal.constants";
-
-const ANIMATION_MS = 320;
-const AUTO_PLAY_MS = 3000;
-const RESUME_DELAY_MS = 5000;
 
 export default function GalleryModalStage({
   member,
@@ -17,6 +13,7 @@ export default function GalleryModalStage({
   onClose,
   onPrev,
   onNext,
+  onSelectImage,
   interactionSignal,
 }) {
   const images = member?.imgs ?? [];
@@ -25,62 +22,42 @@ export default function GalleryModalStage({
 
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(null);
+  const [failedImages, setFailedImages] = useState({});
+  const [current, setCurrent] = useState(imageIndex ?? 0);
 
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragPercent, setDragPercent] = useState(0);
-  const [stage, setStage] = useState("idle");
-  // idle | animating-next | animating-prev | snap-back
+  const touchStartXRef = useRef(null);
+  const touchEndXRef = useRef(null);
 
-  const containerRef = useRef(null);
-  const trackRef = useRef(null);
-
-  const touchStartXRef = useRef(0);
-  const touchStartYRef = useRef(0);
-  const touchStartTimeRef = useRef(0);
-  const lastTouchXRef = useRef(0);
-  const startContainerWidthRef = useRef(1);
-  const isHorizontalSwipeRef = useRef(false);
-
-  const prevIndex = useMemo(() => {
-    if (!totalImages) return 0;
-    return (imageIndex - 1 + totalImages) % totalImages;
-  }, [imageIndex, totalImages]);
-
-  const nextIndex = useMemo(() => {
-    if (!totalImages) return 0;
-    return (imageIndex + 1) % totalImages;
-  }, [imageIndex, totalImages]);
-
-  const isAnimating =
-    stage === "animating-next" ||
-    stage === "animating-prev" ||
-    stage === "snap-back";
-
-  const pauseAutoPlay = () => {
+  const pauseAutoPlay = useCallback(() => {
     setIsPaused(true);
     setLastInteraction(Date.now());
-  };
+  }, []);
+
+  useEffect(() => {
+    setCurrent(imageIndex ?? 0);
+  }, [imageIndex]);
 
   useEffect(() => {
     if (!hasMultipleImages || !interactionSignal) return;
     pauseAutoPlay();
-  }, [interactionSignal, hasMultipleImages]);
+  }, [interactionSignal, hasMultipleImages, pauseAutoPlay]);
 
   useEffect(() => {
-    if (!hasMultipleImages || isPaused || isDragging || isAnimating) return;
+    if (!hasMultipleImages || isPaused) return;
 
-    const timer = window.setInterval(() => {
-      setStage("animating-next");
-    }, AUTO_PLAY_MS);
+    const timer = window.setTimeout(() => {
+      handleGoNext();
+    }, 3000);
 
-    return () => window.clearInterval(timer);
-  }, [hasMultipleImages, isPaused, isDragging, isAnimating, imageIndex]);
+    return () => window.clearTimeout(timer);
+  }, [current, hasMultipleImages, isPaused]);
 
   useEffect(() => {
     if (!hasMultipleImages || !isPaused || !lastInteraction) return;
 
+    const resumeDelay = 5000;
     const elapsed = Date.now() - lastInteraction;
-    const remaining = Math.max(RESUME_DELAY_MS - elapsed, 0);
+    const remaining = Math.max(resumeDelay - elapsed, 0);
 
     const timer = window.setTimeout(() => {
       setIsPaused(false);
@@ -89,145 +66,79 @@ export default function GalleryModalStage({
     return () => window.clearTimeout(timer);
   }, [hasMultipleImages, isPaused, lastInteraction]);
 
-  const goNext = () => {
-    if (!hasMultipleImages || isAnimating) return;
-    setIsDragging(false);
-    setDragPercent(0);
-    setStage("animating-next");
-  };
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose?.();
+        return;
+      }
 
-  const goPrev = () => {
-    if (!hasMultipleImages || isAnimating) return;
-    setIsDragging(false);
-    setDragPercent(0);
-    setStage("animating-prev");
-  };
+      if (!hasMultipleImages) return;
 
-  const handlePrevClick = () => {
-    pauseAutoPlay();
-    goPrev();
-  };
+      if (e.key === "ArrowLeft") {
+        pauseAutoPlay();
+        handleGoPrev();
+      }
 
-  const handleNextClick = () => {
-    pauseAutoPlay();
-    goNext();
-  };
+      if (e.key === "ArrowRight") {
+        pauseAutoPlay();
+        handleGoNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [hasMultipleImages, pauseAutoPlay, current, totalImages]);
+
+  const handleGoPrev = useCallback(() => {
+    if (!hasMultipleImages) return;
+
+    const nextIndex = (current - 1 + totalImages) % totalImages;
+    setCurrent(nextIndex);
+    onPrev?.();
+  }, [current, hasMultipleImages, totalImages, onPrev]);
+
+  const handleGoNext = useCallback(() => {
+    if (!hasMultipleImages) return;
+
+    const nextIndex = (current + 1) % totalImages;
+    setCurrent(nextIndex);
+    onNext?.();
+  }, [current, hasMultipleImages, totalImages, onNext]);
 
   const handleTouchStart = (e) => {
-    if (!hasMultipleImages || isAnimating) return;
-
-    const touch = e.touches[0];
-    const width = containerRef.current?.getBoundingClientRect().width ?? 1;
-
     pauseAutoPlay();
-
-    startContainerWidthRef.current = width;
-    touchStartXRef.current = touch.clientX;
-    touchStartYRef.current = touch.clientY;
-    touchStartTimeRef.current = Date.now();
-    lastTouchXRef.current = touch.clientX;
-    isHorizontalSwipeRef.current = false;
-
-    setIsDragging(true);
-    setDragPercent(0);
+    touchStartXRef.current = e.targetTouches[0].clientX;
+    touchEndXRef.current = null;
   };
 
   const handleTouchMove = (e) => {
-    if (!hasMultipleImages || !isDragging || isAnimating) return;
-
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - touchStartXRef.current;
-    const deltaY = touch.clientY - touchStartYRef.current;
-
-    if (!isHorizontalSwipeRef.current) {
-      if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
-        isHorizontalSwipeRef.current = true;
-      } else if (Math.abs(deltaY) > Math.abs(deltaX)) {
-        setIsDragging(false);
-        setDragPercent(0);
-        return;
-      }
-    }
-
-    if (!isHorizontalSwipeRef.current) return;
-
-    e.preventDefault();
-    lastTouchXRef.current = touch.clientX;
-
-    const width = startContainerWidthRef.current || 1;
-    const percent = (deltaX / width) * 100;
-    const clampedPercent = Math.max(Math.min(percent, 60), -60);
-
-    setDragPercent(clampedPercent);
+    touchEndXRef.current = e.targetTouches[0].clientX;
   };
 
   const handleTouchEnd = () => {
-    if (!hasMultipleImages || !isDragging || isAnimating) return;
+    if (touchStartXRef.current == null || touchEndXRef.current == null) return;
 
-    const deltaX = lastTouchXRef.current - touchStartXRef.current;
-    const elapsed = Date.now() - touchStartTimeRef.current;
-    const width = startContainerWidthRef.current || 1;
+    const distance = touchStartXRef.current - touchEndXRef.current;
 
-    const distanceThreshold = width * 0.18;
-    const velocity = elapsed > 0 ? Math.abs(deltaX) / elapsed : 0;
-
-    const shouldMoveByDistance = Math.abs(deltaX) > distanceThreshold;
-    const shouldMoveByVelocity = velocity > 0.45;
-
-    setIsDragging(false);
-
-    if (shouldMoveByDistance || shouldMoveByVelocity) {
-      setDragPercent(0);
-
-      if (deltaX < 0) {
-        setStage("animating-next");
-      } else {
-        setStage("animating-prev");
-      }
-      return;
+    if (distance > 50) {
+      handleGoNext();
     }
 
-    setDragPercent(0);
-    setStage("snap-back");
+    if (distance < -50) {
+      handleGoPrev();
+    }
   };
 
-  const handleTrackTransitionEnd = (e) => {
-    if (e.target !== trackRef.current) return;
-    if (e.propertyName !== "transform") return;
-
-    if (stage === "animating-next") {
-      onNext?.();
-      setStage("idle");
-      return;
-    }
-
-    if (stage === "animating-prev") {
-      onPrev?.();
-      setStage("idle");
-      return;
-    }
-
-    if (stage === "snap-back") {
-      setStage("idle");
-    }
+  const handleImageError = (index, img) => {
+    console.error(`[GalleryModalStage] image failed to load: ${img}`);
+    setFailedImages((prev) => ({
+      ...prev,
+      [index]: true,
+    }));
   };
 
   if (!member || !images.length) return null;
-
-  let translatePercent = -100;
-
-  if (stage === "animating-next") {
-    translatePercent = -200;
-  } else if (stage === "animating-prev") {
-    translatePercent = 0;
-  } else {
-    translatePercent = -100 + dragPercent;
-  }
-
-  const shouldAnimate =
-    stage === "animating-next" ||
-    stage === "animating-prev" ||
-    stage === "snap-back";
 
   return (
     <>
@@ -241,69 +152,50 @@ export default function GalleryModalStage({
       </button>
 
       <div
-        ref={containerRef}
-        className="relative flex h-[55vh] items-center justify-center overflow-hidden bg-black md:h-[70vh]"
+        className="relative h-[55vh] w-full overflow-hidden bg-black md:h-[70vh]"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
         <div
-          ref={trackRef}
-          onTransitionEnd={handleTrackTransitionEnd}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "100% 100% 100%",
-            width: "100%",
-            height: "100%",
-            transform: `translate3d(${translatePercent}%, 0, 0)`,
-            transition: shouldAnimate
-              ? `transform ${ANIMATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
-              : "none",
-            willChange: "transform",
-          }}
+          className="flex h-full w-full transition-transform duration-500 ease-in-out"
+          style={{ transform: `translateX(-${current * 100}%)` }}
         >
-          <div className="relative h-full overflow-hidden">
-            <Image
-              src={images[prevIndex]}
-              alt={`${member.name}-${prevIndex + 1}`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-contain select-none"
-              draggable={false}
-              priority
-            />
-          </div>
-
-          <div className="relative h-full overflow-hidden">
-            <Image
-              src={images[imageIndex]}
-              alt={`${member.name}-${imageIndex + 1}`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-contain select-none"
-              draggable={false}
-              priority
-            />
-          </div>
-
-          <div className="relative h-full overflow-hidden">
-            <Image
-              src={images[nextIndex]}
-              alt={`${member.name}-${nextIndex + 1}`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="object-contain select-none"
-              draggable={false}
-              priority
-            />
-          </div>
+          {images.map((img, index) => (
+            <div
+              key={`${member.name}-${index}`}
+              className="relative h-full min-w-full bg-black"
+            >
+              {failedImages[index] ? (
+                <div className="flex h-full w-full items-center justify-center bg-stone-900 text-sm text-stone-300">
+                  Image failed: {img}
+                </div>
+              ) : (
+                <Image
+                  src={img}
+                  alt={`${member.name}-${index + 1}`}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 1024px) 100vw, 60vw"
+                  className="cursor-pointer select-none object-contain"
+                  draggable={false}
+                  priority={index === current}
+                  onClick={() => onSelectImage?.(index)}
+                  onError={() => handleImageError(index, img)}
+                />
+              )}
+            </div>
+          ))}
         </div>
 
         {hasMultipleImages && (
           <>
             <button
               type="button"
-              onClick={handlePrevClick}
+              onClick={() => {
+                pauseAutoPlay();
+                handleGoPrev();
+              }}
               className={`${MODAL_ARROW_BUTTON_CLASS} left-3 md:left-4`}
               aria-label="Previous gallery image"
             >
@@ -312,12 +204,33 @@ export default function GalleryModalStage({
 
             <button
               type="button"
-              onClick={handleNextClick}
+              onClick={() => {
+                pauseAutoPlay();
+                handleGoNext();
+              }}
               className={`${MODAL_ARROW_BUTTON_CLASS} right-3 md:right-4`}
               aria-label="Next gallery image"
             >
               ›
             </button>
+
+            <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+              {images.map((_, index) => (
+                <button
+                  key={`modal-dot-${member.name}-${index}`}
+                  type="button"
+                  onClick={() => {
+                    pauseAutoPlay();
+                    setCurrent(index);
+                    onSelectImage?.(index);
+                  }}
+                  className={`h-2.5 w-2.5 rounded-full ${
+                    current === index ? "bg-white" : "bg-white/50"
+                  }`}
+                  aria-label={`Go to image ${index + 1}`}
+                />
+              ))}
+            </div>
           </>
         )}
       </div>
