@@ -16,43 +16,49 @@ export default function GalleryModal({
   onSelectImage,
   openLineBooking,
 }) {
-  const member = gallery.member;
+  const member = gallery?.member;
 
-  useLockBodyScroll(gallery.isOpen);
-  useEscapeKey(gallery.isOpen, onClose);
+  useLockBodyScroll(gallery?.isOpen);
+  useEscapeKey(gallery?.isOpen, onClose);
 
-  if (!gallery.isOpen || !member) return null;
+  if (!gallery?.isOpen || !member) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/80 overflow-y-auto p-2 md:p-4"
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/80 p-2 md:p-4"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-5xl my-4 md:my-8 mx-auto bg-white rounded-2xl overflow-hidden shadow-2xl"
+        className="relative mx-auto my-4 w-full max-w-6xl overflow-hidden rounded-2xl bg-white shadow-2xl md:my-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <GalleryModalStage
-          member={member}
-          imageIndex={gallery.imageIndex}
-          onClose={onClose}
-          onPrev={onPrev}
-          onNext={onNext}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(380px,0.95fr)]">
+          <div className="bg-white">
+            <GalleryModalStage
+              member={member}
+              imageIndex={gallery.imageIndex}
+              onClose={onClose}
+              onPrev={onPrev}
+              onNext={onNext}
+            />
 
-        <GalleryModalInfo
-          member={member}
-          lang={lang}
-          t={t}
-          imageIndex={gallery.imageIndex}
-          openLineBooking={openLineBooking}
-        />
+            <GalleryModalThumbnails
+              member={member}
+              imageIndex={gallery.imageIndex}
+              onSelectImage={onSelectImage}
+            />
+          </div>
 
-        <GalleryModalThumbnails
-          member={member}
-          imageIndex={gallery.imageIndex}
-          onSelectImage={onSelectImage}
-        />
+          <div className="bg-white">
+            <GalleryModalInfo
+              member={member}
+              lang={lang}
+              t={t}
+              imageIndex={gallery.imageIndex}
+              openLineBooking={openLineBooking}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
