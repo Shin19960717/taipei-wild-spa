@@ -7,6 +7,10 @@ import {
   MODAL_CLOSE_BUTTON_CLASS,
 } from "./galleryModal.constants";
 
+const ANIMATION_MS = 320;
+const AUTO_PLAY_MS = 3000;
+const RESUME_DELAY_MS = 5000;
+
 export default function GalleryModalStage({
   member,
   imageIndex,
@@ -15,57 +19,27 @@ export default function GalleryModalStage({
   onNext,
   interactionSignal,
 }) {
-  const hasMultipleImages = member.imgs.length > 1;
-  const totalImages = member?.imgs?.length ?? 0;
+  const images = member?.imgs ?? [];
+  const totalImages = images.length;
+  const hasMultipleImages = totalImages > 1;
 
   const [isPaused, setIsPaused] = useState(false);
   const [lastInteraction, setLastInteraction] = useState(null);
 
-  const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const [enableTransition, setEnableTransition] = useState(true);
+  const [dragPercent, setDragPercent] = useState(0);
+  const [stage, setStage] = useState("idle");
+  // idle | animating-next | animating-prev | snap-back
 
   const containerRef = useRef(null);
+  const trackRef = useRef(null);
+
   const touchStartXRef = useRef(0);
   const touchStartYRef = useRef(0);
   const touchStartTimeRef = useRef(0);
   const lastTouchXRef = useRef(0);
+  const startContainerWidthRef = useRef(1);
   const isHorizontalSwipeRef = useRef(false);
-  const slideActionLockRef = useRef(false);
-
-  const pauseAutoPlay = () => {
-    setIsPaused(true);
-    setLastInteraction(Date.now());
-  };
-
-  // 縮圖點擊或外部互動時，重置自動輪播計時
-useEffect(() => {
-  if (!hasMultipleImages || !interactionSignal) return;
-  pauseAutoPlay();
-}, [interactionSignal, hasMultipleImages]);
-  useEffect(() => {
-    if (!hasMultipleImages || isPaused) return;
-
-    const timer = window.setInterval(() => {
-      onNext();
-    }, 3000);
-
-    return () => window.clearInterval(timer);
-  }, [hasMultipleImages, isPaused, onNext]);
-
-  useEffect(() => {
-    if (!hasMultipleImages || !isPaused || !lastInteraction) return;
-
-    const resumeDelay = 5000;
-    const elapsed = Date.now() - lastInteraction;
-    const remaining = Math.max(resumeDelay - elapsed, 0);
-
-    const timer = window.setTimeout(() => {
-      setIsPaused(false);
-    }, remaining);
-
-    return () => window.clearTimeout(timer);
-  }, [hasMultipleImages, isPaused, lastInteraction]);
 
   const prevIndex = useMemo(() => {
     if (!totalImages) return 0;
@@ -77,80 +51,89 @@ useEffect(() => {
     return (imageIndex + 1) % totalImages;
   }, [imageIndex, totalImages]);
 
-  const trackTranslateX = `calc(-100% + ${dragX}px)`;
+  const isAnimating =
+    stage === "animating-next" ||
+    stage === "animating-prev" ||
+    stage === "snap-back";
 
-  const resetDragState = () => {
-    setDragX(0);
-    setIsDragging(false);
-    setEnableTransition(false);
-    isHorizontalSwipeRef.current = false;
-    slideActionLockRef.current = false;
+  const pauseAutoPlay = () => {
+    setIsPaused(true);
+    setLastInteraction(Date.now());
   };
 
   useEffect(() => {
-    if (!enableTransition && !isDragging && dragX === 0) {
-      const id = window.requestAnimationFrame(() => {
-        setEnableTransition(true);
-      });
-      return () => window.cancelAnimationFrame(id);
-    }
-  }, [enableTransition, isDragging, dragX]);
+    if (!hasMultipleImages || !interactionSignal) return;
+    pauseAutoPlay();
+  }, [interactionSignal, hasMultipleImages]);
 
-  const animateToNext = () => {
-    if (slideActionLockRef.current) return;
-    slideActionLockRef.current = true;
+  useEffect(() => {
+    if (!hasMultipleImages || isPaused || isDragging || isAnimating) return;
 
-    const containerWidth = containerRef.current?.offsetWidth || window.innerWidth;
-    setEnableTransition(true);
-    setDragX(-containerWidth);
+    const timer = window.setInterval(() => {
+      setStage("animating-next");
+    }, AUTO_PLAY_MS);
 
-    window.setTimeout(() => {
-      onNext();
-      resetDragState();
-    }, 220);
+    return () => window.clearInterval(timer);
+  }, [hasMultipleImages, isPaused, isDragging, isAnimating, imageIndex]);
+
+  useEffect(() => {
+    if (!hasMultipleImages || !isPaused || !lastInteraction) return;
+
+    const elapsed = Date.now() - lastInteraction;
+    const remaining = Math.max(RESUME_DELAY_MS - elapsed, 0);
+
+    const timer = window.setTimeout(() => {
+      setIsPaused(false);
+    }, remaining);
+
+    return () => window.clearTimeout(timer);
+  }, [hasMultipleImages, isPaused, lastInteraction]);
+
+  const goNext = () => {
+    if (!hasMultipleImages || isAnimating) return;
+    setIsDragging(false);
+    setDragPercent(0);
+    setStage("animating-next");
   };
 
-  const animateToPrev = () => {
-    if (slideActionLockRef.current) return;
-    slideActionLockRef.current = true;
-
-    const containerWidth = containerRef.current?.offsetWidth || window.innerWidth;
-    setEnableTransition(true);
-    setDragX(containerWidth);
-
-    window.setTimeout(() => {
-      onPrev();
-      resetDragState();
-    }, 220);
+  const goPrev = () => {
+    if (!hasMultipleImages || isAnimating) return;
+    setIsDragging(false);
+    setDragPercent(0);
+    setStage("animating-prev");
   };
 
   const handlePrevClick = () => {
     pauseAutoPlay();
-    animateToPrev();
+    goPrev();
   };
 
   const handleNextClick = () => {
     pauseAutoPlay();
-    animateToNext();
+    goNext();
   };
 
   const handleTouchStart = (e) => {
-    if (!hasMultipleImages || slideActionLockRef.current) return;
+    if (!hasMultipleImages || isAnimating) return;
 
     const touch = e.touches[0];
-    pauseAutoPlay();
-    setEnableTransition(false);
-    setIsDragging(true);
+    const width = containerRef.current?.getBoundingClientRect().width ?? 1;
 
+    pauseAutoPlay();
+
+    startContainerWidthRef.current = width;
     touchStartXRef.current = touch.clientX;
     touchStartYRef.current = touch.clientY;
     touchStartTimeRef.current = Date.now();
     lastTouchXRef.current = touch.clientX;
     isHorizontalSwipeRef.current = false;
+
+    setIsDragging(true);
+    setDragPercent(0);
   };
 
   const handleTouchMove = (e) => {
-    if (!hasMultipleImages || !isDragging || slideActionLockRef.current) return;
+    if (!hasMultipleImages || !isDragging || isAnimating) return;
 
     const touch = e.touches[0];
     const deltaX = touch.clientX - touchStartXRef.current;
@@ -161,45 +144,90 @@ useEffect(() => {
         isHorizontalSwipeRef.current = true;
       } else if (Math.abs(deltaY) > Math.abs(deltaX)) {
         setIsDragging(false);
-        setDragX(0);
+        setDragPercent(0);
         return;
       }
     }
 
-    if (isHorizontalSwipeRef.current) {
-      e.preventDefault();
-      lastTouchXRef.current = touch.clientX;
-      setDragX(deltaX);
-    }
+    if (!isHorizontalSwipeRef.current) return;
+
+    e.preventDefault();
+    lastTouchXRef.current = touch.clientX;
+
+    const width = startContainerWidthRef.current || 1;
+    const percent = (deltaX / width) * 100;
+    const clampedPercent = Math.max(Math.min(percent, 60), -60);
+
+    setDragPercent(clampedPercent);
   };
 
   const handleTouchEnd = () => {
-    if (!hasMultipleImages || slideActionLockRef.current) return;
+    if (!hasMultipleImages || !isDragging || isAnimating) return;
 
     const deltaX = lastTouchXRef.current - touchStartXRef.current;
     const elapsed = Date.now() - touchStartTimeRef.current;
+    const width = startContainerWidthRef.current || 1;
 
-    const containerWidth = containerRef.current?.offsetWidth || window.innerWidth;
-    const distanceThreshold = containerWidth * 0.18;
+    const distanceThreshold = width * 0.18;
     const velocity = elapsed > 0 ? Math.abs(deltaX) / elapsed : 0;
 
     const shouldMoveByDistance = Math.abs(deltaX) > distanceThreshold;
     const shouldMoveByVelocity = velocity > 0.45;
 
-    setEnableTransition(true);
+    setIsDragging(false);
 
     if (shouldMoveByDistance || shouldMoveByVelocity) {
+      setDragPercent(0);
+
       if (deltaX < 0) {
-        animateToNext();
+        setStage("animating-next");
       } else {
-        animateToPrev();
+        setStage("animating-prev");
       }
-    } else {
-      setDragX(0);
-      setIsDragging(false);
-      isHorizontalSwipeRef.current = false;
+      return;
+    }
+
+    setDragPercent(0);
+    setStage("snap-back");
+  };
+
+  const handleTrackTransitionEnd = (e) => {
+    if (e.target !== trackRef.current) return;
+    if (e.propertyName !== "transform") return;
+
+    if (stage === "animating-next") {
+      onNext?.();
+      setStage("idle");
+      return;
+    }
+
+    if (stage === "animating-prev") {
+      onPrev?.();
+      setStage("idle");
+      return;
+    }
+
+    if (stage === "snap-back") {
+      setStage("idle");
     }
   };
+
+  if (!member || !images.length) return null;
+
+  let translatePercent = -100;
+
+  if (stage === "animating-next") {
+    translatePercent = -200;
+  } else if (stage === "animating-prev") {
+    translatePercent = 0;
+  } else {
+    translatePercent = -100 + dragPercent;
+  }
+
+  const shouldAnimate =
+    stage === "animating-next" ||
+    stage === "animating-prev" ||
+    stage === "snap-back";
 
   return (
     <>
@@ -220,42 +248,53 @@ useEffect(() => {
         onTouchEnd={handleTouchEnd}
       >
         <div
-          className="flex h-full w-[300%]"
+          ref={trackRef}
+          onTransitionEnd={handleTrackTransitionEnd}
           style={{
-            transform: trackTranslateX,
-            transition: enableTransition ? "transform 220ms ease-out" : "none",
+            display: "grid",
+            gridTemplateColumns: "100% 100% 100%",
+            width: "100%",
+            height: "100%",
+            transform: `translate3d(${translatePercent}%, 0, 0)`,
+            transition: shouldAnimate
+              ? `transform ${ANIMATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+              : "none",
+            willChange: "transform",
           }}
         >
-          <div className="relative h-full w-full shrink-0">
+          <div className="relative h-full overflow-hidden">
             <Image
-              src={member.imgs[prevIndex]}
+              src={images[prevIndex]}
               alt={`${member.name}-${prevIndex + 1}`}
               fill
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-contain select-none"
               draggable={false}
+              priority
             />
           </div>
 
-          <div className="relative h-full w-full shrink-0">
+          <div className="relative h-full overflow-hidden">
             <Image
-              src={member.imgs[imageIndex]}
+              src={images[imageIndex]}
               alt={`${member.name}-${imageIndex + 1}`}
               fill
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-contain select-none"
               draggable={false}
+              priority
             />
           </div>
 
-          <div className="relative h-full w-full shrink-0">
+          <div className="relative h-full overflow-hidden">
             <Image
-              src={member.imgs[nextIndex]}
+              src={images[nextIndex]}
               alt={`${member.name}-${nextIndex + 1}`}
               fill
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 60vw"
               className="object-contain select-none"
               draggable={false}
+              priority
             />
           </div>
         </div>

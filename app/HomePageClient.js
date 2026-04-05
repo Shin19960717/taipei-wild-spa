@@ -37,6 +37,9 @@ export default function HomePageClient() {
 
   const [lang, setLangState] = useState(resolvedLang);
 
+  // 手機版語言面板開啟狀態
+  const [isMobileLangMenuOpen, setIsMobileLangMenuOpen] = useState(false);
+
   useEffect(() => {
     setLangState((prev) => (prev === resolvedLang ? prev : resolvedLang));
   }, [resolvedLang]);
@@ -64,6 +67,11 @@ export default function HomePageClient() {
     }
   }, [lang, pathname, router, searchParamsString]);
 
+  // 語言切換後自動關閉手機語言面板
+  useEffect(() => {
+    setIsMobileLangMenuOpen(false);
+  }, [lang]);
+
   const { t, navItems, serviceCards } = useHomeViewModel(lang);
 
   const handleScrollToSection = useCallback((sectionId) => {
@@ -87,6 +95,8 @@ export default function HomePageClient() {
       navItems={navItems}
       lang={lang}
       setLang={setLang}
+      isMobileLangMenuOpen={isMobileLangMenuOpen}
+      setIsMobileLangMenuOpen={setIsMobileLangMenuOpen}
       onScrollToSection={handleScrollToSection}
       t={t}
       serviceCards={serviceCards}

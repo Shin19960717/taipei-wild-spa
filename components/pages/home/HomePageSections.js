@@ -10,6 +10,8 @@ export default function HomePageSections({
   navItems,
   lang,
   setLang,
+  isMobileLangMenuOpen,
+  setIsMobileLangMenuOpen,
   onScrollToSection,
   t,
   serviceCards,
@@ -17,30 +19,44 @@ export default function HomePageSections({
   socialLinks,
   openLineBooking,
 }) {
+  const mobileBlurClass = isMobileLangMenuOpen
+    ? "max-md:blur-md max-md:pointer-events-none max-md:select-none transition-[filter] duration-300"
+    : "transition-[filter] duration-300";
+
   return (
     <>
-      <Header
-        headerRef={headerRef}
-        scrolled={scrolled}
-        navItems={navItems}
-        lang={lang}
-        setLang={setLang}
-        onScrollToSection={onScrollToSection}
-        navContactLabel={t.navContact}
-      />
+      <div className={mobileBlurClass}>
+        <Header
+          headerRef={headerRef}
+          scrolled={scrolled}
+          navItems={navItems}
+          lang={lang}
+          setLang={setLang}
+          isMobileLangMenuOpen={isMobileLangMenuOpen}
+          setIsMobileLangMenuOpen={setIsMobileLangMenuOpen}
+          onScrollToSection={onScrollToSection}
+          navContactLabel={t.navContact}
+        />
+      </div>
 
-      <HeroSection t={t} />
+      <div className={mobileBlurClass}>
+        <HeroSection t={t} />
+      </div>
 
-      <TeamSection
-        t={t}
-        lang={lang}
-        onOpenGallery={onOpenGallery}
-        openLineBooking={openLineBooking}
-      />
+      <div className={mobileBlurClass}>
+        <TeamSection
+          t={t}
+          lang={lang}
+          onOpenGallery={onOpenGallery}
+          openLineBooking={openLineBooking}
+        />
+      </div>
 
       <ServicesSection t={t} serviceCards={serviceCards} />
 
-      <AboutSection t={t} socialLinks={socialLinks} />
+      <div className={mobileBlurClass}>
+        <AboutSection t={t} socialLinks={socialLinks} />
+      </div>
     </>
   );
 }

@@ -65,7 +65,7 @@ export default function GalleryModalInfo({
 
   return (
     <div className="p-4 md:p-5">
-      <h3 className="text-2xl font-bold">{member.name}</h3>
+      <h3 className="text-2xl font-bold text-stone-900">{member.name}</h3>
 
       <div className="mt-3 flex flex-wrap gap-3">
         {(member.desc?.[lang] ?? []).map((item, idx) => (

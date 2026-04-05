@@ -9,6 +9,8 @@ export default function HomeSections({
   navItems,
   lang,
   setLang,
+  isMobileLangMenuOpen,
+  setIsMobileLangMenuOpen,
   onScrollToSection,
   t,
   serviceCards,
@@ -29,6 +31,8 @@ export default function HomeSections({
         navItems={navItems}
         lang={lang}
         setLang={setLang}
+        isMobileLangMenuOpen={isMobileLangMenuOpen}
+        setIsMobileLangMenuOpen={setIsMobileLangMenuOpen}
         onScrollToSection={onScrollToSection}
         t={t}
         serviceCards={serviceCards}
