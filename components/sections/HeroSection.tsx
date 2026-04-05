@@ -14,7 +14,7 @@ type HeroSectionProps = {
 
 export default function HeroSection({ t }: HeroSectionProps) {
   return (
-    <section className="relative overflow-hidden h-[42vh] min-h-[420px] md:h-[58vh] md:min-h-[560px]">
+    <section className="relative overflow-hidden h-[31vh] min-h-[280px] md:h-[58vh] md:min-h-[560px]">
       <div className="absolute inset-0 z-0">
         <HeroCarousel images={HERO_IMAGES} />
       </div>
@@ -25,11 +25,11 @@ export default function HeroSection({ t }: HeroSectionProps) {
         className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white"
         y={18}
       >
-        <h1 className="mb-4 text-4xl font-bold md:text-6xl">
+        <h1 className="mb-3 text-3xl font-bold md:mb-4 md:text-6xl">
           {t.heroTitle}
         </h1>
 
-        <p className="mb-6 text-sm md:text-base">
+        <p className="mb-4 text-xs leading-relaxed md:mb-6 md:text-base">
           {t.heroSubtitle}
         </p>
 
@@ -37,7 +37,7 @@ export default function HeroSection({ t }: HeroSectionProps) {
           href="https://line.me/R/ti/p/@834xdutc"
           target="_blank"
           rel="noreferrer"
-          className="rounded-full bg-white px-6 py-3 font-semibold text-black transition hover:scale-105"
+          className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:scale-105 md:px-6 md:py-3 md:text-base"
         >
           {t.heroButton}
         </a>
