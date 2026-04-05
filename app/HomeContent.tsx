@@ -11,16 +11,10 @@ import SOCIAL_LINKS from "@/data/socialLinks";
 import { openLineBooking } from "@/lib/line";
 
 const VALID_LANGS = ["zh", "en", "ja", "ko"] as const;
-const LANG_COOKIE_NAME = "preferred-lang";
-
 type Lang = (typeof VALID_LANGS)[number];
 
 function isValidLang(value: string | null): value is Lang {
   return typeof value === "string" && VALID_LANGS.includes(value as Lang);
-}
-
-function setPreferredLangCookie(nextLang: Lang) {
-  document.cookie = `${LANG_COOKIE_NAME}=${nextLang}; path=/; max-age=31536000; samesite=lax`;
 }
 
 export default function HomeContent() {
@@ -39,20 +33,20 @@ export default function HomeContent() {
 
   const [lang, setLangState] = useState<Lang>(resolvedLang);
 
+  // ✅ 關鍵新增（這就是你缺的）
+  const [isMobileLangMenuOpen, setIsMobileLangMenuOpen] = useState(false);
+
   useEffect(() => {
     setLangState((prev) => (prev === resolvedLang ? prev : resolvedLang));
   }, [resolvedLang]);
 
   const setLang = useCallback((nextLang: string) => {
     const safeLang: Lang = isValidLang(nextLang) ? nextLang : "zh";
-    setPreferredLangCookie(safeLang);
     setLangState(safeLang);
   }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParamsString);
-
-    // 不論任何語言，都固定保留 lang 參數
     params.set("lang", lang);
 
     const nextQuery = params.toString();
@@ -65,6 +59,11 @@ export default function HomeContent() {
       router.replace(nextUrl, { scroll: false });
     }
   }, [lang, pathname, router, searchParamsString]);
+
+  // 語言切換 → 自動關閉手機選單
+  useEffect(() => {
+    setIsMobileLangMenuOpen(false);
+  }, [lang]);
 
   const { t, navItems, serviceCards } = useHomeViewModel(lang);
 
@@ -89,6 +88,8 @@ export default function HomeContent() {
       navItems={navItems}
       lang={lang}
       setLang={setLang}
+      isMobileLangMenuOpen={isMobileLangMenuOpen}   // ✅ 修正點
+      setIsMobileLangMenuOpen={setIsMobileLangMenuOpen} // ✅ 修正點
       onScrollToSection={handleScrollToSection}
       t={t}
       serviceCards={serviceCards}
