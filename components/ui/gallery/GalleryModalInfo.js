@@ -46,30 +46,60 @@ export default function GalleryModalInfo({
     openLineBooking(member.name, lang, undefined, e);
   };
 
+  /**
+   * 這裡改成：
+   * 1. 手機與桌機都使用 MONTH 模式
+   * 2. 不再把手機切成 AGENDA
+   * 3. 明確補齊常用 embed 參數，讓顯示更穩定
+   */
   const calendarSrc = useMemo(() => {
     if (!member?.calendar) return "";
 
     try {
       const url = new URL(member.calendar);
 
-      if (isMobile) {
-        url.searchParams.set("mode", "AGENDA");
+      // 統一使用月曆模式，讓手機與桌機盡量一致
+      url.searchParams.set("mode", "MONTH");
+
+      // 建議固定時區
+      url.searchParams.set("ctz", "Asia/Taipei");
+
+      // 保留標題與導覽，讓手機看起來更接近桌機
+      // 如不想太複雜，可改成 0
+      if (!url.searchParams.has("showTitle")) {
         url.searchParams.set("showTitle", "0");
-        url.searchParams.set("showPrint", "0");
+      }
+
+      // 保留分頁列（月/週/日）可自行決定
+      if (!url.searchParams.has("showTabs")) {
         url.searchParams.set("showTabs", "0");
+      }
+
+      // 列印按鈕通常可關閉
+      if (!url.searchParams.has("showPrint")) {
+        url.searchParams.set("showPrint", "0");
+      }
+
+      // 是否顯示左下時區
+      if (!url.searchParams.has("showTz")) {
+        url.searchParams.set("showTz", "1");
+      }
+
+      // 是否顯示日曆清單
+      if (!url.searchParams.has("showCalendars")) {
         url.searchParams.set("showCalendars", "0");
-        url.searchParams.set("showTz", "0");
-      } else {
-        if (!url.searchParams.get("mode")) {
-          url.searchParams.set("mode", "MONTH");
-        }
+      }
+
+      // 背景白色
+      if (!url.searchParams.has("bgcolor")) {
+        url.searchParams.set("bgcolor", "#ffffff");
       }
 
       return url.toString();
     } catch {
       return member.calendar;
     }
-  }, [member?.calendar, isMobile]);
+  }, [member?.calendar]);
 
   return (
     <div className="p-4 md:p-5">
@@ -111,16 +141,20 @@ export default function GalleryModalInfo({
         <div className="mt-5">
           <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white">
             {!iframeReady && (
-              <div className="flex h-[420px] w-full items-center justify-center text-sm text-stone-500 md:h-[520px]">
+              <div
+                className={`flex w-full items-center justify-center text-sm text-stone-500 ${
+                  isMobile ? "h-[500px]" : "h-[640px]"
+                }`}
+              >
                 載入班表中...
               </div>
             )}
 
             <iframe
-              key={`${member.id}-${lang}-${isMobile ? "mobile" : "desktop"}`}
+              key={`${member.id}-${lang}-desktop-like-calendar`}
               src={calendarSrc}
-              className={`${iframeReady ? "block" : "block"} w-full ${
-                isMobile ? "h-[420px]" : "h-[520px]"
+              className={`w-full ${iframeReady ? "block" : "block"} ${
+                isMobile ? "h-[500px]" : "h-[640px]"
               }`}
               style={{
                 border: 0,
@@ -128,14 +162,13 @@ export default function GalleryModalInfo({
               }}
               title={`${member.name} calendar`}
               onLoad={() => setIframeReady(true)}
+              loading="lazy"
               referrerPolicy="strict-origin-when-cross-origin"
             />
           </div>
 
           <p className="mt-2 text-xs leading-5 text-stone-500">
-            {isMobile
-              ? "手機版已自動切換為較適合小螢幕瀏覽的日程模式。"
-              : "桌機版顯示完整 Google 日曆。"}
+            目前已改為手機與桌機皆使用相同的 Google 月曆 iframe 模式。若手機仍出現 Google 帳號或 cookie 提示，通常是手機瀏覽器或 App 內建瀏覽器的限制，並非此頁面版面錯誤。
           </p>
         </div>
       )}
