@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import GalleryModalStage from "./GalleryModalStage";
@@ -17,11 +18,21 @@ export default function GalleryModal({
   openLineBooking,
 }) {
   const member = gallery?.member;
+  const [interactionSignal, setInteractionSignal] = useState(0);
 
   useLockBodyScroll(gallery?.isOpen);
   useEscapeKey(gallery?.isOpen, onClose);
 
   if (!gallery?.isOpen || !member) return null;
+
+  const triggerInteractionSignal = () => {
+    setInteractionSignal((prev) => prev + 1);
+  };
+
+  const handleThumbnailSelect = (index) => {
+    triggerInteractionSignal();
+    onSelectImage(index);
+  };
 
   return (
     <div
@@ -40,12 +51,13 @@ export default function GalleryModal({
               onClose={onClose}
               onPrev={onPrev}
               onNext={onNext}
+              interactionSignal={interactionSignal}
             />
 
             <GalleryModalThumbnails
               member={member}
               imageIndex={gallery.imageIndex}
-              onSelectImage={onSelectImage}
+              onSelectImage={handleThumbnailSelect}
             />
           </div>
 
