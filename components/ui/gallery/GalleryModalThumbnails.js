@@ -9,11 +9,7 @@ export default function GalleryModalThumbnails({
 }) {
   return (
     <div className="bg-white px-5 pb-5 pt-4 md:px-6">
-      <div className="mb-3 text-sm text-stone-500">
-        {imageIndex + 1} / {member.imgs.length}
-      </div>
-
-      <div className="flex gap-3 overflow-x-auto pb-1">
+      <div className="flex gap-3 overflow-x-auto pb-2">
         {member.imgs.map((img, index) => (
           <button
             key={`${member.id}-thumb-${index}`}

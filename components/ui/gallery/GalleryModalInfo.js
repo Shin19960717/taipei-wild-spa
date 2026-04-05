@@ -78,6 +78,16 @@ export default function GalleryModalInfo({
         ))}
       </div>
 
+      <div className="mt-5">
+        <button
+          type="button"
+          onClick={handleGeneralBookingClick}
+          className="inline-flex items-center rounded-full bg-green-500 px-4 py-2 text-sm text-white transition hover:scale-105"
+        >
+          {t?.bookThis ?? "立即預約"}
+        </button>
+      </div>
+
       {member.calendar && (
         <div className="mt-5">
           <div
@@ -103,27 +113,8 @@ export default function GalleryModalInfo({
               </div>
             )}
           </div>
-
-          <p className="mt-2 text-xs leading-5 text-stone-500">
-            若手機仍出現 Google 帳號或 cookie 提示，通常是手機瀏覽器或 App
-            內建瀏覽器限制，不是版面重複或載入邏輯錯誤。
-          </p>
         </div>
       )}
-
-      <div className="mt-5">
-        <button
-          type="button"
-          onClick={handleGeneralBookingClick}
-          className="inline-flex items-center rounded-full bg-green-500 px-4 py-2 text-sm text-white transition hover:scale-105"
-        >
-          {t?.bookThis ?? "立即預約"}
-        </button>
-      </div>
-
-      <p className="mt-3 text-sm text-stone-500">
-        {imageIndex + 1} / {(member.imgs ?? []).length}
-      </p>
     </div>
   );
 }
