@@ -171,18 +171,18 @@ export default function GalleryModalStage({
                   Image failed: {img}
                 </div>
               ) : (
-                <Image
-                  src={img}
-                  alt={`${member.name}-${index + 1}`}
-                  fill
-                  unoptimized
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="cursor-pointer select-none object-contain"
-                  draggable={false}
-                  priority={index === current}
-                  onClick={() => onSelectImage?.(index)}
-                  onError={() => handleImageError(index, img)}
-                />
+<Image
+  src={img}
+  alt={`${member.name}-${index + 1}`}
+  fill
+  unoptimized
+  sizes="(max-width: 1024px) 100vw, 60vw"
+  className="cursor-pointer select-none object-cover"
+  draggable={false}
+  priority={index === current}
+  onClick={() => onSelectImage?.(index)}
+  onError={() => handleImageError(index, img)}
+/>
               )}
             </div>
           ))}
