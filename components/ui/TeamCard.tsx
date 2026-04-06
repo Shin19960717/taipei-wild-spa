@@ -4,8 +4,10 @@ import { memo } from "react";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import type { Lang, TeamMember } from "@/data/teamMembers";
 
-const TAG_CLASS =
-  "inline-flex items-center rounded-full bg-stone-100 px-4 py-2 text-sm text-stone-900 md:text-base";
+export const TAG_CLASS =
+  "inline-flex items-center px-4 py-2 rounded-full " +
+  "bg-white/20 backdrop-blur-lg border border-white/30 " +
+  "text-stone-900 text-sm md:text-base shadow-[0_4px_20px_rgba(0,0,0,0.08)]";
 
 type TeamCardProps = {
   member: TeamMember;
@@ -43,7 +45,8 @@ const TeamCard = memo(function TeamCard({
               key={`${member.id}-${lang}-${index}`}
               className={
                 index === 0
-                  ? "inline-flex items-center rounded-full bg-black px-4 py-2 text-sm text-white"
+                  ? "inline-flex items-center rounded-full px-4 py-2 text-sm text-white " +
+"bg-black/60 backdrop-blur-md border border-white/10 shadow-md"
                   : TAG_CLASS
               }
             >
