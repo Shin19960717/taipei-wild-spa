@@ -20,27 +20,42 @@ export default function ServiceCard({
       delay={delay}
       y={y}
     >
-<Image
-  src={imageSrc}
-  alt={imageAlt}
-  fill
-  sizes="(max-width: 768px) 100vw, 50vw"
-  className="object-cover"
-/>
+      <Image
+        src={imageSrc}
+        alt={imageAlt}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        className="object-cover"
+      />
+
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
       <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
-        <h3 className="text-2xl font-bold mb-4">{title}</h3>
+        
+        {/* 標題 */}
+        <h3 className="mb-4 text-2xl font-light tracking-[0.10em] text-[rgba(255,248,240,0.90)] [text-shadow:0_1px_0_rgba(255,255,255,0.22),0_0_8px_rgba(255,245,235,0.18),0_0_18px_rgba(255,240,225,0.12)]">
+          {title}
+        </h3>
 
-        <ul className="space-y-3 text-white/95 text-lg">
+        {/* 時間 */}
+        <ul className="space-y-2.5 text-[rgba(255,248,240,0.82)] text-base md:text-lg">
           {times.map((time) => (
-            <li key={time}>{time}</li>
+            <li
+              key={time}
+              className="font-light tracking-[0.06em] [text-shadow:0_1px_0_rgba(255,255,255,0.12),0_0_6px_rgba(255,245,235,0.10)]"
+            >
+              {time}
+            </li>
           ))}
         </ul>
 
-        <p className="text-sm text-white/80 mt-5">{extraTime}</p>
+        {/* 加時 */}
+        <p className="mt-5 text-sm font-light tracking-[0.06em] text-[rgba(255,244,235,0.66)] [text-shadow:0_1px_0_rgba(255,255,255,0.10)]">
+          {extraTime}
+        </p>
 
-        <div className="text-xs text-white/70 mt-3 space-y-1 leading-6">
+        {/* 備註 */}
+        <div className="mt-3 space-y-1 leading-6 text-xs text-[rgba(255,242,232,0.56)] [text-shadow:0_1px_0_rgba(255,255,255,0.08)]">
           {notes.map((note) => (
             <p key={note}>{note}</p>
           ))}
