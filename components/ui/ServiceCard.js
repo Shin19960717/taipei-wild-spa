@@ -28,13 +28,23 @@ export default function ServiceCard({
         className="object-cover"
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
+<div className="absolute inset-0 bg-black/20" />
       <div className="relative z-10 p-6 md:p-8 text-white flex flex-col justify-end min-h-[360px]">
         
         {/* 標題 */}
-        <h3 className="mb-4 text-2xl font-light tracking-[0.10em] text-[rgba(255,248,240,0.90)] [text-shadow:0_1px_0_rgba(255,255,255,0.22),0_0_8px_rgba(255,245,235,0.18),0_0_18px_rgba(255,240,225,0.12)]">
-          {title}
+<h3 className="
+  mb-4
+  text-2xl md:text-[26px]
+  font-light
+  tracking-[0.12em]
+  text-[rgba(255,252,248,0.96)]
+  [text-shadow:
+    0_1px_0_rgba(255,255,255,0.35),
+    0_0_10px_rgba(255,240,220,0.35),
+    0_0_22px_rgba(255,235,210,0.25)
+  ]
+">
+            {title}
         </h3>
 
         {/* 時間 */}
