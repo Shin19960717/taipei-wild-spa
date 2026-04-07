@@ -1,5 +1,12 @@
 export type Lang = "zh" | "en" | "ja" | "ko";
 
+export type TeamReview = {
+  name?: string;
+  rating?: number;
+  date?: string;
+  content: string;
+};
+
 export type TeamMember = {
   id: string;
   name: string;
@@ -7,6 +14,7 @@ export type TeamMember = {
   imgs: string[];
   calendar: string;
   newUntil?: string;
+  reviews?: TeamReview[];
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
@@ -14,7 +22,7 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/28","新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      zh: ["171/68/28", "新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
       en: [
         "171/68/28",
         "New arrival",
@@ -46,10 +54,30 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Aaron03.jpg",
       "/team/Aaron04.jpg",
     ],
+    reviews: [
+      {
+        name: "Jason",
+        rating: 5,
+        date: "2026.04",
+        content: "手法穩定，互動自然，整體節奏很舒服。",
+      },
+      {
+        name: "匿名顧客",
+        rating: 5,
+        date: "2026.03",
+        content: "照片與本人落差小，體驗流暢，會想再回訪。",
+      },
+      {
+        name: "K",
+        rating: 4,
+        date: "2026.03",
+        content: "聊天不尷尬，氣氛很好。",
+      },
+    ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=9241237bf98b8c10c239557b49e534adcf6ab9983be17c70f1e36f6373317080%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      newUntil: "2026-05-15",
-},
+    newUntil: "2026-05-15",
+  },
   {
     id: "eric",
     name: "Eric",
@@ -86,10 +114,24 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Eric03.jpg",
       "/team/Eric04.jpg",
     ],
+    reviews: [
+      {
+        name: "Leo",
+        rating: 5,
+        date: "2026.04",
+        content: "外型乾淨，互動自然，過程很放鬆。",
+      },
+      {
+        name: "匿名顧客",
+        rating: 4,
+        date: "2026.03",
+        content: "肌肉線條很好，服務態度佳。",
+      },
+    ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
-      newUntil: "2026-05-15",
-},
+    newUntil: "2026-05-15",
+  },
   {
     id: "dragon",
     name: "Dragon",
@@ -124,9 +166,24 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Dragon01.jpg",
       "/team/Dragon02.jpg",
     ],
+    reviews: [
+      {
+        name: "M",
+        rating: 5,
+        date: "2026.04",
+        content: "很自然的互動，完全不會尷尬。",
+      },
+      {
+        name: "匿名顧客",
+        rating: 4,
+        date: "2026.03",
+        content: "年下感很強，氣氛輕鬆。",
+      },
+    ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
 ];
+
 export default TEAM_MEMBERS;

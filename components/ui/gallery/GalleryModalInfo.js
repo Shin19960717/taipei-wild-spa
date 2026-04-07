@@ -26,8 +26,6 @@ export default function GalleryModalInfo({
     };
   }, []);
 
-  // 只在切換人物或語言時重設 iframe 載入狀態
-  // 不要把 isMobile 放進來，否則橫直切換時會把 iframeReady 重設成 false
   useEffect(() => {
     setIframeReady(false);
   }, [member?.id, lang]);
@@ -63,6 +61,46 @@ export default function GalleryModalInfo({
     }
   }, [member?.calendar]);
 
+  const reviewText = {
+    zh: {
+      title: "客人評論",
+      empty: "目前尚無評論。",
+      anonymous: "匿名顧客",
+    },
+    en: {
+      title: "Guest Reviews",
+      empty: "No reviews yet.",
+      anonymous: "Anonymous Guest",
+    },
+    ja: {
+      title: "お客様のレビュー",
+      empty: "現在レビューはありません。",
+      anonymous: "匿名のお客様",
+    },
+    ko: {
+      title: "고객 후기",
+      empty: "아직 후기가 없습니다.",
+      anonymous: "익명 고객",
+    },
+  };
+
+  const currentReviewText = reviewText[lang] ?? reviewText.zh;
+  const reviews = Array.isArray(member.reviews) ? member.reviews : [];
+
+  const renderStars = (rating) => {
+    if (!rating || Number.isNaN(Number(rating))) return null;
+
+    const safeRating = Math.max(1, Math.min(5, Number(rating)));
+
+    return (
+      <div className="flex items-center gap-1 text-[15px] leading-none text-amber-500">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <span key={`star-${index}`}>{index < safeRating ? "★" : "☆"}</span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="p-4 md:p-5">
       <h3 className="text-2xl font-bold text-stone-900">{member.name}</h3>
@@ -89,7 +127,7 @@ export default function GalleryModalInfo({
       </div>
 
       {member.calendar && (
-        <div className="mt-5">
+        <div className="mt-6">
           <div
             className={`relative overflow-hidden rounded-2xl border border-stone-200 bg-white ${calendarHeightClass}`}
           >
@@ -114,6 +152,46 @@ export default function GalleryModalInfo({
             )}
           </div>
         </div>
+      )}
+
+
+      {reviews.length > 0 && (
+        <section className="mt-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h4 className="text-base font-semibold tracking-wide text-stone-900 md:text-lg">
+              {currentReviewText.title}
+            </h4>
+          </div>
+
+          <div className="space-y-3">
+            {reviews.map((review, index) => (
+              <article
+                key={`${member.id}-review-${index}`}
+                className="rounded-2xl border border-stone-200 bg-stone-50/80 p-4 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-stone-900 md:text-[15px]">
+                      {review.name?.trim() || currentReviewText.anonymous}
+                    </p>
+
+                    {review.date ? (
+                      <p className="mt-1 text-xs text-stone-500 md:text-sm">
+                        {review.date}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  {renderStars(review.rating)}
+                </div>
+
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-stone-700 md:text-[15px]">
+                  {review.content}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
       )}
     </div>
   );
