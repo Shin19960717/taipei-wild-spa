@@ -10,8 +10,8 @@ export type TeamMember = {
 
 const TEAM_MEMBERS: TeamMember[] = [
   {
-    id: "rookie",
-    name: "Rookie",
+    id: "aaron",
+    name: "Aaron",
     desc: {
       zh: ["171/68/28", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
       en: [
@@ -37,13 +37,13 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
     },
     imgs: [
-      "/team/Rookie01.jpg",
-      "/team/Rookie02.jpg",
-      "/team/Rookie03.jpg",
-      "/team/Rookie04.jpg",
+      "/team/Aaron01.jpg",
+      "/team/Aaron02.jpg",
+      "/team/Aaron03.jpg",
+      "/team/Aaron04.jpg",
     ],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=9241237bf98b8c10c239557b49e534adcf6ab9983be17c70f1e36f6373317080%40group.calendar.google.com&ctz=Asia%2FTaipei",
   },
   {
     id: "eric",
