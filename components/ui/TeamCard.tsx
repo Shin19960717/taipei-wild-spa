@@ -22,7 +22,7 @@ const TeamCard = memo(function TeamCard({
   onOpen,
   openLineBooking,
 }: TeamCardProps) {
-  const previewTags = member.desc[lang].slice(0, 3);
+  const previewTags = member.desc[lang].slice(0, 2);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white text-stone-900 shadow-sm">

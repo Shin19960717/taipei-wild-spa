@@ -6,6 +6,7 @@ export type TeamMember = {
   desc: Record<Lang, string[]>;
   imgs: string[];
   calendar: string;
+  newUntil?: string;
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
@@ -13,9 +14,10 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/28", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      zh: ["171/68/28","新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
       en: [
         "171/68/28",
+        "New arrival",
         "Strong physique",
         "Steady massage technique",
         "Friendly and talkative",
@@ -23,6 +25,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ja: [
         "171/68/28",
+        "新人セラピスト",
         "しっかりした体格",
         "安定感のある施術",
         "明るく話しやすい雰囲気",
@@ -30,6 +33,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ko: [
         "171/68/28",
+        "신규 테라피스트",
         "탄탄한 체형",
         "안정감 있는 마사지 스타일",
         "밝고 편안한 소통",
@@ -44,14 +48,16 @@ const TEAM_MEMBERS: TeamMember[] = [
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=9241237bf98b8c10c239557b49e534adcf6ab9983be17c70f1e36f6373317080%40group.calendar.google.com&ctz=Asia%2FTaipei",
-  },
+      newUntil: "2026-05-15",
+},
   {
     id: "eric",
     name: "Eric",
     desc: {
-      zh: ["172/67/33", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
+      zh: ["172/67/33", "新人上線", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
       en: [
         "172/67/33",
+        "New arrival",
         "Clean and sharp appearance",
         "Solid and well-built physique",
         "Natural and easygoing interaction",
@@ -59,6 +65,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ja: [
         "172/67/33",
+        "新人セラピスト",
         "清潔感のある整った外見",
         "しっかりとした筋肉質な体格",
         "自然で気軽なコミュニケーション",
@@ -66,6 +73,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ko: [
         "172/67/33",
+        "신규 테라피스트",
         "깔끔하고 단정한 외형",
         "탄탄하고 근육질의 체형",
         "자연스럽고 편안한 소통",
@@ -80,26 +88,33 @@ const TEAM_MEMBERS: TeamMember[] = [
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
-  },
+      newUntil: "2026-05-15",
+},
   {
     id: "dragon",
     name: "Dragon",
     desc: {
-      zh: ["175/73/22", "年下感", "運動感", "禮貌靦腆"],
+      zh: ["175/73/22", "新人上線", "陽光自然", "年下感", "運動感", "禮貌靦腆"],
       en: [
         "175/73/22",
+        "New arrival",
+        "Bright and natural vibe",
         "boyish charm",
         "sporty",
         "soft-spoken and polite",
       ],
       ja: [
         "175/73/22",
+        "新人セラピスト",
+        "明るく自然な雰囲気",
         "少年っぽい感じ",
         "スポーティーな感じ",
         "礼儀正しくて少し恥ずかしがり屋",
       ],
       ko: [
         "175/73/22",
+        "신규 테라피스트",
+        "밝고 자연스러운 분위기",
         "소년 같은 느낌",
         "스포티한 느낌",
         "공손하고 부끄러움 많은 스타일",
@@ -111,7 +126,7 @@ const TEAM_MEMBERS: TeamMember[] = [
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
   },
 ];
-
 export default TEAM_MEMBERS;

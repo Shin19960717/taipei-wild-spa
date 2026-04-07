@@ -21,6 +21,13 @@ type TeamSectionProps = {
   openLineBooking: (memberName: string, lang: string) => void;
 };
 
+function isStillNew(newUntil?: string) {
+  if (!newUntil) return false;
+
+  const endDate = new Date(`${newUntil}T23:59:59`);
+  return endDate.getTime() >= Date.now();
+}
+
 export default function TeamSection({
   t,
   lang,
@@ -28,6 +35,16 @@ export default function TeamSection({
   openLineBooking,
 }: TeamSectionProps) {
   const teamHref = lang === "zh" ? "/team" : `/team?lang=${lang}`;
+
+  const newMembers = TEAM_MEMBERS.filter((member) => isStillNew(member.newUntil));
+  const existingMembers = TEAM_MEMBERS.filter(
+    (member) => !isStillNew(member.newUntil)
+  );
+
+  const homepageMembers =
+    newMembers.length >= 3
+      ? newMembers
+      : [...newMembers, ...existingMembers.slice(0, 3 - newMembers.length)];
 
   return (
     <section
@@ -98,7 +115,7 @@ export default function TeamSection({
 
           <div className="relative p-5 md:p-8 lg:p-10">
             <TeamGrid
-              members={TEAM_MEMBERS}
+              members={homepageMembers}
               lang={lang}
               onOpenGallery={onOpenGallery}
               openLineBooking={openLineBooking}
