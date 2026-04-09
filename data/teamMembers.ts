@@ -129,7 +129,7 @@ const TEAM_MEMBERS: TeamMember[] = [
       },
     ],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=6761e8d7b25daa548fd72acfd0c161fca4da291c0ce9c7a1a37d0132034d13a5%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
   {
