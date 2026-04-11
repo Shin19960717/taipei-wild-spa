@@ -59,19 +59,19 @@ const TEAM_MEMBERS: TeamMember[] = [
         name: "Jason",
         rating: 5,
         date: "2026.04",
-        content: "手法穩定，互動自然，整體節奏很舒服。",
+        content: "手法穩定，互動自然，整體節奏很舒服",
       },
       {
         name: "匿名顧客",
         rating: 5,
         date: "2026.03",
-        content: "照片與本人落差小，體驗流暢，會想再回訪。",
+        content: "雖然有打碼，但本人算帥，會想為了他再來",
       },
       {
         name: "K",
         rating: 4,
         date: "2026.03",
-        content: "聊天不尷尬，氣氛很好。",
+        content: "很會聊，氣氛很好",
       },
     ],
     calendar:
@@ -119,13 +119,13 @@ const TEAM_MEMBERS: TeamMember[] = [
         name: "Leo",
         rating: 5,
         date: "2026.04",
-        content: "外型乾淨，互動自然，過程很放鬆。",
+        content: "外型乾淨，蠻親切，過程按到睡著很放鬆",
       },
       {
         name: "匿名顧客",
         rating: 4,
         date: "2026.03",
-        content: "肌肉線條很好，服務態度佳。",
+        content: "肌肉線條很好，服務態度佳",
       },
     ],
     calendar:
@@ -171,19 +171,69 @@ const TEAM_MEMBERS: TeamMember[] = [
         name: "M",
         rating: 5,
         date: "2026.04",
-        content: "很自然的互動，完全不會尷尬。",
+        content: "有男友感，很親切",
       },
       {
         name: "匿名顧客",
-        rating: 4,
+        rating: 5,
         date: "2026.03",
-        content: "年下感很強，氣氛輕鬆。",
+        content: "本人鮮肉一枚，蠻會聊的，很蘇胡",
       },
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
+    {
+    id: "ryan",
+    name: "Ryan",
+    desc: {
+      zh: ["165/56/24", "新人上線", "陽光自然", "專業按摩技術", "運動感"],
+      en: [
+        "165/56/24",
+        "New arrival",
+        "Bright and natural vibe",
+        "Professional massage techniques",
+        "sporty",
+      ],
+      ja: [
+        "165/56/24",
+        "新人セラピスト",
+        "明るく自然な雰囲気",
+        "プロのマッサージ技術",
+        "スポーティーな感じ",
+      ],
+      ko: [
+        "165/56/24",
+        "신규 테라피스트",
+        "밝고 자연스러운 분위기",
+        "전문가의 마사지 기술",
+        "스포티한 느낌",
+      ],
+    },
+    imgs: [
+      "/team/Ryan01.jpg",
+    ],
+    reviews: [
+      {
+        name: "匿名顧客",
+        rating: 5,
+        date: "2026.03",
+        content: "按摩手法很好，蠻有經驗的感覺不是隨便按，互動感覺還不錯",
+      },
+      {
+        name: "匿名顧客",
+        rating: 5,
+        date: "2026.03",
+        content: "本人蠻帥",
+      },
+
+    ],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
+  },
+
 ];
 
 export default TEAM_MEMBERS;
