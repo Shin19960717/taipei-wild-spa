@@ -233,6 +233,78 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
+    {
+    id: "sun",
+    name: "Sun",
+    desc: {
+      zh: ["172/85/23", "新人上線", "超壯", "專業按摩技術", "親切健談"],
+      en: [
+        "172/85/23",
+        "New arrival",
+        "super buff",
+        "Professional massage techniques",
+        "warm and outgoing",
+      ],
+      ja: [
+        "172/85/23",
+        "新人セラピスト",
+        "ゴリゴリに鍛えてる",
+        "プロのマッサージ技術",
+        "親しみやすくて話しやすい",
+      ],
+      ko: [
+        "172/85/23",
+        "신규 테라피스트",
+        "완전 근육 빵빵",
+        "전문가의 마사지 기술",
+        "편하게 대화할 수 있어요",
+      ],
+    },
+    imgs: [
+      "/team/Sun01.jpg",
+      "/team/Sun02.jpg",
+      "/team/Sun03.jpg",
+    ],
+    reviews: [
+    ],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
+  },
+    {
+    id: "sam",
+    name: "Sam",
+    desc: {
+      zh: ["162/73/25", "新人上線", "健美先生", "專業按摩技術"],
+      en: [
+        "165/56/24",
+        "New arrival",
+        "bodybuilder",
+        "Professional massage techniques",
+      ],
+      ja: [
+        "162/73/25",
+        "新人セラピスト",
+        "ボディビルダー",
+        "プロのマッサージ技術",
+      ],
+      ko: [
+        "162/73/25",
+        "신규 테라피스트",
+        "보디빌더",
+        "전문가의 마사지 기술",
+      ],
+    },
+    imgs: [
+      "/team/Sam01.jpg",
+      "/team/Sam02.jpg",
+    ],
+    reviews: [
+    ],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
+  },
 
 ];
 
