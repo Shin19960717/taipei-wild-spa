@@ -1,4 +1,5 @@
 import "./globals.css";
+import Script from "next/script";
 
 export const metadata = {
   metadataBase: new URL("https://taipeiwildspa.com"),
@@ -26,6 +27,22 @@ export default function RootLayout({ children }) {
           href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
           rel="stylesheet"
         />
+
+        {/* Google tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18088551896"
+          strategy="afterInteractive"
+        />
+
+        {/* Google Ads global site tag */}
+        <Script id="google-ads-gtag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18088551896');
+          `}
+        </Script>
       </head>
       <body>{children}</body>
     </html>
