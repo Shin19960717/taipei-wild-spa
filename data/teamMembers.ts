@@ -305,6 +305,50 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
+    {
+    id: "mike",
+    name: "Mike",
+    desc: {
+      zh: [
+        "173/80/35",
+        "新人上線",
+        "穩重",
+        "親切",
+        "穩定運動習慣",
+      ],
+      en: [
+        "173/80/35",
+        "New arrival",
+        "composed",
+        "friendly",
+        "athletic",
+      ],
+      ja: [
+        "173/80/35",
+        "新人セラピスト",
+        "落ち着いた",
+        "親しみやすい",
+        "アクティブ",
+      ],
+      ko: [
+        "173/80/35",
+        "신규 테라피스트",
+        "차분한",
+        "친절한",
+        "운동을 좋아하는",
+      ],
+    },
+    imgs: [
+      "/team/Mike01.jpg",
+      "/team/Mike02.jpg",
+      "/team/Mike03.jpg",
+    ],
+    reviews: [
+    ],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-25",
+  },
 
 ];
 
