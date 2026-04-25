@@ -53,8 +53,8 @@ export default function GalleryModal({
 if (fullScreen) {
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-white">
-      <div className="grid min-h-screen w-full grid-cols-1 lg:h-screen lg:grid-cols-[minmax(0,58vw)_minmax(520px,1fr)] lg:gap-20 lg:pl-0 lg:pr-16 xl:pr-24">
-        <section className="flex min-h-[70svh] flex-col bg-black lg:min-h-0 lg:overflow-hidden lg:rounded-r-3xl">
+      <div className="grid min-h-screen w-full grid-cols-1 lg:h-screen lg:grid-cols-[minmax(0,35vw)_minmax(550px,1fr)] lg:gap-24 lg:pl-0 lg:pr-16 xl:pr-24">
+        <section className="flex min-h-[64svh] flex-col bg-black lg:min-h-0 lg:overflow-hidden lg:rounded-r-3xl">
           <div className="min-h-0 flex-1">
             <GalleryModalStage
               member={member}

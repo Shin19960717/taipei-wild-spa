@@ -2,10 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  MODAL_ARROW_BUTTON_CLASS,
-  MODAL_CLOSE_BUTTON_CLASS,
-} from "./galleryModal.constants";
+import { MODAL_ARROW_BUTTON_CLASS } from "./galleryModal.constants";
 
 export default function GalleryModalStage({
   member,
@@ -164,15 +161,6 @@ export default function GalleryModalStage({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <button
-        type="button"
-        onClick={onClose}
-        className={MODAL_CLOSE_BUTTON_CLASS}
-        aria-label="Close gallery"
-      >
-        ×
-      </button>
-
       <div
         className="flex h-full w-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${current * 100}%)` }}
@@ -194,7 +182,7 @@ export default function GalleryModalStage({
                 unoptimized
                 sizes={
                   fullScreen
-                    ? "(max-width: 1024px) 100vw, calc(100vw - 500px)"
+                    ? "(max-width: 1024px) 100vw, 50vw"
                     : "(max-width: 1024px) 100vw, 60vw"
                 }
                 className="cursor-pointer select-none object-cover"
