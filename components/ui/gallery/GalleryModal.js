@@ -20,9 +20,19 @@ export default function GalleryModal({
 }) {
   const member = gallery?.member;
   const [interactionSignal, setInteractionSignal] = useState(0);
+  const [isFullLightboxOpen, setIsFullLightboxOpen] = useState(false);
 
   useLockBodyScroll(gallery?.isOpen && !fullScreen);
-  useEscapeKey(gallery?.isOpen, onClose);
+
+  useEscapeKey(
+    gallery?.isOpen && !isFullLightboxOpen,
+    onClose
+  );
+
+  useEscapeKey(
+    gallery?.isOpen && isFullLightboxOpen,
+    () => setIsFullLightboxOpen(false)
+  );
 
   if (!gallery?.isOpen || !member) return null;
 
@@ -50,46 +60,48 @@ export default function GalleryModal({
     onSelectImage?.(index);
   };
 
-if (fullScreen) {
-  return (
-    <main className="min-h-screen w-full overflow-x-hidden bg-white">
-      <div className="grid min-h-screen w-full grid-cols-1 lg:h-screen lg:grid-cols-[minmax(0,35vw)_minmax(550px,1fr)] lg:gap-24 lg:pl-0 lg:pr-16 xl:pr-24">
-        <section className="flex min-h-[64svh] flex-col bg-black lg:min-h-0 lg:overflow-hidden lg:rounded-r-3xl">
-          <div className="min-h-0 flex-1">
-            <GalleryModalStage
+  if (fullScreen) {
+    return (
+      <main className="min-h-screen w-full overflow-x-hidden bg-white">
+        <div className="grid min-h-screen w-full grid-cols-1 lg:h-screen lg:grid-cols-[minmax(0,35vw)_minmax(550px,1fr)] lg:gap-24 lg:pl-0 lg:pr-16 xl:pr-24">
+          <section className="flex min-h-[64svh] flex-col bg-black lg:min-h-0 lg:overflow-hidden lg:rounded-r-3xl">
+            <div className="min-h-0 flex-1">
+              <GalleryModalStage
+                member={member}
+                imageIndex={gallery.imageIndex}
+                onPrev={handlePrev}
+                onNext={handleNext}
+                onSelectImage={handleStageSelectImage}
+                interactionSignal={interactionSignal}
+                fullScreen={fullScreen}
+                isFullLightboxOpen={isFullLightboxOpen}
+                setIsFullLightboxOpen={setIsFullLightboxOpen}
+              />
+            </div>
+
+            <GalleryModalThumbnails
               member={member}
               imageIndex={gallery.imageIndex}
-              onClose={onClose}
-              onPrev={handlePrev}
-              onNext={handleNext}
-              onSelectImage={handleStageSelectImage}
-              interactionSignal={interactionSignal}
+              onSelectImage={handleThumbnailSelect}
               fullScreen={fullScreen}
             />
-          </div>
+          </section>
 
-          <GalleryModalThumbnails
-            member={member}
-            imageIndex={gallery.imageIndex}
-            onSelectImage={handleThumbnailSelect}
-            fullScreen={fullScreen}
-          />
-        </section>
+          <aside className="bg-white lg:min-h-0 lg:overflow-y-auto lg:pl-4 lg:pr-0 xl:pl-8">
+            <GalleryModalInfo
+              member={member}
+              lang={lang}
+              t={t}
+              imageIndex={gallery.imageIndex}
+              openLineBooking={openLineBooking}
+              fullScreen={fullScreen}
+            />
+          </aside>
+        </div>
+      </main>
+    );
+  }
 
-        <aside className="bg-white lg:min-h-0 lg:overflow-y-auto lg:pl-4 lg:pr-0 xl:pl-8">
-          <GalleryModalInfo
-            member={member}
-            lang={lang}
-            t={t}
-            imageIndex={gallery.imageIndex}
-            openLineBooking={openLineBooking}
-            fullScreen={fullScreen}
-          />
-        </aside>
-      </div>
-    </main>
-  );
-}
   return (
     <div
       className="fixed inset-0 z-50 overflow-y-auto bg-black/80 p-2 md:p-4"
@@ -104,12 +116,13 @@ if (fullScreen) {
             <GalleryModalStage
               member={member}
               imageIndex={gallery.imageIndex}
-              onClose={onClose}
               onPrev={handlePrev}
               onNext={handleNext}
               onSelectImage={handleStageSelectImage}
               interactionSignal={interactionSignal}
               fullScreen={fullScreen}
+              isFullLightboxOpen={isFullLightboxOpen}
+              setIsFullLightboxOpen={setIsFullLightboxOpen}
             />
 
             <GalleryModalThumbnails
