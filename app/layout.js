@@ -4,7 +4,9 @@ import Script from "next/script";
 export const metadata = {
   metadataBase: new URL("https://taipeiwildspa.com"),
 
-  title: "Taipei Wild Spa｜臺北 野Spa｜台北同志按摩｜Taipei gay Spa｜Taipei gay massage｜타이베이 게이 마사지",
+  title:
+    "Taipei Wild Spa｜臺北 野Spa｜台北同志按摩｜Taipei gay Spa｜Taipei gay massage｜타이베이 게이 마사지",
+
   description:
     "Taipei Wild Spa提供台北同志按摩，重視隱私與舒適體驗，打造安心放鬆空間，並且我們致力讓身材最好最帥的師傅為您服務。Gay massage in Taipei with private rooms.",
 
@@ -39,11 +41,13 @@ export default function RootLayout({ children }) {
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
             gtag('js', new Date());
             gtag('config', 'AW-18088551896');
           `}
         </Script>
       </head>
+
       <body>{children}</body>
     </html>
   );
