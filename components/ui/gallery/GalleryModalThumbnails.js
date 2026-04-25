@@ -6,13 +6,20 @@ export default function GalleryModalThumbnails({
   member,
   imageIndex,
   onSelectImage,
+  fullScreen = false,
 }) {
   const images = member?.imgs ?? [];
 
   if (!member || !images.length) return null;
 
   return (
-    <div className="bg-white px-5 pb-5 pt-4 md:px-6">
+    <div
+      className={
+        fullScreen
+          ? "bg-white px-6 pb-6 pt-4 md:px-8"
+          : "bg-white px-5 pb-5 pt-4 md:px-6"
+      }
+    >
       <div className="flex gap-3 overflow-x-auto pb-2">
         {images.map((img, index) => {
           const isActive = imageIndex === index;

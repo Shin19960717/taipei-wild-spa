@@ -9,6 +9,7 @@ export default function GalleryModalInfo({
   t,
   imageIndex,
   openLineBooking,
+  fullScreen = false,
 }) {
   const [isMobile, setIsMobile] = useState(false);
   const [iframeReady, setIframeReady] = useState(false);
@@ -38,7 +39,11 @@ export default function GalleryModalInfo({
     openLineBooking(member.name, lang, undefined, e);
   };
 
-  const calendarHeightClass = isMobile ? "h-[500px]" : "h-[640px]";
+  const calendarHeightClass = isMobile
+    ? "h-[500px]"
+    : fullScreen
+    ? "h-[320px] xl:h-[360px]"
+    : "h-[640px]";
 
   const calendarSrc = useMemo(() => {
     if (!member?.calendar) return "";
@@ -102,7 +107,13 @@ export default function GalleryModalInfo({
   };
 
   return (
-    <div className="p-4 md:p-5">
+    <div
+      className={
+        fullScreen
+          ? "h-full overflow-y-auto p-6 md:p-8 lg:max-h-[90vh]"
+          : "p-4 md:p-5"
+      }
+    >
       <h3 className="text-2xl font-bold text-stone-900">{member.name}</h3>
 
       <div className="mt-3 flex flex-wrap gap-3">
@@ -127,7 +138,7 @@ export default function GalleryModalInfo({
       </div>
 
       {member.calendar && (
-        <div className="mt-6">
+        <div className={fullScreen ? "mt-6" : "mt-6"}>
           <div
             className={`relative overflow-hidden rounded-2xl border border-stone-200 bg-white ${calendarHeightClass}`}
           >
@@ -154,7 +165,6 @@ export default function GalleryModalInfo({
         </div>
       )}
 
-
       {reviews.length > 0 && (
         <section className="mt-6">
           <div className="mb-3 flex items-center justify-between">
@@ -163,7 +173,7 @@ export default function GalleryModalInfo({
             </h4>
           </div>
 
-          <div className="space-y-3">
+          <div className={fullScreen ? "space-y-3 pb-4" : "space-y-3"}>
             {reviews.map((review, index) => (
               <article
                 key={`${member.id}-review-${index}`}

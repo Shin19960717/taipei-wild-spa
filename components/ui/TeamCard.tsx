@@ -1,6 +1,7 @@
 "use client";
 
 import { memo } from "react";
+import { useRouter } from "next/navigation";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import type { Lang, TeamMember } from "@/data/teamMembers";
 
@@ -19,18 +20,23 @@ type TeamCardProps = {
 const TeamCard = memo(function TeamCard({
   member,
   lang,
-  onOpen,
-  openLineBooking,
 }: TeamCardProps) {
+  const router = useRouter();
+
   const previewTags = member.desc[lang].slice(0, 2);
+  const profileHref = `/team/${member.id}?lang=${lang}`;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white text-stone-900 shadow-sm">
-      <div className="relative h-[340px] w-full md:h-[380px]">
+    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white text-stone-900 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      
+      {/* 🔥 點圖片直接進個人頁 */}
+      <div
+        className="relative h-[340px] w-full cursor-pointer md:h-[380px]"
+        onClick={() => router.push(profileHref)}
+      >
         <ImageCarousel
           images={member.imgs}
           alt={member.name}
-          onImageClick={(index: number) => onOpen?.(member, index)}
         />
       </div>
 
@@ -45,8 +51,7 @@ const TeamCard = memo(function TeamCard({
               key={`${member.id}-${lang}-${index}`}
               className={
                 index === 0
-                  ? "inline-flex items-center rounded-full px-4 py-2 text-sm text-white " +
-"bg-black/60 backdrop-blur-md border border-white/10 shadow-md"
+                  ? "inline-flex items-center rounded-full px-4 py-2 text-sm text-white bg-black/60 backdrop-blur-md border border-white/10 shadow-md"
                   : TAG_CLASS
               }
             >
@@ -54,6 +59,8 @@ const TeamCard = memo(function TeamCard({
             </span>
           ))}
         </div>
+
+        {/* ❌ 已刪除：查看個人頁 + LINE 預約 */}
       </div>
     </div>
   );

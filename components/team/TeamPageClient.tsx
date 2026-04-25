@@ -81,11 +81,12 @@ ko: {
               </p>
             </div>
 
-            <TeamGrid
-              members={TEAM_MEMBERS}
-              lang={lang}
-              onOpenGallery={openGallery}
-            />
+<TeamGrid
+  members={TEAM_MEMBERS}
+  lang={lang}
+  onOpenGallery={openGallery}
+  openLineBooking={openLineBooking}
+/>
           </div>
         </section>
 

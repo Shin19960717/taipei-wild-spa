@@ -15,6 +15,7 @@ export default function GalleryModalStage({
   onNext,
   onSelectImage,
   interactionSignal,
+  fullScreen = false,
 }) {
   const images = member?.imgs ?? [];
   const totalImages = images.length;
@@ -87,13 +88,17 @@ export default function GalleryModalStage({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [hasMultipleImages, pauseAutoPlay, current, totalImages]);
 
   const handleGoPrev = useCallback(() => {
     if (!hasMultipleImages) return;
 
     const nextIndex = (current - 1 + totalImages) % totalImages;
+
     setCurrent(nextIndex);
     onPrev?.();
   }, [current, hasMultipleImages, totalImages, onPrev]);
@@ -102,6 +107,7 @@ export default function GalleryModalStage({
     if (!hasMultipleImages) return;
 
     const nextIndex = (current + 1) % totalImages;
+
     setCurrent(nextIndex);
     onNext?.();
   }, [current, hasMultipleImages, totalImages, onNext]);
@@ -132,6 +138,7 @@ export default function GalleryModalStage({
 
   const handleImageError = (index, img) => {
     console.error(`[GalleryModalStage] image failed to load: ${img}`);
+
     setFailedImages((prev) => ({
       ...prev,
       [index]: true,
@@ -152,7 +159,11 @@ export default function GalleryModalStage({
       </button>
 
       <div
-        className="relative h-[55vh] w-full overflow-hidden bg-black md:h-[70vh]"
+        className={
+          fullScreen
+            ? "relative h-[70vh] w-full overflow-hidden bg-black lg:h-[78vh]"
+            : "relative h-[55vh] w-full overflow-hidden bg-black md:h-[70vh]"
+        }
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -171,18 +182,22 @@ export default function GalleryModalStage({
                   Image failed: {img}
                 </div>
               ) : (
-<Image
-  src={img}
-  alt={`${member.name}-${index + 1}`}
-  fill
-  unoptimized
-  sizes="(max-width: 1024px) 100vw, 60vw"
-  className="cursor-pointer select-none object-cover"
-  draggable={false}
-  priority={index === current}
-  onClick={() => onSelectImage?.(index)}
-  onError={() => handleImageError(index, img)}
-/>
+                <Image
+                  src={img}
+                  alt={`${member.name}-${index + 1}`}
+                  fill
+                  unoptimized
+                  sizes={
+                    fullScreen
+                      ? "(max-width: 1024px) 100vw, 58vw"
+                      : "(max-width: 1024px) 100vw, 60vw"
+                  }
+                  className="cursor-pointer select-none object-cover"
+                  draggable={false}
+                  priority={index === current}
+                  onClick={() => onSelectImage?.(index)}
+                  onError={() => handleImageError(index, img)}
+                />
               )}
             </div>
           ))}
