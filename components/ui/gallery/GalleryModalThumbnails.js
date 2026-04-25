@@ -16,7 +16,7 @@ export default function GalleryModalThumbnails({
     <div
       className={
         fullScreen
-          ? "bg-white px-6 pb-6 pt-4 md:px-8"
+          ? "shrink-0 bg-white px-6 pb-6 pt-4 md:px-8"
           : "bg-white px-5 pb-5 pt-4 md:px-6"
       }
     >

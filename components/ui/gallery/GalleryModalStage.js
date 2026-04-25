@@ -38,6 +38,24 @@ export default function GalleryModalStage({
     setCurrent(imageIndex ?? 0);
   }, [imageIndex]);
 
+  const handleGoPrev = useCallback(() => {
+    if (!hasMultipleImages) return;
+
+    const nextIndex = (current - 1 + totalImages) % totalImages;
+
+    setCurrent(nextIndex);
+    onPrev?.();
+  }, [current, hasMultipleImages, totalImages, onPrev]);
+
+  const handleGoNext = useCallback(() => {
+    if (!hasMultipleImages) return;
+
+    const nextIndex = (current + 1) % totalImages;
+
+    setCurrent(nextIndex);
+    onNext?.();
+  }, [current, hasMultipleImages, totalImages, onNext]);
+
   useEffect(() => {
     if (!hasMultipleImages || !interactionSignal) return;
     pauseAutoPlay();
@@ -51,7 +69,7 @@ export default function GalleryModalStage({
     }, 3000);
 
     return () => window.clearTimeout(timer);
-  }, [current, hasMultipleImages, isPaused]);
+  }, [current, hasMultipleImages, isPaused, handleGoNext]);
 
   useEffect(() => {
     if (!hasMultipleImages || !isPaused || !lastInteraction) return;
@@ -92,25 +110,13 @@ export default function GalleryModalStage({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [hasMultipleImages, pauseAutoPlay, current, totalImages]);
-
-  const handleGoPrev = useCallback(() => {
-    if (!hasMultipleImages) return;
-
-    const nextIndex = (current - 1 + totalImages) % totalImages;
-
-    setCurrent(nextIndex);
-    onPrev?.();
-  }, [current, hasMultipleImages, totalImages, onPrev]);
-
-  const handleGoNext = useCallback(() => {
-    if (!hasMultipleImages) return;
-
-    const nextIndex = (current + 1) % totalImages;
-
-    setCurrent(nextIndex);
-    onNext?.();
-  }, [current, hasMultipleImages, totalImages, onNext]);
+  }, [
+    hasMultipleImages,
+    pauseAutoPlay,
+    handleGoPrev,
+    handleGoNext,
+    onClose,
+  ]);
 
   const handleTouchStart = (e) => {
     pauseAutoPlay();
@@ -148,7 +154,16 @@ export default function GalleryModalStage({
   if (!member || !images.length) return null;
 
   return (
-    <>
+    <div
+      className={
+        fullScreen
+          ? "relative h-full min-h-0 w-full overflow-hidden bg-black"
+          : "relative h-[55vh] w-full overflow-hidden bg-black md:h-[70vh]"
+      }
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       <button
         type="button"
         onClick={onClose}
@@ -159,96 +174,85 @@ export default function GalleryModalStage({
       </button>
 
       <div
-        className={
-          fullScreen
-            ? "relative h-[70vh] w-full overflow-hidden bg-black lg:h-[78vh]"
-            : "relative h-[55vh] w-full overflow-hidden bg-black md:h-[70vh]"
-        }
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        className="flex h-full w-full transition-transform duration-500 ease-in-out"
+        style={{ transform: `translateX(-${current * 100}%)` }}
       >
-        <div
-          className="flex h-full w-full transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-        >
-          {images.map((img, index) => (
-            <div
-              key={`${member.name}-${index}`}
-              className="relative h-full min-w-full bg-black"
-            >
-              {failedImages[index] ? (
-                <div className="flex h-full w-full items-center justify-center bg-stone-900 text-sm text-stone-300">
-                  Image failed: {img}
-                </div>
-              ) : (
-                <Image
-                  src={img}
-                  alt={`${member.name}-${index + 1}`}
-                  fill
-                  unoptimized
-                  sizes={
-                    fullScreen
-                      ? "(max-width: 1024px) 100vw, 58vw"
-                      : "(max-width: 1024px) 100vw, 60vw"
-                  }
-                  className="cursor-pointer select-none object-cover"
-                  draggable={false}
-                  priority={index === current}
-                  onClick={() => onSelectImage?.(index)}
-                  onError={() => handleImageError(index, img)}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {hasMultipleImages && (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                pauseAutoPlay();
-                handleGoPrev();
-              }}
-              className={`${MODAL_ARROW_BUTTON_CLASS} left-3 md:left-4`}
-              aria-label="Previous gallery image"
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                pauseAutoPlay();
-                handleGoNext();
-              }}
-              className={`${MODAL_ARROW_BUTTON_CLASS} right-3 md:right-4`}
-              aria-label="Next gallery image"
-            >
-              ›
-            </button>
-
-            <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-2">
-              {images.map((_, index) => (
-                <button
-                  key={`modal-dot-${member.name}-${index}`}
-                  type="button"
-                  onClick={() => {
-                    pauseAutoPlay();
-                    setCurrent(index);
-                    onSelectImage?.(index);
-                  }}
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    current === index ? "bg-white" : "bg-white/50"
-                  }`}
-                  aria-label={`Go to image ${index + 1}`}
-                />
-              ))}
-            </div>
-          </>
-        )}
+        {images.map((img, index) => (
+          <div
+            key={`${member.name}-${index}`}
+            className="relative h-full min-w-full bg-black"
+          >
+            {failedImages[index] ? (
+              <div className="flex h-full w-full items-center justify-center bg-stone-900 text-sm text-stone-300">
+                Image failed: {img}
+              </div>
+            ) : (
+              <Image
+                src={img}
+                alt={`${member.name}-${index + 1}`}
+                fill
+                unoptimized
+                sizes={
+                  fullScreen
+                    ? "(max-width: 1024px) 100vw, calc(100vw - 500px)"
+                    : "(max-width: 1024px) 100vw, 60vw"
+                }
+                className="cursor-pointer select-none object-cover"
+                draggable={false}
+                priority={index === current}
+                onClick={() => onSelectImage?.(index)}
+                onError={() => handleImageError(index, img)}
+              />
+            )}
+          </div>
+        ))}
       </div>
-    </>
+
+      {hasMultipleImages && (
+        <>
+          <button
+            type="button"
+            onClick={() => {
+              pauseAutoPlay();
+              handleGoPrev();
+            }}
+            className={`${MODAL_ARROW_BUTTON_CLASS} left-3 md:left-5`}
+            aria-label="Previous gallery image"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              pauseAutoPlay();
+              handleGoNext();
+            }}
+            className={`${MODAL_ARROW_BUTTON_CLASS} right-3 md:right-5`}
+            aria-label="Next gallery image"
+          >
+            ›
+          </button>
+
+          <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+            {images.map((_, index) => (
+              <button
+                key={`modal-dot-${member.name}-${index}`}
+                type="button"
+                onClick={() => {
+                  pauseAutoPlay();
+                  setCurrent(index);
+                  onSelectImage?.(index);
+                }}
+                className={`h-2.5 w-2.5 rounded-full ${
+                  current === index ? "bg-white" : "bg-white/50"
+                }`}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   );
 }
