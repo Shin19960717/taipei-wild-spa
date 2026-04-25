@@ -266,6 +266,12 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Sun03.jpg",
     ],
     reviews: [
+      {
+        name: "匿名顧客",
+        rating: 5,
+        date: "2026.04",
+        content: "看照片的時候，感覺好像很壯，因此嘗試預約，見到本人時有點驚訝，真的很大隻比想像中更大，非常難遇到那麼大隻的人，很健談聊天感覺很有趣，手法倒是很溫柔，體推的感覺非常舒服，喜歡哈",
+      },
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
