@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { REVIEWS } from "@/data/reviews";
 
 type Review = {
   id: string | number;
@@ -9,9 +8,11 @@ type Review = {
   date: string;
   content: string;
   therapist: string;
+  rating?: number;
 };
 
 type ReviewsSectionProps = {
+  reviews?: Review[];
   t?: {
     reviewsTitle?: string;
     reviewsIntro?: string;
@@ -22,20 +23,24 @@ type ReviewsSectionProps = {
 };
 
 export default function ReviewsSection({
+  reviews = [],
   t,
   lang = "zh",
-  limit = 4,
+  limit = 15,
 }: ReviewsSectionProps) {
-  const safeReviews = Array.isArray(REVIEWS) ? (REVIEWS as Review[]) : [];
+  const safeReviews = Array.isArray(reviews) ? reviews : [];
   const previewReviews = safeReviews.slice(0, limit);
 
   const reviewsTitle = t?.reviewsTitle ?? "顧客體驗與評價分享";
+
   const reviewsIntro =
     t?.reviewsIntro ??
     "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。";
+
   const reviewsButton = t?.reviewsButton ?? "查看更多評價";
 
-  const reviewsHref = lang && lang !== "zh" ? `/reviews?lang=${lang}` : "/reviews";
+  const reviewsHref =
+    lang && lang !== "zh" ? `/reviews?lang=${lang}` : "/reviews";
 
   return (
     <section
@@ -62,32 +67,34 @@ export default function ReviewsSection({
           </Link>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {previewReviews.map((review) => (
-            <article
-              key={review.id}
-              className="rounded-[2rem] bg-white/80 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)] backdrop-blur"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-neutral-900">
-                  {review.name}
-                </h3>
+        {previewReviews.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {previewReviews.map((review) => (
+              <article
+                key={review.id}
+                className="rounded-[2rem] bg-white/80 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)] backdrop-blur"
+              >
+                <div>
+                  <h3 className="text-lg font-bold text-neutral-900">
+                    {review.name}
+                  </h3>
 
-                <p className="mt-1 text-sm text-neutral-500">
-                  {review.date}
+                  <p className="mt-1 text-sm text-neutral-500">
+                    {review.date}
+                  </p>
+                </div>
+
+                <p className="mt-5 whitespace-pre-line text-base leading-8 text-neutral-700">
+                  {review.content}
                 </p>
-              </div>
 
-              <p className="mt-5 whitespace-pre-line text-base leading-8 text-neutral-700">
-                {review.content}
-              </p>
-
-              <div className="mt-8 border-t border-neutral-200 pt-4 text-right text-sm text-neutral-500">
-                {review.therapist}
-              </div>
-            </article>
-          ))}
-        </div>
+                <div className="mt-8 border-t border-neutral-200 pt-4 text-right text-sm text-neutral-500">
+                  {review.therapist}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
       </div>
     </section>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { PRIMARY_TAG_CLASS, TAG_CLASS } from "./galleryModal.constants";
+import { getReviewsByTherapist } from "@/data/reviews";
 
 export default function GalleryModalInfo({
   member,
@@ -90,7 +91,13 @@ export default function GalleryModalInfo({
   };
 
   const currentReviewText = reviewText[lang] ?? reviewText.zh;
-  const reviews = Array.isArray(member.reviews) ? member.reviews : [];
+
+  /*
+    核心修正：
+    原本是讀 member.reviews，但 teamMembers.ts 裡沒有 reviews 欄位。
+    現在改成依照 member.name 去 data/reviews.ts 裡篩選對應師傅評論。
+  */
+  const reviews = getReviewsByTherapist(member.name);
 
   const renderStars = (rating) => {
     if (!rating || Number.isNaN(Number(rating))) return null;
@@ -174,9 +181,9 @@ export default function GalleryModalInfo({
           </div>
 
           <div className={fullScreen ? "space-y-3 pb-8" : "space-y-3"}>
-            {reviews.map((review, index) => (
+            {reviews.map((review) => (
               <article
-                key={`${member.id}-review-${index}`}
+                key={`${member.id}-${review.id}`}
                 className="rounded-2xl border border-stone-200 bg-white p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3">

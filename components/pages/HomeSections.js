@@ -2,6 +2,7 @@
 
 import HomePageSections from "@/components/pages/home/HomePageSections";
 import HomeGalleryLayer from "@/components/pages/home/HomeGalleryLayer";
+import { getLatestReviews } from "@/data/reviews";
 
 export default function HomeSections({
   headerRef,
@@ -23,6 +24,8 @@ export default function HomeSections({
   onSelectGalleryImage,
   openLineBooking,
 }) {
+  const latestReviews = getLatestReviews(15);
+
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">
       <HomePageSections
@@ -37,6 +40,7 @@ export default function HomeSections({
         t={t}
         serviceCards={serviceCards}
         socialLinks={socialLinks}
+        reviews={latestReviews}
         onOpenGallery={onOpenGallery}
         openLineBooking={openLineBooking}
       />

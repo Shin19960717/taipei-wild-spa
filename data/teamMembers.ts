@@ -1,12 +1,5 @@
 export type Lang = "zh" | "en" | "ja" | "ko";
 
-export type TeamReview = {
-  name?: string;
-  rating?: number;
-  date?: string;
-  content: string;
-};
-
 export type TeamMember = {
   id: string;
   name: string;
@@ -14,7 +7,6 @@ export type TeamMember = {
   imgs: string[];
   calendar: string;
   newUntil?: string;
-  reviews?: TeamReview[];
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
@@ -53,26 +45,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Aaron02.jpg",
       "/team/Aaron03.jpg",
       "/team/Aaron04.jpg",
-    ],
-    reviews: [
-      {
-        name: "Jason",
-        rating: 5,
-        date: "2026.04",
-        content: "手法穩定，互動自然，整體節奏很舒服",
-      },
-      {
-        name: "匿名顧客",
-        rating: 5,
-        date: "2026.03",
-        content: "雖然有打碼，但本人算帥，會想為了他再來",
-      },
-      {
-        name: "K",
-        rating: 4,
-        date: "2026.03",
-        content: "很會聊，氣氛很好",
-      },
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=9241237bf98b8c10c239557b49e534adcf6ab9983be17c70f1e36f6373317080%40group.calendar.google.com&ctz=Asia%2FTaipei",
@@ -114,20 +86,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       "/team/Eric03.jpg",
       "/team/Eric04.jpg",
     ],
-    reviews: [
-      {
-        name: "Leo",
-        rating: 5,
-        date: "2026.04",
-        content: "外型乾淨，蠻親切，過程按到睡著很放鬆",
-      },
-      {
-        name: "匿名顧客",
-        rating: 4,
-        date: "2026.03",
-        content: "肌肉線條很好，服務態度佳",
-      },
-    ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=6761e8d7b25daa548fd72acfd0c161fca4da291c0ce9c7a1a37d0132034d13a5%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
@@ -162,29 +120,12 @@ const TEAM_MEMBERS: TeamMember[] = [
         "공손하고 부끄러움 많은 스타일",
       ],
     },
-    imgs: [
-      "/team/Dragon01.jpg",
-      "/team/Dragon02.jpg",
-    ],
-    reviews: [
-      {
-        name: "M",
-        rating: 5,
-        date: "2026.04",
-        content: "有男友感，很親切",
-      },
-      {
-        name: "匿名顧客",
-        rating: 5,
-        date: "2026.03",
-        content: "本人鮮肉一枚，蠻會聊的，很蘇胡",
-      },
-    ],
+    imgs: ["/team/Dragon01.jpg", "/team/Dragon02.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
-    {
+  {
     id: "ryan",
     name: "Ryan",
     desc: {
@@ -211,31 +152,12 @@ const TEAM_MEMBERS: TeamMember[] = [
         "스포티한 느낌",
       ],
     },
-    imgs: [
-      "/team/Ryan01.jpg",
-    ],
-    reviews: [
-      {
-        name: "匿名顧客",
-        date: "2026.04",
-        content: "按摩手法很好，蠻有經驗的感覺不是隨便按，互動感覺還不錯",
-      },
-      {
-        name: "匿名顧客",
-        date: "2026.03",
-        content: "本人蠻帥",
-      },
-      {
-        name: "匿名顧客",
-        date: "2026.03",
-        content: "只有一張照片，還看不到臉，但剛好那時段只有他，想說試試看，結果師傅本人帥，身材又跟照片一樣好，也剛好沒被挑菜，哈哈，體驗不錯。",
-      },
-    ],
+    imgs: ["/team/Ryan01.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
-    {
+  {
     id: "sun",
     name: "Sun",
     desc: {
@@ -262,30 +184,18 @@ const TEAM_MEMBERS: TeamMember[] = [
         "편하게 대화할 수 있어요",
       ],
     },
-    imgs: [
-      "/team/Sun01.jpg",
-      "/team/Sun02.jpg",
-      "/team/Sun03.jpg",
-    ],
-    reviews: [
-      {
-        name: "匿名顧客",
-        rating: 5,
-        date: "2026.04",
-        content: "看照片的時候，感覺好像很壯，因此嘗試預約，見到本人時有點驚訝，真的很大隻比想像中更大，非常難遇到那麼大隻的人，很健談聊天感覺很有趣，手法倒是很溫柔，體推的感覺非常舒服，喜歡哈",
-      },
-    ],
+    imgs: ["/team/Sun01.jpg", "/team/Sun02.jpg", "/team/Sun03.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
-    {
+  {
     id: "sam",
     name: "Sam",
     desc: {
       zh: ["162/73/25", "新人上線", "健美先生", "專業按摩技術"],
       en: [
-        "165/56/24",
+        "162/73/25",
         "New arrival",
         "bodybuilder",
         "Professional massage techniques",
@@ -303,61 +213,25 @@ const TEAM_MEMBERS: TeamMember[] = [
         "전문가의 마사지 기술",
       ],
     },
-    imgs: [
-      "/team/Sam01.jpg",
-      "/team/Sam02.jpg",
-    ],
-    reviews: [
-    ],
+    imgs: ["/team/Sam01.jpg", "/team/Sam02.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
-    {
+  {
     id: "mike",
     name: "Mike",
     desc: {
-      zh: [
-        "173/80/35",
-        "新人上線",
-        "穩重",
-        "親切",
-        "穩定運動習慣",
-      ],
-      en: [
-        "173/80/35",
-        "New arrival",
-        "composed",
-        "friendly",
-        "athletic",
-      ],
-      ja: [
-        "173/80/35",
-        "新人セラピスト",
-        "落ち着いた",
-        "親しみやすい",
-        "アクティブ",
-      ],
-      ko: [
-        "173/80/35",
-        "신규 테라피스트",
-        "차분한",
-        "친절한",
-        "운동을 좋아하는",
-      ],
+      zh: ["173/80/35", "新人上線", "穩重", "親切", "穩定運動習慣"],
+      en: ["173/80/35", "New arrival", "composed", "friendly", "athletic"],
+      ja: ["173/80/35", "新人セラピスト", "落ち着いた", "親しみやすい", "アクティブ"],
+      ko: ["173/80/35", "신규 테라피스트", "차분한", "친절한", "운동을 좋아하는"],
     },
-    imgs: [
-      "/team/Mike01.jpg",
-      "/team/Mike02.jpg",
-      "/team/Mike03.jpg",
-    ],
-    reviews: [
-    ],
+    imgs: ["/team/Mike01.jpg", "/team/Mike02.jpg", "/team/Mike03.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-25",
   },
-
 ];
 
 export default TEAM_MEMBERS;

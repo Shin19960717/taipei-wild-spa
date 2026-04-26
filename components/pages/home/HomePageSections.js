@@ -16,8 +16,9 @@ export default function HomePageSections({
   onScrollToSection,
   t,
   serviceCards,
-  onOpenGallery,
   socialLinks,
+  reviews = [],
+  onOpenGallery,
   openLineBooking,
 }) {
   const mobileBlurClass = isMobileLangMenuOpen
@@ -60,7 +61,7 @@ export default function HomePageSections({
       </div>
 
       <div className={mobileBlurClass}>
-        <ReviewsSection t={t} lang={lang} />
+        <ReviewsSection t={t} lang={lang} reviews={reviews} limit={15} />
       </div>
     </>
   );
