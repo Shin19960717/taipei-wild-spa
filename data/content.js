@@ -10,6 +10,7 @@ const CONTENT = {
     navTeam: "團隊介紹與招募",
     navServices: "服務內容",
     navAbout: "環境概覽",
+    navReviews: "顧客體驗與評價分享",
     navContact: "即刻預約",
 
     heroTitle: "Taipei Wild Spa",
@@ -69,6 +70,7 @@ const CONTENT = {
     navTeam: "Team & Join Us",
     navServices: "Services",
     navAbout: "Space",
+    navReviews: "Guest Reviews",
     navContact: "Book Now",
 
     heroTitle: "Taipei Wild Spa",
@@ -134,6 +136,7 @@ const CONTENT = {
     navTeam: "スタッフ・採用",
     navServices: "サービス",
     navAbout: "空間紹介",
+    navReviews: "お客様の体験とレビュー",
     navContact: "今すぐ予約",
 
     heroTitle: "Taipei Wild Spa",
@@ -199,6 +202,7 @@ const CONTENT = {
     navTeam: "팀 소개 및 채용",
     navServices: "서비스",
     navAbout: "공간 소개",
+    navReviews: "고객 경험 및 후기",
     navContact: "바로 예약",
 
     heroTitle: "Taipei Wild Spa",
