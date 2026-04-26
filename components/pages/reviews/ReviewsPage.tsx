@@ -1,23 +1,64 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { REVIEWS } from "@/data/reviews";
 
+type Lang = "zh" | "en" | "ja" | "ko";
+
+const REVIEW_PAGE_TEXT = {
+  zh: {
+    title: "客戶體驗與評價",
+    intro:
+      "來自真實客人的服務回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務氛圍。",
+    backHome: "返回首頁",
+  },
+  en: {
+    title: "Guest Experiences & Reviews",
+    intro:
+      "Real guest feedback helps first-time visitors better understand the service atmosphere at Taipei Wild Spa.",
+    backHome: "Back to Home",
+  },
+  ja: {
+    title: "お客様の体験とレビュー",
+    intro:
+      "実際のお客様からの感想を通して、初めてご予約される方にも Taipei Wild Spa のサービスの雰囲気を安心してご確認いただけます。",
+    backHome: "ホームへ戻る",
+  },
+  ko: {
+    title: "고객 경험 및 후기",
+    intro:
+      "실제 고객 후기를 통해 처음 예약하시는 분들도 Taipei Wild Spa의 서비스 분위기를 더 안심하고 확인하실 수 있습니다.",
+    backHome: "홈으로 돌아가기",
+  },
+};
+
+function getValidLang(value: string | null): Lang {
+  if (value === "en" || value === "ja" || value === "ko" || value === "zh") {
+    return value;
+  }
+  return "zh";
+}
+
 export default function ReviewsPage() {
+  const searchParams = useSearchParams();
+  const lang = getValidLang(searchParams.get("lang"));
+
+  const pageText = REVIEW_PAGE_TEXT[lang];
+  const homeHref = lang === "zh" ? "/" : `/?lang=${lang}`;
+
   return (
     <main className="min-h-screen bg-neutral-950 px-6 py-24 text-white">
       <section className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
-          <p className="mb-3 text-sm tracking-[0.3em] text-amber-300">
-            CUSTOMER REVIEWS
-          </p>
+          {/* 已刪除 CUSTOMER REVIEWS */}
 
           <h1 className="text-3xl font-semibold md:text-5xl">
-            客戶體驗與評價
+            {pageText.title}
           </h1>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-neutral-300 md:text-base">
-            來自真實客人的服務回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務氛圍。
+            {pageText.intro}
           </p>
         </div>
 
@@ -48,10 +89,10 @@ export default function ReviewsPage() {
 
         <div className="mt-12 text-center">
           <Link
-            href="/"
+            href={homeHref}
             className="inline-flex rounded-full border border-white/15 px-6 py-3 text-sm text-neutral-200 transition hover:bg-white/10"
           >
-            返回首頁
+            {pageText.backHome}
           </Link>
         </div>
       </section>

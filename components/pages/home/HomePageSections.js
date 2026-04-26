@@ -60,7 +60,7 @@ export default function HomePageSections({
       </div>
 
       <div className={mobileBlurClass}>
-        <ReviewsSection />
+        <ReviewsSection t={t} lang={lang} />
       </div>
     </>
   );
