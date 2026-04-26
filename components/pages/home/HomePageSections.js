@@ -3,6 +3,7 @@ import HeroSection from "@/components/sections/HeroSection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import TeamSection from "@/components/sections/TeamSection";
 import AboutSection from "@/components/sections/AboutSection";
+import ReviewsSection from "@/components/sections/ReviewsSection";
 
 export default function HomePageSections({
   headerRef,
@@ -56,6 +57,10 @@ export default function HomePageSections({
 
       <div className={mobileBlurClass}>
         <AboutSection t={t} socialLinks={socialLinks} />
+      </div>
+
+      <div className={mobileBlurClass}>
+        <ReviewsSection />
       </div>
     </>
   );

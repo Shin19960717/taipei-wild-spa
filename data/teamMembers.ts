@@ -217,17 +217,19 @@ const TEAM_MEMBERS: TeamMember[] = [
     reviews: [
       {
         name: "匿名顧客",
-        rating: 5,
-        date: "2026.03",
+        date: "2026.04",
         content: "按摩手法很好，蠻有經驗的感覺不是隨便按，互動感覺還不錯",
       },
       {
         name: "匿名顧客",
-        rating: 5,
         date: "2026.03",
         content: "本人蠻帥",
       },
-
+      {
+        name: "匿名顧客",
+        date: "2026.03",
+        content: "只有一張照片，還看不到臉，但剛好那時段只有他，想說試試看，結果師傅本人帥，身材又跟照片一樣好，也剛好沒被挑菜，哈哈，體驗不錯。",
+      },
     ],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
