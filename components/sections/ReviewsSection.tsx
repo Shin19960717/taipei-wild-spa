@@ -22,6 +22,24 @@ type ReviewsSectionProps = {
   limit?: number;
 };
 
+const GOOGLE_REVIEW_FORM_URL =
+  "https://forms.gle/Em6XDDzUvt4RPMFD8";
+
+const REVIEW_FORM_TEXT = {
+  zh: "撰寫體驗評價",
+  en: "Write a Review",
+  ja: "レビューを書く",
+  ko: "후기 작성하기",
+};
+
+function getReviewFormLabel(lang: string) {
+  if (lang === "en" || lang === "ja" || lang === "ko") {
+    return REVIEW_FORM_TEXT[lang];
+  }
+
+  return REVIEW_FORM_TEXT.zh;
+}
+
 export default function ReviewsSection({
   reviews = [],
   t,
@@ -38,6 +56,8 @@ export default function ReviewsSection({
     "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。";
 
   const reviewsButton = t?.reviewsButton ?? "查看更多評價";
+
+  const reviewFormButton = getReviewFormLabel(lang);
 
   const reviewsHref =
     lang && lang !== "zh" ? `/reviews?lang=${lang}` : "/reviews";
@@ -59,12 +79,23 @@ export default function ReviewsSection({
             </p>
           </div>
 
-          <Link
-            href={reviewsHref}
-            className="inline-flex w-fit items-center justify-center rounded-full bg-black px-7 py-3 text-sm font-bold tracking-wide text-white shadow-lg transition hover:scale-[1.03] hover:bg-neutral-800"
-          >
-            {reviewsButton}
-          </Link>
+          <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
+            <Link
+              href={reviewsHref}
+              className="inline-flex w-fit items-center justify-center rounded-full bg-black px-7 py-3 text-sm font-bold tracking-wide text-white shadow-lg transition hover:scale-[1.03] hover:bg-neutral-800"
+            >
+              {reviewsButton}
+            </Link>
+
+            <a
+              href={GOOGLE_REVIEW_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-fit items-center justify-center rounded-full border border-neutral-900/20 bg-white/80 px-7 py-3 text-sm font-bold tracking-wide text-neutral-900 shadow-lg backdrop-blur transition hover:scale-[1.03] hover:bg-white"
+            >
+              {reviewFormButton}
+            </a>
+          </div>
         </div>
 
         {previewReviews.length > 0 ? (
