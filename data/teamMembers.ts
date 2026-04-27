@@ -232,6 +232,38 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-25",
   },
+    {
+    id: "leo",
+    name: "Leo",
+    desc: {
+      zh: ["173/70/26", "新人上線", "呆萌感", "配合度高","開朗健談"],
+      en: [
+"173/70/26",
+        "New arrival",
+        "nnocently cute",
+        "very accommodating",
+        "friendly and easy to talk to",
+      ],
+      ja: [
+"173/70/26",
+        "新人セラピスト",
+        "天然",
+        "柔軟に対応してくれる",
+        "明るくてとても話しやすい方です",
+      ],
+      ko: [
+"173/70/26",
+        "신규 테라피스트",
+        "엉뚱한 매력",
+        "요청을 잘 맞춰주는 편이에요",
+        "성격이 밝고 대화하기 편해요",
+      ],
+    },
+    imgs: ["/team/Leo01.jpg", "/team/Leo02.jpg","/team/Leo03.jpg","/team/Leo04.jpg","/team/Leo05.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-28",
+  },
 ];
 
 export default TEAM_MEMBERS;
