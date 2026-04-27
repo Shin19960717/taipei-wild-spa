@@ -134,6 +134,14 @@ export const REVIEWS: Review[] = [
     therapist: "Dragon",
     content: "I usually have a habit of writing a diary, and right after the session the staff happened to ask if I’d be willing to share my massage experience, so I wrote this—though honestly, I probably would have written it anyway even if they hadn’t asked. This time I stayed in Taiwan for five days. On the evening of the third day, I happened to be in the lively Ximending area. After eating a lot of great food and walking quite a bit, I was feeling a little tired, so I decided to search for a gay massage. This place suddenly popped up, and judging by the distance shown, it was about a ten-minute walk from Ximending, which seemed reasonable. After looking through all the therapists, I decided to book Dragon. His name seemed to mean “dragon” in Chinese, which I found interesting, and his photos showed him smiling, giving off a very friendly and approachable vibe. Once the massage started, I was actually quite surprised. I had never experienced a gay massage before, and since the therapist looked quite young, I assumed his technique might not be that great. But it turned out that both the rhythm and pressure were spot on, making me feel extremely relaxed. The oil massage at the end, in particular, was especially impressive—it made me realize that a massage could be this comfortable and relaxing. My only regret is not finding this place on the first day. The next time I come to Taiwan, I will definitely make time to come here again.",
   },
+  {
+    id: "review-018",
+    name: "豪",
+    date: "2026-03-31",
+    therapist: "Eric",
+    content:
+      "不錯",
+  },
 
 ];
 
