@@ -120,6 +120,14 @@ export const REVIEWS: Review[] = [
     content:
       "Great place with amazing service. Had a wonderful experience in Taiwan.",
   },
+    {
+    id: "review-016",
+    name: "匿名顧客",
+    date: "2026-03-03",
+    therapist: "Dragon",
+    content: "跟朋友來西門吃飯 一時興起約一下按摩 剛好找到這間 看了一下最喜歡龍師傅他看起來最年輕好像是學生 見到本人接我上樓後 難掩內心的衝動直接抱了他 有點不好意思...",
+  },
+
 ];
 
 export function getAllReviews(): Review[] {

@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import GalleryModal from "@/components/ui/gallery/GalleryModal";
 import { openLineBooking } from "@/lib/line";
 import type { Lang, TeamMember } from "@/data/teamMembers";
+import TherapistReviewsSection from "@/components/sections/TherapistReviewsSection";
+import { getTherapistReviews } from "@/lib/getTherapistReviews";
 
 type TherapistPageClientProps = {
   member: TeamMember;
@@ -47,6 +49,11 @@ export default function TherapistPageClient({
 }: TherapistPageClientProps) {
   const t = TEXT[lang];
 
+  // ✅ 這行是關鍵（用名稱抓評價）
+  const reviews = useMemo(() => {
+    return getTherapistReviews(member.name);
+  }, [member.name]);
+
   const [gallery, setGallery] = useState({
     isOpen: true,
     member,
@@ -85,16 +92,23 @@ export default function TherapistPageClient({
   };
 
   return (
-    <GalleryModal
-      gallery={gallery}
-      lang={lang}
-      t={t}
-      onClose={closeGallery}
-      onPrev={showPrevImage}
-      onNext={showNextImage}
-      onSelectImage={selectGalleryImage}
-      openLineBooking={openLineBooking}
-      fullScreen
-    />
+    <>
+      <GalleryModal
+        gallery={gallery}
+        lang={lang}
+        t={t}
+        onClose={closeGallery}
+        onPrev={showPrevImage}
+        onNext={showNextImage}
+        onSelectImage={selectGalleryImage}
+        openLineBooking={openLineBooking}
+        fullScreen
+      />
+
+      {/* ✅ 新增這段 */}
+      <div className="max-w-6xl mx-auto px-4 pb-20">
+        <TherapistReviewsSection reviews={reviews} />
+      </div>
+    </>
   );
 }
