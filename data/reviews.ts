@@ -53,7 +53,7 @@ export const REVIEWS: Review[] = [
     date: "2026-03-20",
     therapist: "Aaron",
     content:
-      "官網照有打碼，本人是菜，很溫柔很有禮貌，還會一直問力道如何，有被呵護照顧的感覺，重點是身材真的很好",
+      "官網照有打碼，本人是菜，很溫柔很有禮貌，還會一直問力道如何，有被呵護到，重點是身材真的很好",
   },
   {
     id: "review-007",
@@ -67,14 +67,14 @@ export const REVIEWS: Review[] = [
     name: "Leo",
     date: "2026-04-08",
     therapist: "Eric",
-    content: "外型乾淨，蠻親切，過程按到睡著很放鬆",
+    content: "我遇過的師傅裡最親切的 有被照顧的感覺 有男友感",
   },
   {
     id: "review-009",
     name: "匿名顧客",
     date: "2026-03-21",
     therapist: "Eric",
-    content: "肌肉線條很好，服務態度佳",
+    content: "肌肉線條很好，服務態度也很好，也很熱情...特別喜歡油壓",
   },
   {
     id: "review-010",
@@ -88,7 +88,7 @@ export const REVIEWS: Review[] = [
     name: "匿名顧客",
     date: "2026-03-01",
     therapist: "Dragon",
-    content: "本人鮮肉一枚，蠻會聊的，很蘇胡",
+    content: "本人鮮肉一枚，很蘇胡",
   },
   {
     id: "review-012",
@@ -118,7 +118,7 @@ export const REVIEWS: Review[] = [
     date: "2026-03-11",
     therapist: "Eric",
     content:
-      "Good place, nice service, I like Taiwan so much.",
+      "Great place with amazing service. Had a wonderful experience in Taiwan.",
   },
 ];
 
