@@ -71,7 +71,7 @@ export const REVIEWS: Review[] = [
   },
   {
     id: "review-009",
-    name: "匿名",
+    name: "凱",
     date: "2026-03-21",
     therapist: "Eric",
     content: "肌肉線條很好，服務態度也很好，也很熱情...特別喜歡油壓",
@@ -122,7 +122,7 @@ export const REVIEWS: Review[] = [
   },
     {
     id: "review-016",
-    name: "匿名",
+    name: "顏",
     date: "2026-03-03",
     therapist: "Dragon",
     content: "跟朋友來西門吃飯 一時興起約一下按摩 剛好找到這間 看了一下最喜歡龍師傅他看起來最年輕好像是學生 見到本人接我上樓後 難掩內心的衝動直接抱了他 有點不好意思...",
