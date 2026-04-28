@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+type SupportedLang = "zh" | "en" | "ja" | "ko";
+
 type Review = {
   id: string | number;
   name: string;
@@ -22,22 +24,36 @@ type ReviewsSectionProps = {
   limit?: number;
 };
 
-const GOOGLE_REVIEW_FORM_URL =
-  "https://forms.gle/Em6XDDzUvt4RPMFD8";
+const GOOGLE_REVIEW_FORM_URLS: Record<SupportedLang, string> = {
+  zh: "https://forms.gle/Em6XDDzUvt4RPMFD8",
+  en: "https://forms.gle/aSHGvnwwVoxsRpp78",
+  ja: "https://forms.gle/UfGQcifUPu5GW8si6",
+  ko: "https://forms.gle/taAvcpcx2xqaj5NT9",
+};
 
-const REVIEW_FORM_TEXT = {
+const REVIEW_FORM_TEXT: Record<SupportedLang, string> = {
   zh: "撰寫體驗評價",
   en: "Write a Review",
   ja: "レビューを書く",
   ko: "후기 작성하기",
 };
 
-function getReviewFormLabel(lang: string) {
+function normalizeLang(lang?: string): SupportedLang {
   if (lang === "en" || lang === "ja" || lang === "ko") {
-    return REVIEW_FORM_TEXT[lang];
+    return lang;
   }
 
-  return REVIEW_FORM_TEXT.zh;
+  return "zh";
+}
+
+function getReviewFormLabel(lang?: string) {
+  const safeLang = normalizeLang(lang);
+  return REVIEW_FORM_TEXT[safeLang];
+}
+
+function getReviewFormUrl(lang?: string) {
+  const safeLang = normalizeLang(lang);
+  return GOOGLE_REVIEW_FORM_URLS[safeLang];
 }
 
 export default function ReviewsSection({
@@ -46,6 +62,7 @@ export default function ReviewsSection({
   lang = "zh",
   limit = 15,
 }: ReviewsSectionProps) {
+  const safeLang = normalizeLang(lang);
   const safeReviews = Array.isArray(reviews) ? reviews : [];
   const previewReviews = safeReviews.slice(0, limit);
 
@@ -57,10 +74,11 @@ export default function ReviewsSection({
 
   const reviewsButton = t?.reviewsButton ?? "查看更多評價";
 
-  const reviewFormButton = getReviewFormLabel(lang);
+  const reviewFormButton = getReviewFormLabel(safeLang);
+  const reviewFormUrl = getReviewFormUrl(safeLang);
 
   const reviewsHref =
-    lang && lang !== "zh" ? `/reviews?lang=${lang}` : "/reviews";
+    safeLang !== "zh" ? `/reviews?lang=${safeLang}` : "/reviews";
 
   return (
     <section
@@ -88,7 +106,7 @@ export default function ReviewsSection({
             </Link>
 
             <a
-              href={GOOGLE_REVIEW_FORM_URL}
+              href={reviewFormUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-fit items-center justify-center rounded-full border border-neutral-900/20 bg-white/80 px-7 py-3 text-sm font-bold tracking-wide text-neutral-900 shadow-lg backdrop-blur transition hover:scale-[1.03] hover:bg-white"
