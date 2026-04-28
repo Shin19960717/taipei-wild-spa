@@ -61,8 +61,8 @@ const CONTENT = {
     contactHint: "我們推薦透過 LINE 聯繫，以獲得最快速的安排與即時回覆",
 
     reviewsTitle: "顧客體驗與評價分享",
-    reviewsIntro:
-      "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。",
+    reviewsIntro: "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。",    
+    reviewsLanguageNotice: "評價將依照使用者語言，優先顯示該語言的評論。",
     reviewsButton: "查看更多評價",
   },
 
@@ -129,6 +129,7 @@ const CONTENT = {
     reviewsTitle: "Guest Experiences & Reviews",
     reviewsIntro:
       "Real guest feedback helps first-time visitors better understand Taipei Wild Spa’s service quality, atmosphere, and booking process.",
+    reviewsLanguageNotice: "Reviews in the user’s selected language will be shown first.",
     reviewsButton: "View More Reviews",
   },
 
@@ -195,6 +196,7 @@ const CONTENT = {
     reviewsTitle: "お客様の体験とレビュー",
     reviewsIntro:
       "実際のお客様からの感想を通して、初めてご予約される方にも Taipei Wild Spa のサービス品質、空間の雰囲気、予約の流れを安心してご確認いただけます。",
+    reviewsLanguageNotice: "レビューは、ユーザーが選択した言語のものが優先して表示されます。",
     reviewsButton: "レビューをもっと見る",
   },
 
@@ -262,6 +264,7 @@ const CONTENT = {
     reviewsTitle: "고객 경험 및 후기",
     reviewsIntro:
       "실제 고객 후기를 통해 처음 예약하시는 분들도 Taipei Wild Spa의 서비스 품질, 공간 분위기, 예약 절차를 더 안심하고 확인하실 수 있습니다.",
+    reviewsLanguageNotice: "후기는 사용자가 선택한 언어의 후기가 우선 표시됩니다.",
     reviewsButton: "후기 더 보기",
   },
 };

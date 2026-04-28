@@ -13,6 +13,7 @@ type ReviewsSectionProps = {
   t?: {
     reviewsTitle?: string;
     reviewsIntro?: string;
+    reviewsLanguageNotice?: string;
     reviewsButton?: string;
   };
   lang?: string;
@@ -64,6 +65,10 @@ export default function ReviewsSection({
     t?.reviewsIntro ??
     "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。";
 
+  const reviewsLanguageNotice =
+    t?.reviewsLanguageNotice ??
+    "評價將依照使用者語言，優先顯示該語言的評論。";
+
   const reviewsButton = t?.reviewsButton ?? "查看更多評價";
 
   const reviewFormButton = getReviewFormLabel(safeLang);
@@ -86,6 +91,10 @@ export default function ReviewsSection({
 
             <p className="mt-5 text-base leading-8 text-neutral-700 md:text-lg">
               {reviewsIntro}
+            </p>
+
+            <p className="mt-3 text-sm leading-7 text-neutral-500 md:text-base">
+              {reviewsLanguageNotice}
             </p>
           </div>
 
