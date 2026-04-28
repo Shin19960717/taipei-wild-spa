@@ -54,9 +54,9 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "eric",
     name: "Eric",
     desc: {
-      zh: ["172/67/33", "新人上線", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
+      zh: ["172/67/39", "新人上線", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
       en: [
-        "172/67/33",
+        "172/67/39",
         "New arrival",
         "Clean and sharp appearance",
         "Solid and well-built physique",
@@ -64,7 +64,7 @@ const TEAM_MEMBERS: TeamMember[] = [
         "Highly cooperative",
       ],
       ja: [
-        "172/67/33",
+        "172/67/39",
         "新人セラピスト",
         "清潔感のある整った外見",
         "しっかりとした筋肉質な体格",
@@ -72,7 +72,7 @@ const TEAM_MEMBERS: TeamMember[] = [
         "協調性が高い",
       ],
       ko: [
-        "172/67/33",
+        "172/67/39",
         "신규 테라피스트",
         "깔끔하고 단정한 외형",
         "탄탄하고 근육질의 체형",
