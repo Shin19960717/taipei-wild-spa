@@ -264,6 +264,19 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-28",
   },
+      {
+    id: "chris",
+    name: "Chris",
+    desc: {
+      zh: ["173/64/33", "新人上線", "成熟穩重", "精壯結實","內斂吸引力"],
+      en: ["173/64/33", "New Arrival", "Mature and composed", "Lean and well-built", "Subtle attractiveness"],
+      ja: ["173/64/33", "新人セラピスト", "落ち着いた大人の魅力", "引き締まった体型", "内に秘めた魅力"],
+      ko: ["173/64/33", "신규 테라피스트", "차분하고 성숙한 분위기", "탄탄한 근육형 체형", "은은한 매력"],    },
+    imgs: ["/team/Chris01.jpg", "/team/Chris02.jpg","/team/Chris03.jpg","/team/Chris04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-30",
+  },
 ];
 
 export default TEAM_MEMBERS;
