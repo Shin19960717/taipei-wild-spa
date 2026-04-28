@@ -24,7 +24,7 @@ export default function HomeSections({
   onSelectGalleryImage,
   openLineBooking,
 }) {
-  const latestReviews = getLatestReviews(15);
+  const latestReviews = getLatestReviews(15, lang);
 
   return (
     <div className="min-h-screen bg-stone-300 text-stone-800">

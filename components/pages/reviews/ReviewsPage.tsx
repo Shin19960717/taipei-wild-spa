@@ -2,11 +2,20 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { REVIEWS } from "@/data/reviews";
+import {
+  getAllReviews,
+  normalizeReviewLang,
+  type SupportedLang,
+} from "@/data/reviews";
 
-type Lang = "zh" | "en" | "ja" | "ko";
-
-const REVIEW_PAGE_TEXT = {
+const REVIEW_PAGE_TEXT: Record<
+  SupportedLang,
+  {
+    title: string;
+    intro: string;
+    backHome: string;
+  }
+> = {
   zh: {
     title: "客戶體驗與評價",
     intro:
@@ -33,26 +42,18 @@ const REVIEW_PAGE_TEXT = {
   },
 };
 
-function getValidLang(value: string | null): Lang {
-  if (value === "en" || value === "ja" || value === "ko" || value === "zh") {
-    return value;
-  }
-  return "zh";
-}
-
 export default function ReviewsPage() {
   const searchParams = useSearchParams();
-  const lang = getValidLang(searchParams.get("lang"));
+  const lang = normalizeReviewLang(searchParams.get("lang"));
 
   const pageText = REVIEW_PAGE_TEXT[lang];
   const homeHref = lang === "zh" ? "/" : `/?lang=${lang}`;
+  const reviews = getAllReviews(lang);
 
   return (
     <main className="min-h-screen bg-neutral-950 px-6 py-24 text-white">
       <section className="mx-auto max-w-5xl">
         <div className="mb-12 text-center">
-          {/* 已刪除 CUSTOMER REVIEWS */}
-
           <h1 className="text-3xl font-semibold md:text-5xl">
             {pageText.title}
           </h1>
@@ -63,7 +64,7 @@ export default function ReviewsPage() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {REVIEWS.map((review) => (
+          {reviews.map((review) => (
             <article
               key={review.id}
               className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl backdrop-blur"
@@ -80,7 +81,7 @@ export default function ReviewsPage() {
                 </div>
               </div>
 
-              <p className="text-sm leading-7 text-neutral-200">
+              <p className="whitespace-pre-line text-sm leading-7 text-neutral-200">
                 “{review.content}”
               </p>
             </article>

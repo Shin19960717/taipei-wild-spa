@@ -1,17 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-type SupportedLang = "zh" | "en" | "ja" | "ko";
-
-type Review = {
-  id: string | number;
-  name: string;
-  date: string;
-  content: string;
-  therapist: string;
-  rating?: number;
-};
+import {
+  normalizeReviewLang,
+  sortReviewsByLanguage,
+  type Review,
+  type SupportedLang,
+} from "@/data/reviews";
 
 type ReviewsSectionProps = {
   reviews?: Review[];
@@ -38,21 +33,13 @@ const REVIEW_FORM_TEXT: Record<SupportedLang, string> = {
   ko: "후기 작성하기",
 };
 
-function normalizeLang(lang?: string): SupportedLang {
-  if (lang === "en" || lang === "ja" || lang === "ko") {
-    return lang;
-  }
-
-  return "zh";
-}
-
 function getReviewFormLabel(lang?: string) {
-  const safeLang = normalizeLang(lang);
+  const safeLang = normalizeReviewLang(lang);
   return REVIEW_FORM_TEXT[safeLang];
 }
 
 function getReviewFormUrl(lang?: string) {
-  const safeLang = normalizeLang(lang);
+  const safeLang = normalizeReviewLang(lang);
   return GOOGLE_REVIEW_FORM_URLS[safeLang];
 }
 
@@ -62,9 +49,14 @@ export default function ReviewsSection({
   lang = "zh",
   limit = 15,
 }: ReviewsSectionProps) {
-  const safeLang = normalizeLang(lang);
+  const safeLang = normalizeReviewLang(lang);
+
   const safeReviews = Array.isArray(reviews) ? reviews : [];
-  const previewReviews = safeReviews.slice(0, limit);
+
+  const previewReviews = sortReviewsByLanguage(safeReviews, safeLang).slice(
+    0,
+    limit
+  );
 
   const reviewsTitle = t?.reviewsTitle ?? "顧客體驗與評價分享";
 
