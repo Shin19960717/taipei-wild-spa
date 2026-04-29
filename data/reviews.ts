@@ -53,7 +53,7 @@ export const REVIEWS: Review[] = [
     date: "2026-04-06",
     therapist: "Aaron",
     lang: "zh",
-    content: "手法穩定，互動自然，整體節奏很舒服",
+    content: "身材好 按得好 有禮貌 錢花得值得",
   },
   {
     id: "review-006",
@@ -70,7 +70,7 @@ export const REVIEWS: Review[] = [
     date: "2026-03-10",
     therapist: "Aaron",
     lang: "zh",
-    content: "很會聊，氣氛很好",
+    content: "很會聊，很會營造氣氛😳😳😳",
   },
   {
     id: "review-008",
@@ -166,6 +166,15 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "不錯",
   },
+    {
+    id: "review-019",
+    name: "Edward",
+    date: "2026-04-19",
+    therapist: "Aaron",
+    lang: "en",
+    content: "nice",
+  },
+
 ];
 
 export function normalizeReviewLang(lang?: string | null): SupportedLang {
