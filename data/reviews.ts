@@ -161,10 +161,10 @@ export const REVIEWS: Review[] = [
   {
     id: "review-018",
     name: "豪",
-    date: "2026-03-31",
+    date: "2026-04-21",
     therapist: "Eric",
     lang: "zh",
-    content: "不錯",
+    content: "第二次約了 感覺還是不錯",
   },
     {
     id: "review-019",
