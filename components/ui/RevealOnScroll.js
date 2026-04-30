@@ -24,7 +24,11 @@ export default function RevealOnScroll({
           observer.unobserve(node);
         }
       },
-      { threshold: 0.15 }
+      {
+        // 🔥 核心調整（敏感度）
+        threshold: 0.03, // 原本 0.15 → 太晚
+        rootMargin: "0px 0px -20% 0px", // 提前觸發
+      }
     );
 
     observer.observe(node);
