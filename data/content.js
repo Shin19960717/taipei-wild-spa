@@ -37,8 +37,8 @@ const CONTENT = {
     inStoreNote2: "* 為提供更好服務，夜間將酌收額外服務費 TWD $500",
 
     homeServiceTitle: "到府服務（外出）",
-    homeServiceTime1: "60 分鐘　TWD $2500",
-    homeServiceTime2: "100 分鐘　TWD $3000",
+    homeServiceTime1: "70 分鐘　TWD $2400",
+    homeServiceTime2: "110 分鐘　TWD $3000",
     homeNote1: "* 為使團隊成員於指定時間前往服務，為免久候，建議提前至少一小時預約",
     homeNote2: "* 外出服務依地區可能酌收交通費，請透過 LINE 預約確認",
     homeNote3: "* 為提供良好服務，夜間將酌收額外服務費 TWD $500",
@@ -100,8 +100,8 @@ const CONTENT = {
       "* A late-night surcharge of TWD $500 may apply for better service arrangement.",
 
     homeServiceTitle: "Outcall Service",
-    homeServiceTime1: "60 mins　TWD $2500",
-    homeServiceTime2: "100 mins　TWD $3000",
+    homeServiceTime1: "70 mins　TWD $2400",
+    homeServiceTime2: "110 mins　TWD $3000",
     homeNote1:
       "* To ensure timely arrival, please book at least 1 hour in advance.",
     homeNote2:
@@ -167,8 +167,8 @@ const CONTENT = {
       "* より良いサービス提供のため、深夜は TWD $500 の追加料金を頂く場合があります。",
 
     homeServiceTitle: "出張サービス",
-    homeServiceTime1: "60分　TWD $2500",
-    homeServiceTime2: "100分　TWD $3000",
+    homeServiceTime1: "70分　TWD $2400",
+    homeServiceTime2: "110分　TWD $3000",
     homeNote1:
       "* ご指定の時間に伺うため、1時間前までのご予約をおすすめします。",
     homeNote2:
@@ -234,8 +234,8 @@ const CONTENT = {
       "* 보다 나은 서비스 제공을 위해 야간에는 TWD $500 추가 요금이 부과될 수 있습니다.",
 
     homeServiceTitle: "출장 서비스",
-    homeServiceTime1: "60분　TWD $2500",
-    homeServiceTime2: "100분　TWD $3000",
+    homeServiceTime1: "70분　TWD $2400",
+    homeServiceTime2: "110분　TWD $3000",
     homeNote1:
       "* 지정 시간에 맞춰 방문하기 위해 최소 1시간 전 예약을 권장합니다.",
     homeNote2:
