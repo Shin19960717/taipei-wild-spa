@@ -14,9 +14,9 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/28", "新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      zh: ["171/68/29", "新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
       en: [
-        "171/68/28",
+        "171/68/29",
         "New arrival",
         "Strong physique",
         "Steady massage technique",
@@ -24,7 +24,7 @@ const TEAM_MEMBERS: TeamMember[] = [
         "Highly cooperative and adaptable",
       ],
       ja: [
-        "171/68/28",
+        "171/68/29",
         "新人セラピスト",
         "しっかりした体格",
         "安定感のある施術",
@@ -32,7 +32,7 @@ const TEAM_MEMBERS: TeamMember[] = [
         "柔軟に対応できる高い協調性",
       ],
       ko: [
-        "171/68/28",
+        "171/68/29",
         "신규 테라피스트",
         "탄탄한 체형",
         "안정감 있는 마사지 스타일",
@@ -129,23 +129,23 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "ryan",
     name: "Ryan",
     desc: {
-      zh: ["165/56/24", "新人上線", "陽光自然", "專業按摩技術", "運動感"],
+      zh: ["165/56/26", "新人上線", "陽光自然", "專業按摩技術", "運動感"],
       en: [
-        "165/56/24",
+        "165/56/26",
         "New arrival",
         "Bright and natural vibe",
         "Professional massage techniques",
         "sporty",
       ],
       ja: [
-        "165/56/24",
+        "165/56/26",
         "新人セラピスト",
         "明るく自然な雰囲気",
         "プロのマッサージ技術",
         "スポーティーな感じ",
       ],
       ko: [
-        "165/56/24",
+        "165/56/26",
         "신규 테라피스트",
         "밝고 자연스러운 분위기",
         "전문가의 마사지 기술",
@@ -161,16 +161,16 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "sun",
     name: "Sun",
     desc: {
-      zh: ["172/85/23", "新人上線", "超壯", "專業按摩技術", "親切健談"],
+      zh: ["172/85/24", "新人上線", "超壯", "專業按摩技術", "親切健談"],
       en: [
-        "172/85/23",
+        "172/85/24",
         "New arrival",
         "super buff",
         "Professional massage techniques",
         "warm and outgoing",
       ],
       ja: [
-        "172/85/23",
+        "172/85/24",
         "新人セラピスト",
         "ゴリゴリに鍛えてる",
         "プロのマッサージ技術",
@@ -193,21 +193,21 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "sam",
     name: "Sam",
     desc: {
-      zh: ["162/73/25", "新人上線", "健美先生", "專業按摩技術"],
+      zh: ["162/73/26", "新人上線", "健美先生", "專業按摩技術"],
       en: [
-        "162/73/25",
+        "162/73/26",
         "New arrival",
         "bodybuilder",
         "Professional massage techniques",
       ],
       ja: [
-        "162/73/25",
+        "162/73/26",
         "新人セラピスト",
         "ボディビルダー",
         "プロのマッサージ技術",
       ],
       ko: [
-        "162/73/25",
+        "162/73/26",
         "신규 테라피스트",
         "보디빌더",
         "전문가의 마사지 기술",
