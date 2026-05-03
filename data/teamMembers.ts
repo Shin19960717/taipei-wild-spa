@@ -51,46 +51,6 @@ const TEAM_MEMBERS: TeamMember[] = [
     newUntil: "2026-05-15",
   },
   {
-    id: "eric",
-    name: "Eric",
-    desc: {
-      zh: ["172/67/39", "新人上線", "外表乾淨俐落", "肌肉結實厚實", "互動自然不拘束", "配合度高"],
-      en: [
-        "172/67/39",
-        "New arrival",
-        "Clean and sharp appearance",
-        "Solid and well-built physique",
-        "Natural and easygoing interaction",
-        "Highly cooperative",
-      ],
-      ja: [
-        "172/67/39",
-        "新人セラピスト",
-        "清潔感のある整った外見",
-        "しっかりとした筋肉質な体格",
-        "自然で気軽なコミュニケーション",
-        "協調性が高い",
-      ],
-      ko: [
-        "172/67/39",
-        "신규 테라피스트",
-        "깔끔하고 단정한 외형",
-        "탄탄하고 근육질의 체형",
-        "자연스럽고 편안한 소통",
-        "높은 협조도",
-      ],
-    },
-    imgs: [
-      "/team/Eric01.jpg",
-      "/team/Eric02.jpg",
-      "/team/Eric03.jpg",
-      "/team/Eric04.jpg",
-    ],
-    calendar:
-      "https://calendar.google.com/calendar/embed?src=6761e8d7b25daa548fd72acfd0c161fca4da291c0ce9c7a1a37d0132034d13a5%40group.calendar.google.com&ctz=Asia%2FTaipei",
-    newUntil: "2026-05-15",
-  },
-  {
     id: "dragon",
     name: "Dragon",
     desc: {
@@ -273,6 +233,19 @@ const TEAM_MEMBERS: TeamMember[] = [
       ja: ["173/64/33", "新人セラピスト", "落ち着いた大人の魅力", "引き締まった体型", "内に秘めた魅力"],
       ko: ["173/64/33", "신규 테라피스트", "차분하고 성숙한 분위기", "탄탄한 근육형 체형", "은은한 매력"],    },
     imgs: ["/team/Chris01.jpg", "/team/Chris02.jpg","/team/Chris03.jpg","/team/Chris04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-30",
+  },
+      {
+    id: "dean",
+    name: "Dean",
+    desc: {
+      zh: ["173/60/34", "新人上線", "男人味", "成熟穩重", "精壯結實", "自然親合感"],
+      en: ["173/60/34", "New Arrival", "Masculine", "Mature & Steady", "Lean & Toned", "Naturally Approachable"],
+      ja: ["173/60/34", "新人デビュー", "男らしい", "落ち着いた大人の魅力", "引き締まった体", "親しみやすい雰囲気"],
+      ko: ["173/60/34", "신규 등록", "남성적인 매력", "차분하고 성숙한 이미지", "탄탄한 체형", "자연스럽고 편안한 분위기"],},
+      imgs: ["/team/Dean01.jpg", "/team/Dean02.jpg","/team/Dean03.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-30",
