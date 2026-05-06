@@ -44,17 +44,11 @@ export default function Header({
 
   const langDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  /**
-   * 切換語言時自動關閉 menu
-   */
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileLangOpen(false);
   }, [lang]);
 
-  /**
-   * 點擊外部關閉語言 dropdown
-   */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -68,16 +62,10 @@ export default function Header({
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  /**
-   * Menu 開啟時鎖定 body scroll
-   */
   useEffect(() => {
     if (mobileMenuOpen && window.innerWidth < 768) {
       document.body.style.overflow = "hidden";
@@ -134,82 +122,78 @@ export default function Header({
         />
 
         <div className="flex items-center gap-2">
-{/* Language Dropdown */}
-<div
-  ref={langDropdownRef}
-  className="relative"
->
-  {/* Trigger Button */}
-  <button
-    onClick={() => {
-      setMobileLangOpen((prev) => !prev);
-      setMobileMenuOpen(false);
-    }}
-    className="
-      flex h-10 min-w-[52px]
-      items-center justify-center
-      rounded-full
-      border border-black/10
-      bg-white/90
-      px-2
-      text-md font-medium tracking-[0.08em]
-      text-black/80
-      shadow-md
-      backdrop-blur-xl
+          {/* Language Dropdown */}
+          <div ref={langDropdownRef} className="relative">
+            {/* Trigger Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileLangOpen((prev) => !prev);
+                setMobileMenuOpen(false);
+              }}
+              className="
+                flex h-10 min-w-[52px]
+                items-center justify-center
+                rounded-full
+                border border-black/10
+                bg-white/90
+                px-2
+                text-md font-medium tracking-[0.08em]
+                text-black/80
+                shadow-md
+                backdrop-blur-xl
+                transition-all duration-300
+                hover:bg-neutral-100
+                active:scale-95
+              "
+            >
+              {currentMobileLangShort}
+            </button>
 
-      transition-all duration-300
+            {/* Dropdown */}
+            <div
+              className={`
+                absolute right-0 top-12 z-40
+                w-[190px]
+                overflow-hidden
 
-      hover:bg-neutral-100
-      active:scale-95
-    "
-  >
-    {currentMobileLangShort}
-  </button>
+                rounded-[30px]
+                border border-black/10
+                bg-white/95
+                shadow-2xl
+                backdrop-blur-2xl
 
-  {/* Dropdown */}
-  <div
-    className={`
-      absolute left-1/2 top-12 z-40
-      w-[190px]
-      overflow-hidden
+                transition-all duration-300 ease-out
 
-      rounded-[30px]
-      border border-black/10
-      bg-white/95
-      shadow-2xl
-      backdrop-blur-2xl
+                ${
+                  mobileLangOpen
+                    ? `
+                      pointer-events-auto
+                      translate-y-0
+                      opacity-100
+                      scale-100
+                    `
+                    : `
+                      pointer-events-none
+                      -translate-y-2
+                      opacity-0
+                      scale-95
+                    `
+                }
+              `}
+            >
+              <HeaderLanguage
+                mobile
+                onSelect={() => {
+                  setMobileLangOpen(false);
+                }}
+              />
+            </div>
+          </div>
 
-      transition-all duration-300 ease-out
-
-      ${
-        mobileLangOpen
-          ? `
-            pointer-events-auto
-            translate-x-[-50%]
-            translate-y-0
-            opacity-100
-            scale-100
-          `
-          : `
-            pointer-events-none
-            translate-x-[-50%]
-            -translate-y-2
-            opacity-0
-            scale-95
-          `
-      }
-    `}
-  >
-    <HeaderLanguage
-      mobile
-      onSelect={() => {
-        setMobileLangOpen(false);
-      }}
-    />
-  </div>
-</div>
           {/* Menu Button */}
           <button
+            type="button"
             onClick={() => {
               setMobileMenuOpen((prev) => !prev);
               setMobileLangOpen(false);
@@ -227,11 +211,7 @@ export default function Header({
             <span
               className={`
                 transition-all duration-300
-                ${
-                  mobileMenuOpen
-                    ? "rotate-90"
-                    : "rotate-0"
-                }
+                ${mobileMenuOpen ? "rotate-90" : "rotate-0"}
               `}
             >
               {mobileMenuOpen ? "✕" : "☰"}
