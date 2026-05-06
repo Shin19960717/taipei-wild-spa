@@ -11,6 +11,11 @@ type TeamGridProps = {
 
   lang: Lang;
 
+  onOpenGallery?: (
+    member: TeamMember,
+    initialIndex?: number
+  ) => void;
+
   openLineBooking?: (
     memberName: string,
     lang: string
@@ -22,6 +27,7 @@ type TeamGridProps = {
 export default function TeamGrid({
   members,
   lang,
+  onOpenGallery,
   openLineBooking,
   limit,
 }: TeamGridProps) {
@@ -41,6 +47,9 @@ export default function TeamGrid({
             <TeamCard
               member={member}
               lang={lang}
+              onOpenGallery={
+                onOpenGallery
+              }
               openLineBooking={
                 openLineBooking
               }

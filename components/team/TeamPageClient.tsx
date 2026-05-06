@@ -1,6 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import Link from "next/link";
 
 import TEAM_MEMBERS from "@/data/teamMembers";
@@ -52,18 +51,17 @@ const TEXT_MAP: Record<
   },
 };
 
-export default function TeamPageClient() {
-  const params = useParams();
+type TeamPageClientProps = {
+  lang: Lang;
+};
 
-  const lang: Lang =
-    typeof params?.lang === "string" &&
-    VALID_LANGS.includes(
-      params.lang as Lang
-    )
-      ? (params.lang as Lang)
-      : "zh";
+export default function TeamPageClient({
+  lang,
+}: TeamPageClientProps) {
 
-  const pageText = TEXT_MAP[lang];
+  /* 只處理 build 報錯 */
+  const pageText =
+    TEXT_MAP[lang as Lang] ?? TEXT_MAP.zh;
 
   return (
     <div className="min-h-screen bg-black px-6 py-12 text-white">

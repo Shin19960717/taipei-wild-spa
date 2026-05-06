@@ -39,6 +39,11 @@ type TeamCardProps = {
 
   lang: Lang;
 
+  onOpenGallery?: (
+    member: TeamMember,
+    initialIndex?: number
+  ) => void;
+
   openLineBooking?: (
     memberName: string,
     lang: string
