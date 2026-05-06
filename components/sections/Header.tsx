@@ -134,70 +134,80 @@ export default function Header({
         />
 
         <div className="flex items-center gap-2">
-          {/* Language Dropdown */}
-          <div
-            ref={langDropdownRef}
-            className="relative"
-          >
-            <button
-              onClick={() => {
-                setMobileLangOpen((prev) => !prev);
-                setMobileMenuOpen(false);
-              }}
-              className="
-                flex h-10 items-center justify-center gap-1
-                rounded-full border border-black/10
-                bg-white/90 px-3 text-sm font-medium
-                shadow-sm backdrop-blur-xl
-                transition-all duration-300
-                hover:bg-neutral-100
-                active:scale-95
-              "
-            >
-              {currentMobileLangShort}
+{/* Language Dropdown */}
+<div
+  ref={langDropdownRef}
+  className="relative"
+>
+  {/* Trigger Button */}
+  <button
+    onClick={() => {
+      setMobileLangOpen((prev) => !prev);
+      setMobileMenuOpen(false);
+    }}
+    className="
+      flex h-10 min-w-[52px]
+      items-center justify-center
+      rounded-full
+      border border-black/10
+      bg-white/90
+      px-2
+      text-md font-medium tracking-[0.08em]
+      text-black/80
+      shadow-md
+      backdrop-blur-xl
 
-              <span
-                className={`
-                  text-[11px]
-                  transition-transform duration-300
-                  ${
-                    mobileLangOpen
-                      ? "rotate-180"
-                      : ""
-                  }
-                `}
-              >
-                
-              </span>
-            </button>
+      transition-all duration-300
 
-            {/* Dropdown */}
-            <div
-              className={`
-                absolute right-0 top-12 z-40
-                w-40 overflow-hidden
-                rounded-3xl border border-black/10
-                bg-white/95 backdrop-blur-xl
-                shadow-2xl
+      hover:bg-neutral-100
+      active:scale-95
+    "
+  >
+    {currentMobileLangShort}
+  </button>
 
-                transform transition-all duration-300 ease-out
+  {/* Dropdown */}
+  <div
+    className={`
+      absolute left-1/2 top-12 z-40
+      w-[190px]
+      overflow-hidden
 
-                ${
-                  mobileLangOpen
-                    ? "pointer-events-auto translate-y-0 opacity-100 scale-100"
-                    : "pointer-events-none -translate-y-2 opacity-0 scale-95"
-                }
-              `}
-            >
-              <HeaderLanguage
-                mobile
-                onSelect={() => {
-                  setMobileLangOpen(false);
-                }}
-              />
-            </div>
-          </div>
+      rounded-[30px]
+      border border-black/10
+      bg-white/95
+      shadow-2xl
+      backdrop-blur-2xl
 
+      transition-all duration-300 ease-out
+
+      ${
+        mobileLangOpen
+          ? `
+            pointer-events-auto
+            translate-x-[-50%]
+            translate-y-0
+            opacity-100
+            scale-100
+          `
+          : `
+            pointer-events-none
+            translate-x-[-50%]
+            -translate-y-2
+            opacity-0
+            scale-95
+          `
+      }
+    `}
+  >
+    <HeaderLanguage
+      mobile
+      onSelect={() => {
+        setMobileLangOpen(false);
+      }}
+    />
+  </div>
+</div>
           {/* Menu Button */}
           <button
             onClick={() => {
