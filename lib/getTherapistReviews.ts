@@ -3,10 +3,19 @@ import {
   type Review,
 } from "@/data/reviews";
 
-export type TherapistPageReview = Review;
+import type {
+  Lang,
+} from "@/data/teamMembers";
+
+export type TherapistPageReview =
+  Review;
 
 export function getTherapistReviews(
-  therapistName: string
+  therapistName: string,
+  lang: Lang
 ): TherapistPageReview[] {
-  return getReviewsByTherapist(therapistName);
+  return getReviewsByTherapist(
+    therapistName,
+    lang
+  );
 }

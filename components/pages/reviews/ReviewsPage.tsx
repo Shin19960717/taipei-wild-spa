@@ -1,116 +1,141 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+
+import ReviewsSection from "@/components/sections/ReviewsSection";
+
 import {
   getAllReviews,
   normalizeReviewLang,
   type SupportedLang,
 } from "@/data/reviews";
 
-const REVIEW_PAGE_TEXT: Record<
-  SupportedLang,
-  {
-    title: string;
-    intro: string;
-    languageNotice: string;
-    backHome: string;
-  }
-> = {
+type Props = {
+  lang: SupportedLang;
+};
+
+const TEXT = {
   zh: {
-    title: "客戶體驗與評價",
-    intro:
-      "來自真實客人的服務回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務氛圍。",
-    languageNotice:
+    title: "顧客評價",
+    back: "返回首頁",
+
+    reviewsTitle: "顧客體驗與評價分享",
+
+    reviewsIntro:
+      "來自顧客的實際體驗回饋，讓第一次預約的客人也能更安心了解 Taipei Wild Spa 的服務品質、空間氛圍與預約流程。",
+
+    reviewsLanguageNotice:
       "評價將依照使用者語言，優先顯示該語言的評論。",
-    backHome: "返回首頁",
+
+    reviewsButton: "查看更多評價",
   },
+
   en: {
-    title: "Guest Experiences & Reviews",
-    intro:
-      "Real guest feedback helps first-time visitors better understand the service atmosphere at Taipei Wild Spa.",
-    languageNotice:
-      "Reviews in the user’s selected language will be shown first.",
-    backHome: "Back to Home",
+    title: "Customer Reviews",
+    back: "Back Home",
+
+    reviewsTitle: "Customer Experiences & Reviews",
+
+    reviewsIntro:
+      "Real experiences shared by our guests to help first-time visitors better understand the atmosphere, service quality, and booking process at Taipei Wild Spa.",
+
+    reviewsLanguageNotice:
+      "Reviews are prioritized based on the visitor's selected language.",
+
+    reviewsButton: "View More Reviews",
   },
+
   ja: {
-    title: "お客様の体験とレビュー",
-    intro:
-      "実際のお客様からの感想を通して、初めてご予約される方にも Taipei Wild Spa のサービスの雰囲気を安心してご確認いただけます。",
-    languageNotice:
-      "レビューは、ユーザーが選択した言語のものが優先して表示されます。",
-    backHome: "ホームへ戻る",
+    title: "お客様レビュー",
+    back: "ホームへ戻る",
+
+    reviewsTitle: "お客様の体験とレビュー",
+
+    reviewsIntro:
+      "実際にご利用いただいたお客様の感想を通して、Taipei Wild Spa の空間やサービス、予約の流れをご確認いただけます。",
+
+    reviewsLanguageNotice:
+      "レビューは選択中の言語を優先して表示されます。",
+
+    reviewsButton: "さらにレビューを見る",
   },
+
   ko: {
-    title: "고객 경험 및 후기",
-    intro:
-      "실제 고객 후기를 통해 처음 예약하시는 분들도 Taipei Wild Spa의 서비스 분위기를 더 안심하고 확인하실 수 있습니다.",
-    languageNotice:
-      "후기는 사용자가 선택한 언어의 후기가 우선 표시됩니다.",
-    backHome: "홈으로 돌아가기",
+    title: "고객 후기",
+    back: "홈으로 돌아가기",
+
+    reviewsTitle: "고객 경험 및 후기",
+
+    reviewsIntro:
+      "실제 고객들의 경험을 통해 Taipei Wild Spa의 분위기와 서비스 품질, 예약 과정을 보다 편하게 확인하실 수 있습니다.",
+
+    reviewsLanguageNotice:
+      "후기는 현재 선택된 언어를 우선적으로 표시합니다.",
+
+    reviewsButton: "더 많은 후기 보기",
   },
 };
 
-export default function ReviewsPage() {
-  const searchParams = useSearchParams();
-  const lang = normalizeReviewLang(searchParams.get("lang"));
+export default function ReviewsPage({
+  lang,
+}: Props) {
+  const safeLang = normalizeReviewLang(lang);
 
-  const pageText = REVIEW_PAGE_TEXT[lang];
-  const homeHref = lang === "zh" ? "/" : `/?lang=${lang}`;
-  const reviews = getAllReviews(lang);
+  const reviews = getAllReviews(safeLang);
+
+  const t = TEXT[safeLang];
+
+  const homeHref = `/${safeLang}`;
 
   return (
-    <main className="min-h-screen bg-neutral-950 px-6 py-24 text-white">
-      <section className="mx-auto max-w-5xl">
-        <div className="mb-12 text-center">
-          <h1 className="text-3xl font-semibold md:text-5xl">
-            {pageText.title}
-          </h1>
-
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-neutral-300 md:text-base">
-            {pageText.intro}
-          </p>
-
-          {/* ✅ 新增這行 */}
-          <p className="mx-auto mt-3 max-w-2xl text-xs leading-6 text-neutral-400 md:text-sm">
-            {pageText.languageNotice}
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {reviews.map((review) => (
-            <article
-              key={review.id}
-              className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl backdrop-blur"
-            >
-              <div className="mb-4 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <div>
-                  <p className="text-sm font-medium text-amber-200">
-                    {review.name}
-                  </p>
-
-                  <p className="mt-1 text-xs text-neutral-400">
-                    {review.therapist} ・ {review.date}
-                  </p>
-                </div>
-              </div>
-
-              <p className="whitespace-pre-line text-sm leading-7 text-neutral-200">
-                “{review.content}”
-              </p>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
+    <main className="min-h-screen bg-[#eadcc4]">
+      <div className="px-6 pt-24 md:px-10 lg:px-20">
+        <div className="mx-auto max-w-6xl">
           <Link
             href={homeHref}
-            className="inline-flex rounded-full border border-white/15 px-6 py-3 text-sm text-neutral-200 transition hover:bg-white/10"
+            className="
+              inline-flex
+              items-center
+              rounded-full
+              border
+              border-neutral-900/15
+              bg-white/70
+              px-5
+              py-3
+              text-sm
+              font-bold
+              tracking-wide
+              text-neutral-900
+              shadow-lg
+              backdrop-blur
+              transition
+              hover:scale-[1.03]
+              hover:bg-white
+            "
           >
-            {pageText.backHome}
+            {t.back}
           </Link>
         </div>
-      </section>
+      </div>
+
+      <ReviewsSection
+        reviews={reviews}
+        lang={safeLang}
+
+        // ✅ 子頁顯示全部評價
+        limit={999}
+
+        // ✅ 子頁不顯示「查看更多評價」
+        showViewMore={false}
+
+        t={{
+          reviewsTitle: t.reviewsTitle,
+          reviewsIntro: t.reviewsIntro,
+          reviewsLanguageNotice:
+            t.reviewsLanguageNotice,
+          reviewsButton: t.reviewsButton,
+        }}
+      />
     </main>
   );
 }

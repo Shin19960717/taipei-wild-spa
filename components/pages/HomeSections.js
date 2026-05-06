@@ -9,7 +9,6 @@ export default function HomeSections({
   scrolled,
   navItems,
   lang,
-  setLang,
   isMobileLangMenuOpen,
   setIsMobileLangMenuOpen,
   onScrollToSection,
@@ -27,13 +26,15 @@ export default function HomeSections({
   const latestReviews = getLatestReviews(15, lang);
 
   return (
-    <div className="min-h-screen bg-stone-300 text-stone-800">
+    <div
+      className="min-h-screen bg-stone-300 text-stone-800"
+      key={lang} // ✅ 強制整頁刷新
+    >
       <HomePageSections
         headerRef={headerRef}
         scrolled={scrolled}
         navItems={navItems}
         lang={lang}
-        setLang={setLang}
         isMobileLangMenuOpen={isMobileLangMenuOpen}
         setIsMobileLangMenuOpen={setIsMobileLangMenuOpen}
         onScrollToSection={onScrollToSection}

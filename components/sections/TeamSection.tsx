@@ -16,11 +16,14 @@ type TeamSectionProps = {
     recruitTitle: string;
     viewAllTherapists: string;
   };
-  lang: Lang;
-  onOpenGallery: (member: TeamMember, index?: number) => void;
-  openLineBooking: (memberName: string, lang: string) => void;
-};
 
+  lang: Lang;
+
+  openLineBooking: (
+    memberName: string,
+    lang: string
+  ) => void;
+};
 function isStillNew(newUntil?: string) {
   if (!newUntil) return false;
 
@@ -34,8 +37,7 @@ export default function TeamSection({
   onOpenGallery,
   openLineBooking,
 }: TeamSectionProps) {
-  const teamHref = lang === "zh" ? "/team" : `/team?lang=${lang}`;
-
+const teamHref = `/${lang}/team`;
   const newMembers = TEAM_MEMBERS.filter((member) => isStillNew(member.newUntil));
   const existingMembers = TEAM_MEMBERS.filter(
     (member) => !isStillNew(member.newUntil)
@@ -114,13 +116,11 @@ export default function TeamSection({
           <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-[linear-gradient(to_bottom,rgba(255,255,255,0.01),transparent_58%,rgba(80,56,38,0.04))]" />
 
           <div className="relative p-5 md:p-8 lg:p-10">
-            <TeamGrid
-              members={homepageMembers}
-              lang={lang}
-              onOpenGallery={onOpenGallery}
-              openLineBooking={openLineBooking}
-            />
-
+<TeamGrid
+  members={homepageMembers}
+  lang={lang}
+  openLineBooking={openLineBooking}
+/>
             <div className="mt-10 flex justify-center">
               <Link
                 href={teamHref}

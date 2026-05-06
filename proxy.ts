@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const SUPPORTED_LANGS = ["zh", "en", "ja", "ko"] as const;
+const DEFAULT_LANG = "zh";
 const LANG_COOKIE_NAME = "preferred-lang";
 
 type SupportedLang = (typeof SUPPORTED_LANGS)[number];
@@ -9,6 +10,7 @@ function isSupportedLang(value: string | null | undefined): value is SupportedLa
   return typeof value === "string" && SUPPORTED_LANGS.includes(value as SupportedLang);
 }
 
+// 🌐 從瀏覽器語言判斷
 function detectLangFromAcceptLanguage(
   acceptLanguage: string | null
 ): SupportedLang | null {
@@ -33,8 +35,9 @@ function detectLangFromAcceptLanguage(
   return null;
 }
 
+// 🌍 從 IP 判斷
 function detectLangFromCountry(country: string | null): SupportedLang {
-  if (!country) return "zh";
+  if (!country) return DEFAULT_LANG;
 
   const upper = country.toUpperCase();
 
@@ -45,6 +48,7 @@ function detectLangFromCountry(country: string | null): SupportedLang {
   return "en";
 }
 
+// ❌ 排除靜態資源
 function shouldSkipPath(pathname: string) {
   return (
     pathname.startsWith("/api") ||
@@ -57,36 +61,32 @@ function shouldSkipPath(pathname: string) {
 export function proxy(request: NextRequest) {
   const { nextUrl, cookies, headers } = request;
   const pathname = nextUrl.pathname;
-  const searchParams = nextUrl.searchParams;
 
   if (shouldSkipPath(pathname)) {
     return NextResponse.next();
   }
 
-  const langFromQuery = searchParams.get("lang");
-  if (isSupportedLang(langFromQuery)) {
+  // ✅ 1️⃣ 已經是 /zh /en /ja /ko → 直接放行
+  const pathLang = pathname.split("/")[1];
+  if (isSupportedLang(pathLang)) {
     return NextResponse.next();
   }
 
-  // cookie
+  // ✅ 2️⃣ cookie
   const langFromCookie = cookies.get(LANG_COOKIE_NAME)?.value ?? null;
   if (isSupportedLang(langFromCookie)) {
-    const url = nextUrl.clone();
-    url.searchParams.set("lang", langFromCookie);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL(`/${langFromCookie}`, request.url));
   }
 
-  // browser
+  // ✅ 3️⃣ 瀏覽器語言
   const acceptLanguage = headers.get("accept-language");
   const langFromAcceptLanguage = detectLangFromAcceptLanguage(acceptLanguage);
 
   if (isSupportedLang(langFromAcceptLanguage)) {
-    const url = nextUrl.clone();
-    url.searchParams.set("lang", langFromAcceptLanguage);
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL(`/${langFromAcceptLanguage}`, request.url));
   }
 
-  // IP
+  // ✅ 4️⃣ IP fallback
   const country =
     headers.get("x-vercel-ip-country") ||
     headers.get("x-country-code") ||
@@ -94,10 +94,7 @@ export function proxy(request: NextRequest) {
 
   const finalLang = detectLangFromCountry(country);
 
-  const url = nextUrl.clone();
-  url.searchParams.set("lang", finalLang);
-
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(new URL(`/${finalLang}`, request.url));
 }
 
 export const config = {

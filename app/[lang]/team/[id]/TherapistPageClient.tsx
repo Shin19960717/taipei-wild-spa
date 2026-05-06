@@ -1,10 +1,20 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import GalleryModal from "@/components/ui/gallery/GalleryModal";
+
 import { openLineBooking } from "@/lib/line";
-import type { Lang, TeamMember } from "@/data/teamMembers";
+
+import type {
+  Lang,
+  TeamMember,
+} from "@/data/teamMembers";
+
 import TherapistReviewsSection from "@/components/sections/TherapistReviewsSection";
+
 import { getTherapistReviews } from "@/lib/getTherapistReviews";
 
 type TherapistPageClientProps = {
@@ -14,32 +24,38 @@ type TherapistPageClientProps = {
 
 const TEXT = {
   zh: {
-    backToTeam: "返回全部師傅",
+    backToHome: "返回首頁",
     bookThis: "LINE 預約這位師傅",
     gallery: "照片",
     intro: "師傅介紹",
     schedule: "預約前可先透過 LINE 詢問可預約時段。",
   },
+
   en: {
-    backToTeam: "Back to All Therapists",
+    backToHome: "Back to Home",
     bookThis: "Book This Therapist via LINE",
     gallery: "Photos",
     intro: "Therapist Profile",
-    schedule: "Please contact us via LINE to check available times.",
+    schedule:
+      "Please contact us via LINE to check available times.",
   },
+
   ja: {
-    backToTeam: "セラピスト一覧へ戻る",
+    backToHome: "ホームへ戻る",
     bookThis: "LINEでこのセラピストを予約",
     gallery: "写真",
     intro: "セラピスト紹介",
-    schedule: "予約可能時間はLINEでお問い合わせください。",
+    schedule:
+      "予約可能時間はLINEでお問い合わせください。",
   },
+
   ko: {
-    backToTeam: "전체 테라피스트로 돌아가기",
+    backToHome: "홈으로 돌아가기",
     bookThis: "LINE으로 이 테라피스트 예약",
     gallery: "사진",
     intro: "테라피스트 소개",
-    schedule: "예약 가능 시간은 LINE으로 문의해 주세요.",
+    schedule:
+      "예약 가능 시간은 LINE으로 문의해 주세요.",
   },
 };
 
@@ -47,12 +63,16 @@ export default function TherapistPageClient({
   member,
   lang,
 }: TherapistPageClientProps) {
+  const router = useRouter();
+
   const t = TEXT[lang];
 
-  // ✅ 這行是關鍵（用名稱抓評價）
   const reviews = useMemo(() => {
-    return getTherapistReviews(member.name);
-  }, [member.name]);
+    return getTherapistReviews(
+      member.name,
+      lang
+    );
+  }, [member.name, lang]);
 
   const [gallery, setGallery] = useState({
     isOpen: true,
@@ -60,19 +80,18 @@ export default function TherapistPageClient({
     imageIndex: 0,
   });
 
-  const imageLength = member.imgs.length;
+  const imageLength =
+    member.imgs.length;
 
-  const closeHref = useMemo(() => `/team?lang=${lang}`, [lang]);
-
-  const closeGallery = () => {
-    window.location.href = closeHref;
-  };
+  const closeHref = `/${lang}`;
 
   const showPrevImage = () => {
     setGallery((prev) => ({
       ...prev,
       imageIndex:
-        prev.imageIndex === 0 ? imageLength - 1 : prev.imageIndex - 1,
+        prev.imageIndex === 0
+          ? imageLength - 1
+          : prev.imageIndex - 1,
     }));
   };
 
@@ -80,15 +99,24 @@ export default function TherapistPageClient({
     setGallery((prev) => ({
       ...prev,
       imageIndex:
-        prev.imageIndex === imageLength - 1 ? 0 : prev.imageIndex + 1,
+        prev.imageIndex ===
+        imageLength - 1
+          ? 0
+          : prev.imageIndex + 1,
     }));
   };
 
-  const selectGalleryImage = (imageIndex: number) => {
+  const selectGalleryImage = (
+    imageIndex: number
+  ) => {
     setGallery((prev) => ({
       ...prev,
       imageIndex,
     }));
+  };
+
+  const handleClose = () => {
+    router.push(`/${lang}`);
   };
 
   return (
@@ -97,17 +125,34 @@ export default function TherapistPageClient({
         gallery={gallery}
         lang={lang}
         t={t}
-        onClose={closeGallery}
+        onClose={handleClose}
         onPrev={showPrevImage}
         onNext={showNextImage}
-        onSelectImage={selectGalleryImage}
-        openLineBooking={openLineBooking}
+        onSelectImage={
+          selectGalleryImage
+        }
+        openLineBooking={
+          openLineBooking
+        }
         fullScreen
       />
 
-      {/* ✅ 新增這段 */}
-      <div className="max-w-6xl mx-auto px-4 pb-20">
-        <TherapistReviewsSection reviews={reviews} />
+      <div className="min-h-screen bg-black">
+        <div className="max-w-6xl mx-auto px-4 pb-20 pt-6">
+          <div className="mb-8">
+            <Link
+              href={closeHref}
+              className="text-sm underline text-gray-400 hover:text-white transition-colors"
+            >
+              {t.backToHome}
+            </Link>
+          </div>
+
+          <TherapistReviewsSection
+            reviews={reviews}
+            lang={lang}
+          />
+        </div>
       </div>
     </>
   );

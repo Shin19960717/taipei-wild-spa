@@ -1,108 +1,100 @@
 "use client";
 
-import { useMemo } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import TeamGrid from "@/components/team/TeamGrid";
-import TEAM_MEMBERS, { type Lang } from "@/data/teamMembers";
-import useGallery from "@/hooks/useGallery";
-import GalleryModal from "@/components/ui/gallery/GalleryModal";
-import RecruitSection from "@/components/recruit/RecruitSection";
-import { openLineBooking } from "@/lib/line";
 
-type TeamPageClientProps = {
-  lang: Lang;
+import TEAM_MEMBERS from "@/data/teamMembers";
+import type { Lang } from "@/data/teamMembers";
+
+import TeamCard from "@/components/ui/TeamCard";
+
+const VALID_LANGS: Lang[] = [
+  "zh",
+  "en",
+  "ja",
+  "ko",
+];
+
+const TEXT_MAP: Record<
+  Lang,
+  {
+    title: string;
+    subtitle: string;
+    back: string;
+  }
+> = {
+  zh: {
+    title: "全部師傅",
+    subtitle:
+      "查看目前可預約師傅的照片與基本資訊。",
+    back: "返回首頁",
+  },
+
+  en: {
+    title: "All Therapists",
+    subtitle:
+      "Browse photos and basic information of all available therapists.",
+    back: "Back to Home",
+  },
+
+  ja: {
+    title: "全セラピスト一覧",
+    subtitle:
+      "現在予約可能なセラピスト的照片與基本資訊をご覧いただけます。",
+    back: "ホームへ戻る",
+  },
+
+  ko: {
+    title: "전체 테라피스트",
+    subtitle:
+      "현재 예약 가능한 테라피스트의 사진과 기본 정보를 확인하세요.",
+    back: "홈으로 돌아가기",
+  },
 };
 
-export default function TeamPageClient({ lang }: TeamPageClientProps) {
-  const backHref = `/?lang=${lang}`;
+export default function TeamPageClient() {
+  const params = useParams();
 
-  const pageText = useMemo(
-    () =>
-      ({
-zh: {
-  title: "全部師傅",
-  subtitle: "查看目前可預約師傅的照片與基本資訊。",
-  back: "返回首頁",
-  bookThis: "LINE預約這位師傅",
-},
-en: {
-  title: "All Therapists",
-  subtitle:
-    "Browse photos and basic information of all available therapists.",
-  back: "Back to Home",
-  bookThis: "Book This Therapist via LINE",
-},
-ja: {
-  title: "全セラピスト一覧",
-  subtitle:
-    "現在予約可能なセラピストの写真と基本情報をご覧いただけます。",
-  back: "ホームへ戻る",
-  bookThis: "LINEでこのセラピストを予約",
-},
-ko: {
-  title: "전체 테라피스트",
-  subtitle:
-    "현재 예약 가능한 테라피스트의 사진과 기본 정보를 확인하세요.",
-  back: "홈으로 돌아가기",
-  bookThis: "LINE으로 이 테라피스트 예약",
-},
-      })[lang],
-    [lang]
-  );
+  const lang: Lang =
+    typeof params?.lang === "string" &&
+    VALID_LANGS.includes(
+      params.lang as Lang
+    )
+      ? (params.lang as Lang)
+      : "zh";
 
-  const {
-    gallery,
-    openGallery,
-    closeGallery,
-    showPrevImage,
-    showNextImage,
-    selectGalleryImage,
-  } = useGallery();
+  const pageText = TEXT_MAP[lang];
 
   return (
-    <>
-      <main className="min-h-screen bg-white pt-28 text-stone-900 md:pt-32">
-        <section className="px-6 pb-16 md:px-10 md:pb-24">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-10 md:mb-14">
-              <Link
-                href={backHref}
-                className="inline-flex items-center rounded-full border border-stone-300 px-4 py-2 text-sm text-stone-800 transition hover:bg-stone-50"
-              >
-                {pageText.back}
-              </Link>
+    <div className="min-h-screen bg-black px-6 py-12 text-white">
+      {/* Header */}
+      <div className="mx-auto mb-10 max-w-6xl">
+        <h1 className="mb-2 text-3xl font-bold">
+          {pageText.title}
+        </h1>
 
-              <h1 className="mt-6 text-3xl font-bold tracking-tight text-stone-900 md:text-5xl">
-                {pageText.title}
-              </h1>
+        <p className="text-gray-400">
+          {pageText.subtitle}
+        </p>
 
-              <p className="mt-3 text-sm leading-7 text-stone-700 md:text-base">
-                {pageText.subtitle}
-              </p>
-            </div>
+        <Link
+          href={`/${lang}`}
+          className="mt-4 inline-block text-sm text-gray-300 underline"
+        >
+          {pageText.back}
+        </Link>
+      </div>
 
-<TeamGrid
-  members={TEAM_MEMBERS}
-  lang={lang}
-  onOpenGallery={openGallery}
-  openLineBooking={openLineBooking}
-/>
-          </div>
-        </section>
-
-        <RecruitSection lang={lang} />
-      </main>
-
-      <GalleryModal
-        gallery={gallery}
-        lang={lang}
-        t={pageText}
-        onClose={closeGallery}
-        onPrev={showPrevImage}
-        onNext={showNextImage}
-        onSelectImage={selectGalleryImage}
-        openLineBooking={openLineBooking}
-      />
-    </>
+      {/* Team Grid */}
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {TEAM_MEMBERS.map((member) => (
+          <TeamCard
+            key={member.id}
+            member={member}
+            lang={lang}
+          />
+        ))}
+      </div>
+    </div>
   );
 }

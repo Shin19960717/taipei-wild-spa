@@ -97,7 +97,7 @@ export default function GalleryModalInfo({
     原本是讀 member.reviews，但 teamMembers.ts 裡沒有 reviews 欄位。
     現在改成依照 member.name 去 data/reviews.ts 裡篩選對應師傅評論。
   */
-  const reviews = getReviewsByTherapist(member.name);
+const reviews = getReviewsByTherapist(member.name, lang);
 
   const renderStars = (rating) => {
     if (!rating || Number.isNaN(Number(rating))) return null;

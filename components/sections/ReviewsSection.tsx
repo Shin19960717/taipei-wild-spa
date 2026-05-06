@@ -10,14 +10,20 @@ import {
 
 type ReviewsSectionProps = {
   reviews?: Review[];
+
   t?: {
     reviewsTitle?: string;
     reviewsIntro?: string;
     reviewsLanguageNotice?: string;
     reviewsButton?: string;
   };
+
   lang?: string;
+
   limit?: number;
+
+  // ✅ 新增
+  showViewMore?: boolean;
 };
 
 const GOOGLE_REVIEW_FORM_URLS: Record<SupportedLang, string> = {
@@ -36,11 +42,13 @@ const REVIEW_FORM_TEXT: Record<SupportedLang, string> = {
 
 function getReviewFormLabel(lang?: string) {
   const safeLang = normalizeReviewLang(lang);
+
   return REVIEW_FORM_TEXT[safeLang];
 }
 
 function getReviewFormUrl(lang?: string) {
   const safeLang = normalizeReviewLang(lang);
+
   return GOOGLE_REVIEW_FORM_URLS[safeLang];
 }
 
@@ -49,17 +57,26 @@ export default function ReviewsSection({
   t,
   lang = "zh",
   limit = 15,
+
+  // ✅ 預設首頁顯示
+  showViewMore = true,
 }: ReviewsSectionProps) {
   const safeLang = normalizeReviewLang(lang);
 
-  const safeReviews = Array.isArray(reviews) ? reviews : [];
+  const safeReviews = Array.isArray(reviews)
+    ? reviews
+    : [];
 
-  const previewReviews = sortReviewsByLanguage(safeReviews, safeLang).slice(
-    0,
-    limit
-  );
+  // ✅ 每次 render 強制排序
+  const previewReviews =
+    sortReviewsByLanguage(
+      safeReviews,
+      safeLang
+    ).slice(0, limit);
 
-  const reviewsTitle = t?.reviewsTitle ?? "顧客體驗與評價分享";
+  const reviewsTitle =
+    t?.reviewsTitle ??
+    "顧客體驗與評價分享";
 
   const reviewsIntro =
     t?.reviewsIntro ??
@@ -69,17 +86,23 @@ export default function ReviewsSection({
     t?.reviewsLanguageNotice ??
     "評價將依照使用者語言，優先顯示該語言的評論。";
 
-  const reviewsButton = t?.reviewsButton ?? "查看更多評價";
+  const reviewsButton =
+    t?.reviewsButton ??
+    "查看更多評價";
 
-  const reviewFormButton = getReviewFormLabel(safeLang);
-  const reviewFormUrl = getReviewFormUrl(safeLang);
+  const reviewFormButton =
+    getReviewFormLabel(safeLang);
+
+  const reviewFormUrl =
+    getReviewFormUrl(safeLang);
 
   const reviewsHref =
-    safeLang !== "zh" ? `/reviews?lang=${safeLang}` : "/reviews";
+    `/${safeLang}/reviews`;
 
   return (
     <section
       id="reviews"
+      key={safeLang}
       className="bg-[#eadcc4] px-6 py-20 md:px-10 lg:px-20"
     >
       <div className="mx-auto max-w-6xl">
@@ -89,7 +112,7 @@ export default function ReviewsSection({
               {reviewsTitle}
             </h2>
 
-            <p className="mt-5 text-base leading-8 text-neutral-700 md:text-lg">
+            <p className="mt-5 whitespace-pre-line text-base leading-8 text-neutral-700 md:text-lg">
               {reviewsIntro}
             </p>
 
@@ -99,40 +122,85 @@ export default function ReviewsSection({
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
-            <Link
-              href={reviewsHref}
-              className="inline-flex w-fit items-center justify-center rounded-full bg-black px-7 py-3 text-sm font-bold tracking-wide text-white shadow-lg transition hover:scale-[1.03] hover:bg-neutral-800"
-            >
-              {reviewsButton}
-            </Link>
+
+            {/* ✅ 只有首頁顯示 */}
+            {showViewMore && (
+              <Link
+                href={reviewsHref}
+                className="
+                  inline-flex
+                  w-fit
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-black
+                  px-7
+                  py-3
+                  text-sm
+                  font-bold
+                  tracking-wide
+                  text-white
+                  shadow-lg
+                  transition
+                  hover:scale-[1.03]
+                  hover:bg-neutral-800
+                "
+              >
+                {reviewsButton}
+              </Link>
+            )}
 
             <a
               href={reviewFormUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex w-fit items-center justify-center rounded-full border border-neutral-900/20 bg-white/80 px-7 py-3 text-sm font-bold tracking-wide text-neutral-900 shadow-lg backdrop-blur transition hover:scale-[1.03] hover:bg-white"
+              className="
+                inline-flex
+                w-fit
+                items-center
+                justify-center
+                rounded-full
+                border
+                border-neutral-900/20
+                bg-white/80
+                px-7
+                py-3
+                text-sm
+                font-bold
+                tracking-wide
+                text-neutral-900
+                shadow-lg
+                backdrop-blur
+                transition
+                hover:scale-[1.03]
+                hover:bg-white
+              "
             >
               {reviewFormButton}
             </a>
           </div>
         </div>
 
-        {previewReviews.length > 0 ? (
+        {previewReviews.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {previewReviews.map((review) => (
               <article
                 key={review.id}
-                className="rounded-[2rem] bg-white/80 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.08)] backdrop-blur"
+                className="
+                  rounded-[2rem]
+                  bg-white/80
+                  p-6
+                  shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+                  backdrop-blur
+                "
               >
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900">
-                    {review.name}
-                  </h3>
+                <h3 className="text-lg font-bold text-neutral-900">
+                  {review.name}
+                </h3>
 
-                  <p className="mt-1 text-sm text-neutral-500">
-                    {review.date}
-                  </p>
-                </div>
+                <p className="mt-1 text-sm text-neutral-500">
+                  {review.date}
+                </p>
 
                 <p className="mt-5 whitespace-pre-line text-base leading-8 text-neutral-700">
                   {review.content}
@@ -144,7 +212,7 @@ export default function ReviewsSection({
               </article>
             ))}
           </div>
-        ) : null}
+        )}
       </div>
     </section>
   );

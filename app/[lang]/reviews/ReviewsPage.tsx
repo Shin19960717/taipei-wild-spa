@@ -55,7 +55,7 @@ export default function TherapistPageClient({
 
   const imageLength = member.imgs.length;
 
-  const closeHref = useMemo(() => `/team?lang=${lang}`, [lang]);
+const closeHref = useMemo(() => `/${lang}/team`, [lang]);
 
   const closeGallery = () => {
     window.location.href = closeHref;

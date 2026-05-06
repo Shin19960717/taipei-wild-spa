@@ -124,7 +124,10 @@ export default function ImageCarousel({
         <>
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
               pauseAutoPlay();
               goPrev();
             }}
@@ -136,7 +139,10 @@ export default function ImageCarousel({
 
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
               pauseAutoPlay();
               goNext();
             }}
@@ -151,7 +157,10 @@ export default function ImageCarousel({
               <button
                 key={`dot-${alt}-${index}`}
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
                   pauseAutoPlay();
                   setCurrent(index);
                 }}
