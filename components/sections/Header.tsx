@@ -88,11 +88,15 @@ export default function Header({
       className={`
         sticky top-0 z-50 w-full
         border-b border-black/10
-        transition-all duration-300
+
+        transition-all
+        duration-500
+        ease-[cubic-bezier(0.16,1,0.3,1)]
+
         ${
           scrolled
-            ? "bg-white/90 backdrop-blur-xl shadow-md"
-            : "bg-white/70 backdrop-blur-md"
+            ? "bg-white/90 backdrop-blur-2xl shadow-md"
+            : "bg-white/70 backdrop-blur-xl"
         }
       `}
     >
@@ -115,7 +119,7 @@ export default function Header({
       </div>
 
       {/* Mobile Header */}
-      <div className="flex items-center justify-between px-2 py-1.5 md:hidden">
+      <div className="flex items-center justify-between px-3 py-2 md:hidden">
         <HeaderLogo
           scrolled={scrolled}
           onScrollToSection={onScrollToSection}
@@ -132,17 +136,27 @@ export default function Header({
                 setMobileMenuOpen(false);
               }}
               className="
-                flex h-10 min-w-[52px]
+                flex h-11 min-w-[58px]
                 items-center justify-center
+
                 rounded-full
+
                 border border-black/10
                 bg-white/90
-                px-2
-                text-md font-medium tracking-[0.08em]
+
+                px-3
+
+                text-md font-medium
+                tracking-[0.08em]
                 text-black/80
+
                 shadow-md
-                backdrop-blur-xl
-                transition-all duration-300
+                backdrop-blur-2xl
+
+                transition-all
+                duration-300
+                ease-[cubic-bezier(0.16,1,0.3,1)]
+
                 hover:bg-neutral-100
                 active:scale-95
               "
@@ -153,41 +167,70 @@ export default function Header({
             {/* Dropdown */}
             <div
               className={`
-                absolute right-0 top-12 z-40
-                w-[190px]
+                absolute right-0 top-14 z-40
+
+                w-[180px]
+
                 overflow-hidden
 
                 rounded-[30px]
+
                 border border-black/10
-                bg-white/95
-                shadow-2xl
+                bg-white/90
+
+                shadow-[0_20px_60px_rgba(0,0,0,0.12)]
+
                 backdrop-blur-2xl
 
-                transition-all duration-300 ease-out
+                origin-top-right
+
+                transition-all
+                duration-500
+                ease-[cubic-bezier(0.16,1,0.3,1)]
 
                 ${
                   mobileLangOpen
                     ? `
-                      pointer-events-auto
-                      translate-y-0
-                      opacity-100
-                      scale-100
-                    `
+                        pointer-events-auto
+                        translate-y-0
+                        opacity-100
+                        scale-100
+                      `
                     : `
-                      pointer-events-none
-                      -translate-y-2
-                      opacity-0
-                      scale-95
-                    `
+                        pointer-events-none
+                        -translate-y-1
+                        opacity-0
+                        scale-[0.98]
+                      `
                 }
               `}
             >
-              <HeaderLanguage
-                mobile
-                onSelect={() => {
-                  setMobileLangOpen(false);
-                }}
-              />
+              <div
+                className={`
+                  transition-all
+                  duration-500
+                  ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                  ${
+                    mobileLangOpen
+                      ? `
+                          opacity-100
+                          translate-y-0
+                        `
+                      : `
+                          opacity-0
+                          translate-y-1
+                        `
+                  }
+                `}
+              >
+                <HeaderLanguage
+                  mobile
+                  onSelect={() => {
+                    setMobileLangOpen(false);
+                  }}
+                />
+              </div>
             </div>
           </div>
 
@@ -199,19 +242,37 @@ export default function Header({
               setMobileLangOpen(false);
             }}
             className="
-              flex h-10 w-10 items-center justify-center
-              rounded-full border border-black/10
-              bg-white/90 text-lg shadow-sm
-              backdrop-blur-xl
-              transition-all duration-300
+              flex h-11 w-11 items-center justify-center
+
+              rounded-full
+
+              border border-black/10
+              bg-white/90
+
+              text-lg text-black/80
+
+              shadow-md
+              backdrop-blur-2xl
+
+              transition-all
+              duration-300
+              ease-[cubic-bezier(0.16,1,0.3,1)]
+
               hover:bg-neutral-100
               active:scale-95
             "
           >
             <span
               className={`
-                transition-all duration-300
-                ${mobileMenuOpen ? "rotate-90" : "rotate-0"}
+                transition-all
+                duration-500
+                ease-[cubic-bezier(0.16,1,0.3,1)]
+
+                ${
+                  mobileMenuOpen
+                    ? "rotate-90 scale-110"
+                    : "rotate-0 scale-100"
+                }
               `}
             >
               {mobileMenuOpen ? "✕" : "☰"}
@@ -223,20 +284,53 @@ export default function Header({
       {/* Mobile Menu */}
       <div
         className={`
-          overflow-hidden
-          border-t border-black/5
-          bg-white/95 backdrop-blur-xl
-          transition-all duration-300 ease-out
           md:hidden
+
+          overflow-hidden
+
+          border-t border-black/5
+
+          bg-white/80
+          backdrop-blur-2xl
+
+transition-[max-height,opacity]
+duration-[950ms]
+ease-[cubic-bezier(0.22,1,0.36,1)]
 
           ${
             mobileMenuOpen
-              ? "max-h-[500px] opacity-100"
-              : "max-h-0 opacity-0"
+              ? `
+                  max-h-[520px]
+                  opacity-100
+                `
+              : `
+                  pointer-events-none
+                  max-h-0
+                  opacity-0
+                `
           }
         `}
       >
-        <div className="p-4">
+        <div
+          className={`
+            p-4
+
+transition-all
+duration-[900ms]
+ease-[cubic-bezier(0.22,1,0.36,1)]
+            ${
+              mobileMenuOpen
+                ? `
+                    opacity-100
+                    translate-y-0
+                  `
+                : `
+                    opacity-0
+                    -translate-y-1
+                  `
+            }
+          `}
+        >
           <HeaderNav
             navItems={navItems}
             onScrollToSection={(id) => {
