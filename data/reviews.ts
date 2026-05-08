@@ -166,7 +166,7 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "第二次約了 感覺還是不錯",
   },
-    {
+  {
     id: "review-019",
     name: "Edward",
     date: "2026-04-19",
@@ -174,11 +174,34 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "nice",
   },
+    {
+    id: "review-020",
+    name: "익명",
+    date: "2026-05-01",
+    therapist: "Dragon",
+    lang: "ko",
+    content: "드래곤 관리사님 진짜 느낌 좋았어요ㅎㅎ 딱 제가 생각하던 대만 남자 스타일 느낌이었고, 친절한데 은근 수줍은 분위기도 있어서 편하게 받을 수 있었습니다 😊",
+  },
+    {
+    id: "review-021",
+    name: "익명",
+    date: "2026-04-16",
+    therapist: "Sam",
+    lang: "ko",
+    content: "사진에는 얼굴이 안 나와 있었는데 몸이 워낙 좋아 보여서 한번 받아봤습니다. 실제로 만나보니 얼굴은 제가 예상했던 느낌과는 조금 달랐지만, 오히려 약간 거칠면서도 순한 분위기가 있어서 더 매력 있게 느껴졌어요. 괜히 꾸민 느낌보다 자연스럽고 편안한 느낌이라 좋았습니다. 마사지도 굉장히 전문적으로 잘하시더라고요. 뭉쳐 있던 근육들을 하나하나 정확하게 풀어주는 느낌이 들어서 받는 내내 만족도가 높았습니다. 대만에서 마사지 받은 건 처음이었는데, 전체적으로 꽤 좋은 인상으로 남았네요 ^^",
+  },
 
 ];
 
-export function normalizeReviewLang(lang?: string | null): SupportedLang {
-  if (lang === "en" || lang === "ja" || lang === "ko" || lang === "zh") {
+export function normalizeReviewLang(
+  lang?: string | null
+): SupportedLang {
+  if (
+    lang === "en" ||
+    lang === "ja" ||
+    lang === "ko" ||
+    lang === "zh"
+  ) {
     return lang;
   }
 
@@ -191,52 +214,107 @@ export function sortReviewsByLanguage(
 ): Review[] {
   const safeLang = normalizeReviewLang(lang);
 
+  // 各語言頁面的優先排序規則
+  const languagePriorityMap: Record<
+    SupportedLang,
+    SupportedLang[]
+  > = {
+    zh: ["zh", "en", "ja", "ko"],
+    en: ["en", "zh", "ja", "ko"],
+    ja: ["ja", "ko", "en", "zh"],
+    ko: ["ko", "ja", "zh", "en"],
+  };
+
+  const priorityOrder =
+    languagePriorityMap[safeLang];
+
   return [...reviews].sort((a, b) => {
-    const aIsCurrentLang = a.lang === safeLang;
-    const bIsCurrentLang = b.lang === safeLang;
+    const aPriority =
+      priorityOrder.indexOf(a.lang);
 
-    if (aIsCurrentLang && !bIsCurrentLang) return -1;
-    if (!aIsCurrentLang && bIsCurrentLang) return 1;
+    const bPriority =
+      priorityOrder.indexOf(b.lang);
 
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+    // 第一排序：語言優先
+    if (aPriority !== bPriority) {
+      return aPriority - bPriority;
+    }
+
+    // 第二排序：日期新到舊
+    return (
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+    );
   });
 }
 
-export function getAllReviews(lang?: string | null): Review[] {
-  return sortReviewsByLanguage(REVIEWS, lang);
+export function getAllReviews(
+  lang?: string | null
+): Review[] {
+  return sortReviewsByLanguage(
+    REVIEWS,
+    lang
+  );
 }
 
-export function getLatestReviews(limit = 15, lang?: string | null): Review[] {
-  return getAllReviews(lang).slice(0, limit);
+export function getLatestReviews(
+  limit = 15,
+  lang?: string | null
+): Review[] {
+  return getAllReviews(lang).slice(
+    0,
+    limit
+  );
 }
 
 export function getReviewsByTherapist(
   therapistName: string,
   lang?: string | null
 ): Review[] {
-  const normalizedTherapistName = therapistName.trim().toLowerCase();
+  const normalizedTherapistName =
+    therapistName.trim().toLowerCase();
 
   return getAllReviews(lang).filter(
-    (review) => review.therapist.trim().toLowerCase() === normalizedTherapistName
+    (review) =>
+      review.therapist
+        .trim()
+        .toLowerCase() ===
+      normalizedTherapistName
   );
 }
 
-export function getReviewCountByTherapist(therapistName: string): number {
-  return getReviewsByTherapist(therapistName).length;
+export function getReviewCountByTherapist(
+  therapistName: string
+): number {
+  return getReviewsByTherapist(
+    therapistName
+  ).length;
 }
 
 export function getAverageRatingByTherapist(
   therapistName: string
 ): number | null {
-  const reviews = getReviewsByTherapist(therapistName).filter(
-    (review) => typeof review.rating === "number"
-  );
+  const reviews =
+    getReviewsByTherapist(
+      therapistName
+    ).filter(
+      (review) =>
+        typeof review.rating === "number"
+    );
 
   if (reviews.length === 0) return null;
 
-  const total = reviews.reduce((sum, review) => sum + (review.rating ?? 0), 0);
+  const total = reviews.reduce(
+    (sum, review) =>
+      sum + (review.rating ?? 0),
+    0
+  );
 
-  return Math.round((total / reviews.length) * 10) / 10;
+  return (
+    Math.round(
+      (total / reviews.length) * 10
+    ) / 10
+  );
 }
 
 export default REVIEWS;
