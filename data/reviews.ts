@@ -184,11 +184,11 @@ export const REVIEWS: Review[] = [
   },
     {
     id: "review-021",
-    name: "taenggu",
+    name: "taengtaenggu713",
     date: "2026-04-16",
     therapist: "Sam",
     lang: "ko",
-    content: "몸 좋아 보여서 한번 받아봤는데 생각보다 훨씬 괜찮았어요. 처음엔 좀 쎄보였는데 생각보다 순해서 편했어요. 마사지도 압 잘 맞고 편하게 잘 받고 왔습니다. 대만 와서 처음 받아봤는데 만족했어요 ^^",
+    content: "몸 보고 바로 예약함 사진도 괜찮았는데 실물이 더 좋더라 관리도 편하게 잘 해주시고 전체적으로 만족했음 ㅎㅎ",
   },
     {
     id: "review-022",
