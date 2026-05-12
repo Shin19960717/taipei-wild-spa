@@ -198,7 +198,14 @@ export const REVIEWS: Review[] = [
     lang: "ko",
     content: "몸은 사진 그대로였고 피부는 그냥 보통 느낌? ㅋㅋ",
   },
-
+{
+    id: "review-023",
+    name: "01걍사",
+    date: "2026-03-22",
+    therapist: "Chris",
+    lang: "ko",
+    content: "목소리 ㄹㅇ 좋았음🤯 눈 못보겠더라;; 너무 쎔",
+  },
 ];
 
 export function normalizeReviewLang(
