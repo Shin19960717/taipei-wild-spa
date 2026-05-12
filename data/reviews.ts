@@ -188,7 +188,7 @@ export const REVIEWS: Review[] = [
     date: "2026-04-16",
     therapist: "Sam",
     lang: "ko",
-    content: "몸 보고 바로 예약함 사진도 괜찮았는데 실물이 더 좋더라 관리도 편하게 잘 해주시고 전체적으로 만족했음 ㅎㅎ",
+    content: "몸 보고 바로 예약함 사진도 ㄱㅊ았는데 실물이 더 좋더라 관리도 편하게 잘 해주시고 전체적으로 만족했음 ㅎㅎ",
   },
     {
     id: "review-022",
