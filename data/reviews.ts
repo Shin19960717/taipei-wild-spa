@@ -222,6 +222,22 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "Cute boy with hot body🥵🥵🥵",
   },
+    {
+    id: "review-026",
+    name: "陈",
+    date: "2026-05-04",
+    therapist: "Dragon",
+    lang: "zh",
+    content: "起初担心政治问题，能不能顺利安排的，倒是店主说话客气，预约服务也挺不错，龙师傅给人的感觉更好、更舒服，会给推荐朋友来。",
+  },
+    {
+    id: "review-027",
+    name: "匿名",
+    date: "2026-05-04",
+    therapist: "Sam",
+    lang: "zh",
+    content: "我感覺他是異男，可碰，但互動頗冷淡",
+  },
 
 ];
 
