@@ -206,6 +206,23 @@ export const REVIEWS: Review[] = [
     lang: "ko",
     content: "목소리 ㄹㅇ 좋았음🤯 눈 못보겠더라;; 너무 쎔",
   },
+  {
+    id: "review-024",
+    name: "qaz13195",
+    date: "2026-05-11",
+    therapist: "Aaron",
+    lang: "zh",
+    content: "肌肉大塊八塊肌、、",
+  },
+    {
+    id: "review-025",
+    name: "Ma",
+    date: "2026-05-04",
+    therapist: "Leo",
+    lang: "en",
+    content: "Cute boy with hot body🥵🥵🥵",
+  },
+
 ];
 
 export function normalizeReviewLang(
