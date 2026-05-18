@@ -225,7 +225,7 @@ export const REVIEWS: Review[] = [
     {
     id: "review-026",
     name: "陈",
-    date: "2026-05-04",
+    date: "2026-05-07",
     therapist: "Dragon",
     lang: "zh",
     content: "起初担心政治问题，能不能顺利安排的，倒是店主说话客气，预约服务也挺不错，龙师傅给人的感觉更好、更舒服，会给推荐朋友来。",
@@ -237,6 +237,14 @@ export const REVIEWS: Review[] = [
     therapist: "Sam",
     lang: "zh",
     content: "我感覺他是異男，可碰，但互動頗冷淡",
+  },
+    {
+    id: "review-028",
+    name: "anonymous",
+    date: "2026-05-10",
+    therapist: "Mike",
+    lang: "en",
+    content: "My type, and also very professional and friendly. Strongly recommended.",
   },
 
 ];
