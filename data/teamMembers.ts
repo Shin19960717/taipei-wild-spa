@@ -250,6 +250,20 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-30",
   },
+        {
+    id: "jackson",
+    name: "Jackosn",
+    desc: {
+      zh: ["184/80/24", "新人上線", "直男", "校隊", "精壯結實", "健身教練"],
+      en: ["184/80/24", "New Arrival", "Straight", "School Team", "Lean & Muscular", "Fitness Coach"],
+      ko: ["184/80/24", "신규 등록", "직남", "학교 대표팀", "탄탄한 근육질", "헬스 트레이너"],
+      ja: ["184/80/24", "新人デビュー", "ノンケ", "学校代表チーム", "引き締まった筋肉質", "フィットネストレーナー"]},
+      imgs: ["/team/Jackson01.jpg", "/team/Jackson02.jpg","/team/Jackson03.jpg","/team/Jackson04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-06-30",
+  },
+
 ];
 
 export default TEAM_MEMBERS;
