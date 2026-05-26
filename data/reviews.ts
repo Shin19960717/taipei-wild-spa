@@ -246,6 +246,38 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "My type, and also very professional and friendly. Strongly recommended.",
   },
+      {
+    id: "review-029",
+    name: "anonymous",
+    date: "2026-05-13",
+    therapist: "Sam",
+    lang: "en",
+    content: "Sam is a very talented therapist. His technique and pressure are excellent, and his physique looks even better in person than in the photos.",
+  },
+      {
+    id: "review-030",
+    name: "Max",
+    date: "2026-05-13",
+    therapist: "Leo",
+    lang: "zh",
+    content: "講話有點笨笨的很可愛，會有一些口頭禪，憨厚憨厚的感覺，皮膚蠻黑的，我約過的按摩師裡面很特別的體驗",
+  },
+      {
+    id: "review-031",
+    name: "anonymous",
+    date: "2026-05-18",
+    therapist: "Chris",
+    lang: "en",
+    content: "I had never gotten a massage in another country before, so this was my first time. I was hesitant about whether I should include a massage in my trip itinerary, but I’m really glad I did. Dragon gave me an amazing experience and made my trip even more memorable.",
+  },
+      {
+    id: "review-032",
+    name: "anonymous",
+    date: "2026-05-22",
+    therapist: "Dragon",
+    lang: "en",
+    content: "Honestly, no lie, I think he looks much better in person than in the photos. The owner should update his pictures so they don’t undersell him",
+  },
 
 ];
 
