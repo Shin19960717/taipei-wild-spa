@@ -14,10 +14,8 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/29", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
-      en: [
-        "171/68/29",
-        "Strong physique",
+      zh: ["171/68/29","學生", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      en: ["171/68/29","","Strong physique",
         "Steady massage technique",
         "Friendly and talkative",
         "Highly cooperative and adaptable",
@@ -51,23 +49,23 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "dragon",
     name: "Dragon",
     desc: {
-      zh: ["175/73/22", "陽光自然", "年下感", "運動感", "禮貌靦腆"],
+      zh: ["175/73/22", "學生", "陽光自然", "年下感", "運動感", "禮貌靦腆"],
       en: [
-        "175/73/22",
+        "175/73/22","Studnet",
         "Bright and natural vibe",
         "boyish charm",
         "sporty",
         "soft-spoken and polite",
       ],
       ja: [
-        "175/73/22",
+        "175/73/22","学生",
         "明るく自然な雰囲気",
         "少年っぽい感じ",
         "スポーティーな感じ",
         "礼儀正しくて少し恥ずかしがり屋",
       ],
       ko: [
-        "175/73/22",
+        "175/73/22","학생",
         "밝고 자연스러운 분위기",
         "소년 같은 느낌",
         "스포티한 느낌",
