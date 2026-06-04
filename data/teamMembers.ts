@@ -14,10 +14,9 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/29", "新人上線", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      zh: ["171/68/29", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
       en: [
         "171/68/29",
-        "New arrival",
         "Strong physique",
         "Steady massage technique",
         "Friendly and talkative",
@@ -25,7 +24,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ja: [
         "171/68/29",
-        "新人セラピスト",
         "しっかりした体格",
         "安定感のある施術",
         "明るく話しやすい雰囲気",
@@ -33,7 +31,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ko: [
         "171/68/29",
-        "신규 테라피스트",
         "탄탄한 체형",
         "안정감 있는 마사지 스타일",
         "밝고 편안한 소통",
@@ -54,10 +51,9 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "dragon",
     name: "Dragon",
     desc: {
-      zh: ["175/73/22", "新人上線", "陽光自然", "年下感", "運動感", "禮貌靦腆"],
+      zh: ["175/73/22", "陽光自然", "年下感", "運動感", "禮貌靦腆"],
       en: [
         "175/73/22",
-        "New arrival",
         "Bright and natural vibe",
         "boyish charm",
         "sporty",
@@ -65,7 +61,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ja: [
         "175/73/22",
-        "新人セラピスト",
         "明るく自然な雰囲気",
         "少年っぽい感じ",
         "スポーティーな感じ",
@@ -73,7 +68,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       ],
       ko: [
         "175/73/22",
-        "신규 테라피스트",
         "밝고 자연스러운 분위기",
         "소년 같은 느낌",
         "스포티한 느낌",
@@ -89,24 +83,21 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "ryan",
     name: "Ryan",
     desc: {
-      zh: ["165/56/26", "新人上線", "陽光自然", "專業按摩技術", "運動感"],
+      zh: ["165/56/26", "陽光自然", "專業按摩技術", "運動感"],
       en: [
         "165/56/26",
-        "New arrival",
         "Bright and natural vibe",
         "Professional massage techniques",
         "sporty",
       ],
       ja: [
         "165/56/26",
-        "新人セラピスト",
         "明るく自然な雰囲気",
         "プロのマッサージ技術",
         "スポーティーな感じ",
       ],
       ko: [
         "165/56/26",
-        "신규 테라피스트",
         "밝고 자연스러운 분위기",
         "전문가의 마사지 기술",
         "스포티한 느낌",
@@ -121,24 +112,21 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "sun",
     name: "Sun",
     desc: {
-      zh: ["182/108/25", "新人上線", "超壯", "專業按摩技術", "親切健談"],
+      zh: ["182/108/25", "超壯", "專業按摩技術", "親切健談"],
       en: [
         "182/108/25",
-        "New arrival",
         "super buff",
         "Professional massage techniques",
         "warm and outgoing",
       ],
       ja: [
         "182/108/25",
-        "新人セラピスト",
         "ゴリゴリに鍛えてる",
         "プロのマッサージ技術",
         "親しみやすくて話しやすい",
       ],
       ko: [
         "182/108/25",
-        "신규 테라피스트",
         "완전 근육 빵빵",
         "전문가의 마사지 기술",
         "편하게 대화할 수 있어요",
@@ -153,22 +141,19 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "sam",
     name: "Sam",
     desc: {
-      zh: ["162/73/26", "新人上線", "健美先生", "專業按摩技術"],
+      zh: ["162/73/26", "健美先生", "專業按摩技術"],
       en: [
         "162/73/26",
-        "New arrival",
         "bodybuilder",
         "Professional massage techniques",
       ],
       ja: [
         "162/73/26",
-        "新人セラピスト",
         "ボディビルダー",
         "プロのマッサージ技術",
       ],
       ko: [
         "162/73/26",
-        "신규 테라피스트",
         "보디빌더",
         "전문가의 마사지 기술",
       ],
@@ -182,10 +167,10 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "mike",
     name: "Mike",
     desc: {
-      zh: ["173/80/35", "新人上線", "穩重", "親切", "穩定運動習慣"],
-      en: ["173/80/35", "New arrival", "composed", "friendly", "athletic"],
-      ja: ["173/80/35", "新人セラピスト", "落ち着いた", "親しみやすい", "アクティブ"],
-      ko: ["173/80/35", "신규 테라피스트", "차분한", "친절한", "운동을 좋아하는"],
+      zh: ["173/80/35", "穩重", "親切", "穩定運動習慣"],
+      en: ["173/80/35", "composed", "friendly", "athletic"],
+      ja: ["173/80/35", "落ち着いた", "親しみやすい", "アクティブ"],
+      ko: ["173/80/35", "차분한", "친절한", "운동을 좋아하는"],
     },
     imgs: ["/team/Mike01.jpg", "/team/Mike02.jpg", "/team/Mike03.jpg"],
     calendar:
@@ -196,28 +181,19 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "leo",
     name: "Leo",
     desc: {
-      zh: ["178/73/27", "新人上線", "呆萌感", "配合度高","開朗健談"],
-      en: [
-"178/73/27",
-        "New arrival",
+      zh: ["178/73/27", "呆萌感", "配合度高","開朗健談"],
+      en: ["178/73/27",
         "nnocently cute",
         "very accommodating",
-        "friendly and easy to talk to",
-      ],
-      ja: [
-"178/73/27",
-        "新人セラピスト",
+        "friendly and easy to talk to"],
+      ja: ["178/73/27",
         "天然",
         "柔軟に対応してくれる",
-        "明るくてとても話しやすい方です",
-      ],
-      ko: [
-"178/73/27",
-        "신규 테라피스트",
+        "明るくてとても話しやすい方です"],
+      ko: ["178/73/27",
         "엉뚱한 매력",
         "요청을 잘 맞춰주는 편이에요",
-        "성격이 밝고 대화하기 편해요",
-      ],
+        "성격이 밝고 대화하기 편해요"],
     },
     imgs: ["/team/Leo01.jpg", "/team/Leo02.jpg","/team/Leo03.jpg","/team/Leo04.jpg","/team/Leo05.jpg"],
     calendar:
@@ -228,10 +204,10 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "chris",
     name: "Chris",
     desc: {
-      zh: ["173/64/33", "新人上線", "成熟穩重", "精壯結實","內斂吸引力"],
-      en: ["173/64/33", "New Arrival", "Mature and composed", "Lean and well-built", "Subtle attractiveness"],
-      ja: ["173/64/33", "新人セラピスト", "落ち着いた大人の魅力", "引き締まった体型", "内に秘めた魅力"],
-      ko: ["173/64/33", "신규 테라피스트", "차분하고 성숙한 분위기", "탄탄한 근육형 체형", "은은한 매력"],    },
+      zh: ["173/64/33", "成熟穩重", "精壯結實","內斂吸引力"],
+      en: ["173/64/33", "Mature and composed", "Lean and well-built", "Subtle attractiveness"],
+      ja: ["173/64/33", "落ち着いた大人の魅力", "引き締まった体型", "内に秘めた魅力"],
+      ko: ["173/64/33", "차분하고 성숙한 분위기", "탄탄한 근육형 체형", "은은한 매력"],    },
     imgs: ["/team/Chris01.jpg", "/team/Chris02.jpg","/team/Chris03.jpg","/team/Chris04.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
@@ -241,10 +217,10 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "dean",
     name: "Dean",
     desc: {
-      zh: ["173/60/34", "新人上線", "男人味", "成熟穩重", "精壯結實", "自然親合感"],
-      en: ["173/60/34", "New Arrival", "Masculine", "Mature & Steady", "Lean & Toned", "Naturally Approachable"],
-      ja: ["173/60/34", "新人デビュー", "男らしい", "落ち着いた大人の魅力", "引き締まった体", "親しみやすい雰囲気"],
-      ko: ["173/60/34", "신규 등록", "남성적인 매력", "차분하고 성숙한 이미지", "탄탄한 체형", "자연스럽고 편안한 분위기"],},
+      zh: ["173/60/34", "男人味", "成熟穩重", "精壯結實", "自然親合感"],
+      en: ["173/60/34", "Masculine", "Mature & Steady", "Lean & Toned", "Naturally Approachable"],
+      ja: ["173/60/34", "男らしい", "落ち着いた大人の魅力", "引き締まった体", "親しみやすい雰囲気"],
+      ko: ["173/60/34", "남성적인 매력", "차분하고 성숙한 이미지", "탄탄한 체형", "자연스럽고 편안한 분위기"],},
       imgs: ["/team/Dean01.jpg", "/team/Dean02.jpg","/team/Dean03.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
@@ -259,6 +235,19 @@ const TEAM_MEMBERS: TeamMember[] = [
       ko: ["184/80/24", "신규 등록", "직남", "학교 대표팀", "탄탄한 근육질", "헬스 트레이너"],
       ja: ["184/80/24", "新人デビュー", "ノンケ", "学校代表チーム", "引き締まった筋肉質", "フィットネストレーナー"]},
       imgs: ["/team/Jackson01.jpg", "/team/Jackson02.jpg","/team/Jackson03.jpg","/team/Jackson04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-06-30",
+  },
+        {
+    id: "lun",
+    name: "Lun",
+    desc: {
+    zh: ["182/68/24", "新人上線", "多年經驗", "白皙精壯", "韓系風格"],
+    en: ["182/68/24", "New Arrival", "Experienced", "Fair & Athletic", "Korean Style"],
+    ja: ["182/68/24", "新人デビュー", "経験豊富", "色白・筋肉質", "韓国系スタイル"],
+    ko: ["182/68/24", "신규 등록", "풍부한 경력", "하얗고 탄탄한 체형", "한국 스타일"]},
+    imgs: ["/team/Lun01.jpg", "/team/Lun02.jpg","/team/Lun03.jpg","/team/Lun04.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-06-30",
