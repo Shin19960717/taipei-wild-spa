@@ -76,7 +76,7 @@ const TEAM_MEMBERS: TeamMember[] = [
     },
     imgs: ["/team/Dragon01.jpg", "/team/Dragon02.jpg"],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=981faba76ebecafe5ad16547ffac3f70add16197f370e884e99873219a1d8731%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
   {
