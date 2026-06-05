@@ -14,21 +14,21 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "aaron",
     name: "Aaron",
     desc: {
-      zh: ["171/68/29","學生", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
-      en: ["171/68/29","","Strong physique",
+      zh: ["171/68/31", "體格健壯", "按摩手法穩健", "開朗健談", "配合度高"],
+      en: ["171/68/31","Strong physique",
         "Steady massage technique",
         "Friendly and talkative",
         "Highly cooperative and adaptable",
       ],
       ja: [
-        "171/68/29",
+        "171/68/31",
         "しっかりした体格",
         "安定感のある施術",
         "明るく話しやすい雰囲気",
         "柔軟に対応できる高い協調性",
       ],
       ko: [
-        "171/68/29",
+        "171/68/31",
         "탄탄한 체형",
         "안정감 있는 마사지 스타일",
         "밝고 편안한 소통",
@@ -226,7 +226,7 @@ const TEAM_MEMBERS: TeamMember[] = [
   },
         {
     id: "jackson",
-    name: "Jackosn",
+    name: "Jackson",
     desc: {
       zh: ["184/80/24", "新人上線", "直男", "校隊", "精壯結實", "健身教練"],
       en: ["184/80/24", "New Arrival", "Straight", "School Team", "Lean & Muscular", "Fitness Coach"],
