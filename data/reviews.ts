@@ -278,6 +278,22 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "Honestly, no lie, I think he looks much better in person than in the photos. The owner should update his pictures so they don’t undersell him",
   },
+      {
+    id: "review-033",
+    name: "anonymous",
+    date: "2026-05-26",
+    therapist: "Dragon",
+    lang: "en",
+    content: "He made my day, I'm really lucky to meet him.",
+  },
+      {
+    id: "review-034",
+    name: "匿名",
+    date: "2026-05-28",
+    therapist: "Aaron",
+    lang: "zh",
+    content: "按的力道不錯 手上的青筋也很不錯 飽滿的胸肌跟小鬍子...哈哈",
+  },
 
 ];
 
