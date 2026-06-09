@@ -224,11 +224,11 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "lun",
     name: "Lun",
     desc: {
-    zh: ["182/68/24", "新人上線", "多年經驗", "白皙精壯", "韓系風格"],
-    en: ["182/68/24", "New Arrival", "Experienced", "Fair & Athletic", "Korean Style"],
-    ja: ["182/68/24", "新人デビュー", "経験豊富", "色白・筋肉質", "韓国系スタイル"],
-    ko: ["182/68/24", "신규 등록", "풍부한 경력", "하얗고 탄탄한 체형", "한국 스타일"]},
-    imgs: ["/team/Lun01.jpg", "/team/Lun02.jpg","/team/Lun03.jpg","/team/Lun04.jpg"],
+    zh: ["173/65/26", "新人上線", "多年經驗", "白皙精壯", "韓系風格"],
+    en: ["173/65/26", "New Arrival", "Experienced", "Fair & Athletic", "Korean Style"],
+    ja: ["173/65/26", "新人デビュー", "経験豊富", "色白・筋肉質", "韓国系スタイル"],
+    ko: ["173/65/26", "신규 등록", "풍부한 경력", "하얗고 탄탄한 체형", "한국 스타일"]},
+    imgs: ["/team/Lun01.jpg", "/team/Lun02.jpg","/team/Lun03.jpg","/team/Lun04.jpg","/team/Lun05.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-06-30",
