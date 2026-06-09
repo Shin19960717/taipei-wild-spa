@@ -294,6 +294,14 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "按的力道不錯 手上的青筋也很不錯 飽滿的胸肌跟小鬍子...哈哈",
   },
+      {
+    id: "review-035",
+    name: "18977680.5",
+    date: "2026-05-28",
+    therapist: "Ryan",
+    lang: "zh",
+    content: "預約的時候想說他怎麼只有一張照片 還要和店家另外要",
+  },
 
 ];
 
