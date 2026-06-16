@@ -28,6 +28,19 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=9241237bf98b8c10c239557b49e534adcf6ab9983be17c70f1e36f6373317080%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
+          {
+    id: "ray",
+    name: "Ray",
+    desc: {
+    zh: ["181/88/29", "新人上線","陽剛體育感","強烈賀爾蒙","親切男友力","率真爽朗","陽光體貼"],
+    en: ["181/88/29","New Arrival","Masculine & Sporty","Strong Masculine Energy","Warm Boyfriend Vibes","Genuine & Easygoing","Sunny & Attentive"],
+    ja: ["181/88/29","新人デビュー","男らしいスポーツ系","溢れる男らしさ","彼氏感たっぷり","素直で気さく","明るくて気配り上手"],
+    ko: ["181/88/29","신규 등록","남성미 넘치는 스포티 스타일","강한 남성적 매력","다정한 남친 매력","솔직하고 시원시원한 성격","밝고 세심한 배려"]},
+    imgs: ["/team/Ray01.jpg", "/team/Ray02.jpg","/team/Ray03.jpg","/team/Ray04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-07-30",
+  },
   {
     id: "dragon",
     name: "Dragon",
@@ -233,7 +246,6 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-06-30",
   },
-
 ];
 
 export default TEAM_MEMBERS;
