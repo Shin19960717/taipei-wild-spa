@@ -307,7 +307,7 @@ export const REVIEWS: Review[] = [
     name: "anonymous",
     date: "2026-06-01",
     therapist: "Ray",
-    lang: "zh",
+    lang: "en",
     content: "His body is insanely good, also with a cute face.",
   },
     {
