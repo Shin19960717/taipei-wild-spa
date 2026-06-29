@@ -310,6 +310,14 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "His body is insanely good, also with a cute face.",
   },
+    {
+    id: "review-037",
+    name: "익명",
+    date: "2026-06-01",
+    therapist: "Jackson",
+    lang: "ko",
+    content: "마사지도 정말 잘하고, 체육 코치라고 해서 더 매력적으로 느껴졌어요.",
+  },
 
 ];
 
