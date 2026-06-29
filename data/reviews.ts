@@ -302,6 +302,14 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "預約的時候想說他怎麼只有一張照片 還要和店家另外要",
   },
+      {
+    id: "review-036",
+    name: "anonymous",
+    date: "2026-06-01",
+    therapist: "Ray",
+    lang: "zh",
+    content: "His body is insanely good, also with a cute face.",
+  },
 
 ];
 
