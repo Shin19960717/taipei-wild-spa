@@ -318,6 +318,22 @@ export const REVIEWS: Review[] = [
     lang: "ko",
     content: "마사지도 정말 잘하고, 체육 코치라고 해서 더 매력적으로 느껴졌어요.",
   },
+    {
+    id: "review-038",
+    name: "匿名",
+    date: "2026-06-04",
+    therapist: "Ray",
+    lang: "zh",
+    content: "我猜他是他們店的紅牌，身材好，臉也很帥又可愛，還很體貼，幸好我提前兩周預約了，但我看他似乎是這裡的新人，可能會越來越熱門🤭",
+  },
+    {
+    id: "review-039",
+    name: "Andy W",
+    date: "2026-06-06",
+    therapist: "Dragon",
+    lang: "en",
+    content: "There weren’t many reviews about this place online, so I decided to give it a try and see how it went. It turned out to be way better than I expected. The massage was excellent, the staff were polite, they replied to my messages very quickly, and the massage therapist was really handsome too.😁😁😁",
+  },
 
 ];
 
