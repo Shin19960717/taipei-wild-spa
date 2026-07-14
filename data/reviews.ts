@@ -334,6 +334,22 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "There weren’t many reviews about this place online, so I decided to give it a try and see how it went. It turned out to be way better than I expected. The massage was excellent, the staff were polite, they replied to my messages very quickly, and the massage therapist was really handsome too.😁😁😁",
   },
+    {
+    id: "review-040",
+    name: "anonymous",
+    date: "2026-06-10",
+    therapist: "Ray",
+    lang: "en",
+    content: "It was a little hard to find a time that worked, so I'd recommend booking a bit in advance. Other than that, everything was great. The therapist had big, beautiful eyes, was really muscular, and his technique was amazing. Plus, he was very well-endowed, which was a huge bonus. I was really happy with the experience and would definitely come back.🥰🥰",
+  },
+    {
+    id: "review-041",
+    name: "익명",
+    date: "2026-06-11",
+    therapist: "Aaron",
+    lang: "ko",
+    content: "관리사분이 정말 배려심이 많고 서비스도 세심했어요. 실력도 정말 좋았고, 대화하는 걸 좋아하셔서 대만에 대한 이야기를 많이 들려주셨어요. 덕분에 정말 재미있고 즐거운 시간이었어요.",
+  },
 
 ];
 
