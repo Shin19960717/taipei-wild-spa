@@ -350,6 +350,23 @@ export const REVIEWS: Review[] = [
     lang: "ko",
     content: "관리사분이 정말 배려심이 많고 서비스도 세심했어요. 실력도 정말 좋았고, 대화하는 걸 좋아하셔서 대만에 대한 이야기를 많이 들려주셨어요. 덕분에 정말 재미있고 즐거운 시간이었어요.",
   },
+      {
+    id: "review-042",
+    name: "Kenji",
+    date: "2026-04-11",
+    therapist: "Dragon",
+    lang: "ja",
+    content: "タイ式マッサージに少し近い感じですが、台湾のほうが施術は丁寧で、セラピストの雰囲気も上品でした。Dragonさんはとても気さくで接しやすく、彼氏みたいな安心感がありました。楽しい時間をありがとうございました。",
+  },
+      {
+    id: "review-043",
+    name: "Kwen",
+    date: "2026-06-13",
+    therapist: "Sun",
+    lang: "en",
+    content: "He was so nice to cuddle with. Honestly, he was even more handsome in person than in his photos. He looked really intelligent with his glasses on, and... well... I have to say, his skills were absolutely amazing. 😊",
+  },
+
 
 ];
 
