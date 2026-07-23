@@ -366,6 +366,31 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "He was so nice to cuddle with. Honestly, he was even more handsome in person than in his photos. He looked really intelligent with his glasses on, and... well... I have to say, his skills were absolutely amazing. 😊",
   },
+        {
+    id: "review-044",
+    name: "匿名",
+    date: "2026-06-17",
+    therapist: "Ray",
+    lang: "zh",
+    content: "又高又壯又帥又可愛的",
+  },
+        {
+    id: "review-045",
+    name: "匿名",
+    date: "2026-06-20",
+    therapist: "Ray",
+    lang: "zh",
+    content: "沒擺臉照真的太可惜😳😳😳真的很很帥很可愛 溫柔又有男友感...超暈...",
+  },
+        {
+    id: "review-046",
+    name: "anonymous",
+    date: "2026-06-19",
+    therapist: "Aaron",
+    lang: "en",
+    content: "He looks even better in person than in his photos. He's muscular with a little stubble, and his service was outstanding. The massage pressure and technique were both excellent, and he made sure I was comfortable throughout the session. The only minor issue was that he doesn't speak English.",
+  },
+
 
 
 ];
