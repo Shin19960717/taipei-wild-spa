@@ -390,6 +390,30 @@ export const REVIEWS: Review[] = [
     lang: "en",
     content: "He looks even better in person than in his photos. He's muscular with a little stubble, and his service was outstanding. The massage pressure and technique were both excellent, and he made sure I was comfortable throughout the session. The only minor issue was that he doesn't speak English.",
   },
+        {
+    id: "review-047",
+    name: "陳",
+    date: "2026-06-20",
+    therapist: "Jackson",
+    lang: "zh",
+    content: "是個異男，身材不差，蠻高，話少",
+  },
+        {
+    id: "review-048",
+    name: "Sung",
+    date: "2026-06-20",
+    therapist: "Ryan",
+    lang: "ko",
+    content: "그 진짜 귀여워 ㅋㅋ 피부도 엄청 좋고, 완전 햇살 느낌이야. 몸도 좋고 웃으면 너무 귀여움 ㅎㅎ",
+  },
+      {
+    id: "review-049",
+    name: "Morimoto822",
+    date: "2026-06-22",
+    therapist: "Ray",
+    lang: "ja",
+    content: "Rayはサービスも良かったし、マッサージも上手だった！かわいいし、体もがっしりしてて背も高くて、最初から最後までめっちゃリラックスできた😊あと、台湾のマッサージは東京とはちょっと雰囲気が違うかも。料金表どおりに全部決まってる感じじゃなくて、そのあたりは担当するセラピスト次第って感じだった。",
+  },
 
 
 
