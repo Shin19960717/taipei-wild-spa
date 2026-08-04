@@ -430,7 +430,30 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "看了評價決定點龍師傅，我覺得真的跟其他人說的一樣，本人比照片好看，照片該更新了，本人真的很有禮貌很靦腆很可愛，按摩技術跟力道也真的很棒，感覺身心靈都放鬆了，下次來會想再找他服務",
   },
-
+      {
+    id: "review-052",
+    name: "天蠍男",
+    date: "2026-07-06",
+    therapist: "Ray",
+    lang: "zh",
+    content: "第一次來指定了Ray，每次去按摩都很怕師傅很冷漠，但Ray很親切，一見面尷尬的感覺就沒有了，也很適當的丟話題的閒聊，沒什麼壓力。進入按摩的重點 力道很紮實，男友力也很足，偶爾還會有點撒嬌，弟弟感的哥哥🤣 身高高又很厚實，可能因為按摩不方便的關係，師傅有把眼鏡換成隱形眼鏡，不然身為眼鏡控有點斯文敗類的壞壞感，下次身心想放鬆的時候 ，還是想指定Ray",
+  },
+      {
+    id: "review-053",
+    name: "Andrew",
+    date: "2026-07-03",
+    therapist: "Sun",
+    lang: "en",
+    content: "Hot body, cute smile, great personality, nice service, an awesome experience",
+  },
+      {
+    id: "review-054",
+    name: "anonymous",
+    date: "2026-07-03",
+    therapist: "Sam",
+    lang: "zh",
+    content: "按摩按得不錯，環境漂亮且高級，客服服務親切詳細不厭其煩!",
+  },
 
 
 ];
