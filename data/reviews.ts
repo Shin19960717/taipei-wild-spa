@@ -448,11 +448,35 @@ export const REVIEWS: Review[] = [
   },
       {
     id: "review-054",
-    name: "anonymous",
+    name: "匿名",
     date: "2026-07-03",
     therapist: "Sam",
     lang: "zh",
     content: "按摩按得不錯，環境漂亮且高級，客服服務親切詳細不厭其煩!",
+  },
+      {
+    id: "review-055",
+    name: "匿名",
+    date: "2026-07-07",
+    therapist: "Leo",
+    lang: "zh",
+    content: "有張狗狗臉，呆呆笨笨的，講話的感覺也是鈍鈍的，但有種親切感，按摩技術還可以，但可以再更精進，整體算還行",
+  },
+      {
+    id: "review-056",
+    name: "Phillie",
+    date: "2026-07-09",
+    therapist: "Sun",
+    lang: "en",
+    content: "STRONGGGGGGGG!!!!!HANNNNDSOME!!!!",
+  },
+      {
+    id: "review-057",
+    name: "익명",
+    date: "2026-07-09",
+    therapist: "Sam",
+    lang: "ko",
+    content: "전형적인 대만 미남 스타일은 아니지만, 뭔가 운동선수 같은 느낌이 있어요. 마사지도 꽤 괜찮았고, 오일 마사지 받을 때 정말 편하고 좋았어요!",
   },
 
 
