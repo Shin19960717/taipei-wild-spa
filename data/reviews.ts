@@ -534,6 +534,14 @@ export const REVIEWS: Review[] = [
     lang: "zh",
     content: "不太講話，但身材真的很好，按的也很好，此外這間店的氣氛布置得蠻有高級感",
   },
+      {
+    id: "review-065",
+    name: "匿名",
+    date: "2026-08-13",
+    therapist: "Ryan",
+    lang: "ja",
+    content: "サービスも良く、プライバシーが守られた清潔な空間でした。予約も簡単で、セラピストさんも可愛くて気さくな方でした。",
+  },
 
 
 ];
