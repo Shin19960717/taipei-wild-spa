@@ -224,10 +224,10 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "jackson",
     name: "Jackson",
     desc: {
-      zh: ["184/80/24", "新人上線", "直男", "校隊", "精壯結實", "健身教練"],
-      en: ["184/80/24", "New Arrival", "Straight", "School Team", "Lean & Muscular", "Fitness Coach"],
-      ko: ["184/80/24", "신규 등록", "직남", "학교 대표팀", "탄탄한 근육질", "헬스 트레이너"],
-      ja: ["184/80/24", "新人デビュー", "ノンケ", "学校代表チーム", "引き締まった筋肉質", "フィットネストレーナー"]},
+      zh: ["184/80/24", "直男", "校隊", "精壯結實", "健身教練"],
+      en: ["184/80/24", "Straight", "School Team", "Lean & Muscular", "Fitness Coach"],
+      ko: ["184/80/24","직남", "학교 대표팀", "탄탄한 근육질", "헬스 트레이너"],
+      ja: ["184/80/24", "ノンケ", "学校代表チーム", "引き締まった筋肉質", "フィットネストレーナー"]},
       imgs: ["/team/Jackson01.jpg", "/team/Jackson02.jpg","/team/Jackson03.jpg","/team/Jackson04.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
@@ -237,15 +237,28 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "lun",
     name: "Lun",
     desc: {
-    zh: ["173/65/26", "新人上線", "多年經驗", "白皙精壯", "韓系風格"],
-    en: ["173/65/26", "New Arrival", "Experienced", "Fair & Athletic", "Korean Style"],
-    ja: ["173/65/26", "新人デビュー", "経験豊富", "色白・筋肉質", "韓国系スタイル"],
-    ko: ["173/65/26", "신규 등록", "풍부한 경력", "하얗고 탄탄한 체형", "한국 스타일"]},
+    zh: ["173/65/26", "多年經驗", "白皙精壯", "韓系風格"],
+    en: ["173/65/26", "Experienced", "Fair & Athletic", "Korean Style"],
+    ja: ["173/65/26", "経験豊富", "色白・筋肉質", "韓国系スタイル"],
+    ko: ["173/65/26", "풍부한 경력", "하얗고 탄탄한 체형", "한국 스타일"]},
     imgs: ["/team/Lun01.jpg", "/team/Lun02.jpg","/team/Lun03.jpg","/team/Lun04.jpg","/team/Lun05.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-06-30",
   },
+          {
+    id: "david",
+    name: "Davod",
+    desc: {
+    zh: ["173/72/34", "新人上線", "多年服務經驗", "健壯", "小熊體態","憨厚"],
+    en: ["173/72/34", "New to the team", "Years of service experience", "Solid build", "Bear-like physique", "Gentle and down-to-earth"],
+    ja: ["173/72/34", "新人登場", "豊富な施術経験", "がっちり体型", "小熊系の体型", "素朴で優しい"],
+    ko: ["173/72/34", "신규 합류", "다년간의 서비스 경험", "건장한 체격", "곰돌이 체형", "순박하고 듬직한"]},
+    imgs: ["/team/David01.jpg", "/team/David02.jpg","/team/David03.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+  },
+
 ];
 
 export default TEAM_MEMBERS;
