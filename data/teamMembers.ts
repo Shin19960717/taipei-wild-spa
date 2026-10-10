@@ -248,7 +248,7 @@ const TEAM_MEMBERS: TeamMember[] = [
   },
           {
     id: "david",
-    name: "Davod",
+    name: "David",
     desc: {
     zh: ["173/72/34", "新人上線", "多年服務經驗", "健壯", "小熊體態","憨厚"],
     en: ["173/72/34", "New to the team", "Years of service experience", "Solid build", "Bear-like physique", "Gentle and down-to-earth"],
