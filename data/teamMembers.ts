@@ -41,6 +41,20 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-07-30",
   },
+    {
+    id: "kevin",
+    name: "Kevin",
+    desc: {
+      zh: ["171/72/29", "男人味", "運動型", "低體脂", "壯碩", "六塊肌","健談",],
+      en: ["171/72/29", "Masculine", "Athletic", "Low Body Fat", "Muscular", "Six-Pack Abs", "Easy to Talk To"],
+      ja: ["171/72/29", "男らしい", "スポーツマンタイプ", "低体脂肪", "筋肉質", "シックスパック", "話しやすい"],
+      ko: ["171/72/29", "남성미", "운동형", "낮은 체지방", "탄탄한 근육", "선명한 복근", "편하게 대화할 수 있는"],    },
+    imgs: ["/team/Kevin01.jpg", "/team/Kevin02.jpg", "/team/Kevin03.jpg", "/team/Kevin04.jpg", "/team/Kevin05.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
+  },
+
   {
     id: "dragon",
     name: "Dragon",
@@ -70,7 +84,7 @@ const TEAM_MEMBERS: TeamMember[] = [
     },
     imgs: ["/team/Dragon01.jpg", "/team/Dragon02.jpg"],
     calendar:
-      "https://calendar.google.com/calendar/embed?src=981faba76ebecafe5ad16547ffac3f70add16197f370e884e99873219a1d8731%40group.calendar.google.com&ctz=Asia%2FTaipei",
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
   {
