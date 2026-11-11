@@ -590,6 +590,22 @@ export const REVIEWS: Review[] = [
     lang: "ja",
     content: "予約対応がすごく丁寧で、日本語でのやり取りもスムーズだった！ただ、セラピストさん本人は日本語があんまり話せなかったけどね笑。来月また台湾に遊びに来たら、同じ人を指名して予約したいな！",
   },
+      {
+    id: "review-072",
+    name: "匿名",
+    date: "2026-11-03",
+    therapist: "Kevin",
+    lang: "zh",
+    content: "第一次按摩就約他，本人比照片好看!看起來壞壞的，但是很親切，按得過程全程都會問我力道怎麼樣，很細心，而且人也很大方，有被照顧到!",
+  },
+      {
+    id: "review-073",
+    name: "Raden",
+    date: "2026-10-21",
+    therapist: "Sun",
+    lang: "en",
+    content: "Sun was wonderful. Even though he doesn’t speak English, we got by with hand gestures and a translation app. I could still tell what a warm person he is. And yes, his body was warm as well, haha.",
+  },
 
 
 ];
