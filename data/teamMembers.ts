@@ -104,24 +104,24 @@ const TEAM_MEMBERS: TeamMember[] = [
     id: "ryan",
     name: "Ryan",
     desc: {
-      zh: ["165/56/26", "陽光自然", "專業按摩技術", "運動感"],
+      zh: ["165/56/26", "陽光自然", "專業按摩技術", "運動感","高配合度"],
       en: [
         "165/56/26",
         "Bright and natural vibe",
         "Professional massage techniques",
-        "sporty",
+        "sporty",, "Accommodating"
       ],
       ja: [
         "165/56/26",
         "明るく自然な雰囲気",
         "プロのマッサージ技術",
-        "スポーティーな感じ",
+        "スポーティーな感じ","リクエストに柔軟に対応"
       ],
       ko: [
         "165/56/26",
         "밝고 자연스러운 분위기",
         "전문가의 마사지 기술",
-        "스포티한 느낌",
+        "스포티한 느낌","요청에 유연하게 대응"
       ],
     },
     imgs: ["/team/Ryan01.jpg"],
