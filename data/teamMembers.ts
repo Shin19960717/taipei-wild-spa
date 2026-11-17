@@ -54,6 +54,19 @@ const TEAM_MEMBERS: TeamMember[] = [
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
   },
+  {
+    id: "kuro",
+    name: "Kuro",
+    desc: {
+      zh: ["167/60/23", "學生", "專業按摩技術", "運動感","制服","高配合度"],
+      en: ["167/60/23", "Student", "Skilled Massage", "Sporty", "Uniform", "Accommodating"],
+      ko: ["167/60/23", "학생", "전문 마사지 테크닉", "스포티한 매력", "유니폼", "요청에 유연하게 대응"],
+      ja: ["167/60/23", "学生", "プロのマッサージ技術", "スポーティー", "制服", "リクエストに柔軟に対応"],    },
+    imgs: ["/team/Kuro01.jpg","/team/Kuro02.jpg","/team/Kuro03.jpg","/team/Kuro04.jpg"],
+    calendar:
+      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
+    newUntil: "2026-05-15",
+  },
 
   {
     id: "dragon",
@@ -207,19 +220,6 @@ const TEAM_MEMBERS: TeamMember[] = [
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-28",
-  },
-      {
-    id: "chris",
-    name: "Chris",
-    desc: {
-      zh: ["173/64/33", "成熟穩重", "精壯結實","內斂吸引力"],
-      en: ["173/64/33", "Mature and composed", "Lean and well-built", "Subtle attractiveness"],
-      ja: ["173/64/33", "落ち着いた大人の魅力", "引き締まった体型", "内に秘めた魅力"],
-      ko: ["173/64/33", "차분하고 성숙한 분위기", "탄탄한 근육형 체형", "은은한 매력"],    },
-    imgs: ["/team/Chris01.jpg", "/team/Chris02.jpg","/team/Chris03.jpg","/team/Chris04.jpg"],
-    calendar:
-      "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
-    newUntil: "2026-05-30",
   },
       {
     id: "dean",
