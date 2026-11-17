@@ -124,7 +124,7 @@ const TEAM_MEMBERS: TeamMember[] = [
         "스포티한 느낌","요청에 유연하게 대응"
       ],
     },
-    imgs: ["/team/Ryan01.jpg"],
+    imgs: ["/team/Ryan01.jpg","/team/Ryan02.jpg","/team/Ryan03.jpg"],
     calendar:
       "https://calendar.google.com/calendar/embed?src=ba08f0cb5feedcff2f99ac3762866cb7711ccedc7afd4f5ba07f051f0ca96be6%40group.calendar.google.com&ctz=Asia%2FTaipei",
     newUntil: "2026-05-15",
